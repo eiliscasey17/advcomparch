@@ -1,0 +1,32 @@
+loop               event             expected       measured    ratio  cyc/ins  status
+vmulss             fp_scalar         32000000       32000003    1.000    0.500  PASS
+vmulss             fp_flops          32000000       32000001    1.000    0.500  PASS
+vaddsd             fp_scalar         32000000       32000003    1.000    0.500  PASS
+vaddsd             fp_flops          32000000       32000001    1.000    0.500  PASS
+vmulps xmm         fp_p128           32000000       32000009    1.000    0.500  PASS
+vmulps xmm         fp_flops         128000000      128000001    1.000    0.500  PASS
+vmulps ymm         fp_p256           32000000       32000000    1.000    0.500  PASS
+vmulps ymm         fp_flops         256000000      256000001    1.000    0.500  PASS
+vmulps zmm         fp_p512           32000000       32000000    1.000    1.000  PASS
+vmulps zmm         fp_flops         512000000      512000001    1.000    1.000  PASS
+vfmadd231ps zmm    fp_p512           32000000       32000000    1.000    4.001  PASS
+vfmadd231ps zmm    fp_flops        1024000000     1024000001    1.000    4.001  PASS
+vfmadd231pd ymm    fp_p256           32000000       32000000    1.000    4.001  PASS
+vfmadd231pd ymm    fp_flops         256000000      256000001    1.000    4.001  PASS
+vmulps zmm         fp_scalar                0              3      nan    1.000  PASS
+vmulss             fp_p512                  0              0      nan    0.500  PASS
+vmovups aligned    misal_64                 0              0      nan    0.500  PASS
+vmovups +48        misal_64          32000000       32000275    1.000    1.000  PASS
+vmovups 4K-16      misal_4k          32000000       32000880    1.000    1.000  PASS
+
+[info] vpmulld zmm x 32000000: cycles=32007155 instructions=40000107 fp_scalar=3 fp_p256=0 fp_p512=32000000
+
+[info] streaming read of 512 MiB (8388608 lines), sum=562949886312448
+[info]   cycles               53039794  (6.323 per line)
+[info]   l1d_miss              8390333  (1.000 per line)
+[info]   l2pf_hit_l3              7444  (0.001 per line)
+[info]   l2pf_miss_l3          6680051  (0.796 per line)
+[info]   fill_dram             2176294  (0.259 per line)
+[check] DRAM-line estimate (l2pf_miss_l3+fill_dram)/lines = 1.056  PASS
+
+0 failed, 0 skipped

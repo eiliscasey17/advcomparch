@@ -1,0 +1,81 @@
+variant,rem16,extra_cycles
+clang native256 masked tail (vectorize_predicate),0,-1.4779288903810084e-13
+clang native256 masked tail (vectorize_predicate),1,2.6067185341613737
+clang native256 masked tail (vectorize_predicate),2,2.061924430182927
+clang native256 masked tail (vectorize_predicate),3,1.5357714591499132
+clang native256 masked tail (vectorize_predicate),4,1.20125455195371
+clang native256 masked tail (vectorize_predicate),5,0.7389851364607694
+clang native256 masked tail (vectorize_predicate),6,0.24104773095072574
+clang native256 masked tail (vectorize_predicate),7,-0.11897641267508163
+clang native256 masked tail (vectorize_predicate),8,-0.5213602674361795
+clang native256 masked tail (vectorize_predicate),9,5.1237791371990085
+clang native256 masked tail (vectorize_predicate),10,3.983680951611447
+clang native256 masked tail (vectorize_predicate),11,3.719353626226578
+clang native256 masked tail (vectorize_predicate),12,4.385102192586714
+clang native256 masked tail (vectorize_predicate),13,3.7797363220888087
+clang native256 masked tail (vectorize_predicate),14,1.6320183129792696
+clang native256 masked tail (vectorize_predicate),15,2.074468357012762
+clang native512 epilogue,0,-3.979039320256561e-14
+clang native512 epilogue,1,0.7725358411148804
+clang native512 epilogue,2,1.7548752664211662
+clang native512 epilogue,3,2.575419196913465
+clang native512 epilogue,4,3.521617685066289
+clang native512 epilogue,5,4.766003321858548
+clang native512 epilogue,6,5.546338542459111
+clang native512 epilogue,7,6.771480185831244
+clang native512 epilogue,8,-0.10305875618493587
+clang native512 epilogue,9,0.48918301507553963
+clang native512 epilogue,10,1.5587546985559797
+clang native512 epilogue,11,2.3873929343387417
+clang native512 epilogue,12,3.6486951636316647
+clang native512 epilogue,13,4.764765483955308
+clang native512 epilogue,14,5.503817651516947
+clang native512 epilogue,15,6.928139472120442
+clang native512 masked tail (vectorize_predicate),0,-6.821210263296962e-14
+clang native512 masked tail (vectorize_predicate),1,4.064867528681219
+clang native512 masked tail (vectorize_predicate),2,3.9962751786278545
+clang native512 masked tail (vectorize_predicate),3,2.549640089771387
+clang native512 masked tail (vectorize_predicate),4,2.6566491077765306
+clang native512 masked tail (vectorize_predicate),5,2.664825641609582
+clang native512 masked tail (vectorize_predicate),6,2.1344213389135263
+clang native512 masked tail (vectorize_predicate),7,2.5290463809649424
+clang native512 masked tail (vectorize_predicate),8,1.8420906618675161
+clang native512 masked tail (vectorize_predicate),9,1.3202971558039138
+clang native512 masked tail (vectorize_predicate),10,0.8165666081737584
+clang native512 masked tail (vectorize_predicate),11,1.613154125518946
+clang native512 masked tail (vectorize_predicate),12,0.3567734696709124
+clang native512 masked tail (vectorize_predicate),13,-0.3244670022040026
+clang native512 masked tail (vectorize_predicate),14,-0.5962127467369243
+clang native512 masked tail (vectorize_predicate),15,-2.1354689798814377
+gcc native256 epilogue,0,-2.0463630789890886e-13
+gcc native256 epilogue,1,-2.463789044673746
+gcc native256 epilogue,2,-2.167829530250444
+gcc native256 epilogue,3,-2.9609146903234773
+gcc native256 epilogue,4,2.3270597301216753
+gcc native256 epilogue,5,-2.4672552364500717
+gcc native256 epilogue,6,3.02385695555256
+gcc native256 epilogue,7,-2.970352271132626
+gcc native256 epilogue,8,4.866192967825896
+gcc native256 epilogue,9,-2.462914937468483
+gcc native256 epilogue,10,-1.7090100798836545
+gcc native256 epilogue,11,1.0385939642541615
+gcc native256 epilogue,12,-2.212355925595375
+gcc native256 epilogue,13,-2.466974083680398
+gcc native256 epilogue,14,-1.7172343214801913
+gcc native256 epilogue,15,-2.8877080964936823
+gcc native512 epilogue,0,-6.252776074688882e-14
+gcc native512 epilogue,1,0.8759841175973548
+gcc native512 epilogue,2,1.5919342844142292
+gcc native512 epilogue,3,2.497151712575686
+gcc native512 epilogue,4,3.0928774044970737
+gcc native512 epilogue,5,4.058754496340022
+gcc native512 epilogue,6,5.359999322353488
+gcc native512 epilogue,7,6.131365284744241
+gcc native512 epilogue,8,-0.33735597772049886
+gcc native512 epilogue,9,0.49107043786119675
+gcc native512 epilogue,10,1.3112591215975087
+gcc native512 epilogue,11,2.165271528459357
+gcc native512 epilogue,12,3.231761860962706
+gcc native512 epilogue,13,4.082112766254596
+gcc native512 epilogue,14,4.829046518889577
+gcc native512 epilogue,15,5.862366735795241

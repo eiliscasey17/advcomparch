@@ -1,0 +1,631 @@
+build,dtype,kernel,report,report_bits,loop_bits,packed_fp,int_simd,scalar_fp,gathers,permutes,masked,loop_insns,first_msg
+clang-default,f32,dot_simd,vectorized,128,128,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_plain,missed,0,128,0,0,8,0,0,0,15,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-default,f32,dot_acc2,vectorized,128,128,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_acc4,vectorized,128,128,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_acc8,vectorized,128,128,16,0,0,0,0,0,39,the cost-model indicates that interleaving is not beneficial
+clang-default,f32,mul,vectorized,128,128,2,0,0,0,0,0,11,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,mul_aligned,vectorized,128,128,2,0,0,0,0,0,9,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,mul_pred,vectorized,128,128,0,2,3,0,0,0,47,the cost-model indicates that interleaving is not beneficial
+clang-default,f32,stencil,vectorized,128,128,10,0,0,0,0,0,25,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_s2,vectorized,128,128,4,0,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_s4,vectorized,128,128,4,0,0,0,0,0,31,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,dot_s8,vectorized,128,128,4,0,0,0,0,0,31,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,mul_s2,vectorized,128,128,2,0,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,mul_s4,vectorized,128,128,1,0,0,0,0,0,17,the cost-model indicates that interleaving is not beneficial
+clang-default,f32,mul_s8,vectorized,128,128,4,0,0,0,0,0,19,the cost-model indicates that interleaving is not beneficial
+clang-default,f32,dot_gather,vectorized,128,128,4,0,0,0,0,0,31,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,mul_gather,missed,0,128,0,0,2,0,0,0,11,
+clang-default,f32,bw_read,vectorized,128,128,8,0,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,bw_write,vectorized,128,128,0,0,0,0,0,0,5,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,bw_scale,vectorized,128,128,2,0,0,0,0,0,9,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f32,bw_triad,vectorized,128,128,4,0,0,0,0,0,13,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_simd,vectorized,128,128,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_plain,missed,0,128,0,0,8,0,0,0,15,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-default,f64,dot_acc2,vectorized,128,128,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_acc4,vectorized,128,128,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_acc8,vectorized,128,128,16,0,0,0,0,0,38,the cost-model indicates that interleaving is not beneficial
+clang-default,f64,mul,vectorized,128,128,2,0,0,0,0,0,11,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_aligned,vectorized,128,128,2,0,0,0,0,0,9,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_pred,vectorized,128,128,0,1,0,0,0,0,21,the cost-model indicates that interleaving is not beneficial
+clang-default,f64,stencil,vectorized,128,128,10,0,0,0,0,0,23,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_s2,vectorized,128,128,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_s4,vectorized,128,128,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_s8,vectorized,128,128,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_s2,vectorized,128,128,2,0,0,0,0,0,15,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_s4,vectorized,128,128,2,0,0,0,0,0,15,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_s8,vectorized,128,128,4,0,0,0,0,0,19,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,dot_gather,vectorized,128,128,4,0,0,0,0,0,17,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,mul_gather,missed,0,128,0,0,2,0,0,0,11,
+clang-default,f64,bw_read,vectorized,128,128,8,0,0,0,0,0,19,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,bw_write,vectorized,128,128,0,0,0,0,0,0,5,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,bw_scale,vectorized,128,128,2,0,0,0,0,0,9,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,f64,bw_triad,vectorized,128,128,4,0,0,0,0,0,13,"vectorized loop (vectorization width: 2, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_simd,vectorized,128,128,0,6,0,0,0,0,23,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_plain,vectorized,128,128,0,6,0,0,0,0,23,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_acc2,vectorized,128,128,0,12,0,0,0,0,44,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_acc4,vectorized,128,128,0,24,0,0,0,0,83,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_acc8,vectorized,128,128,0,24,0,0,0,0,87,the cost-model indicates that interleaving is not beneficial
+clang-default,i32,mul,vectorized,128,128,0,4,0,0,0,0,23,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,mul_aligned,vectorized,128,128,0,4,0,0,0,0,23,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,mul_pred,vectorized,128,128,0,2,0,0,0,0,47,the cost-model indicates that interleaving is not beneficial
+clang-default,i32,stencil,vectorized,128,128,0,8,0,0,0,0,29,the cost-model indicates that interleaving is not beneficial
+clang-default,i32,dot_s2,vectorized,128,128,0,6,0,0,0,0,35,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_s4,vectorized,128,128,0,6,0,0,0,0,49,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,dot_s8,vectorized,128,128,0,10,0,0,0,0,35,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,mul_s2,vectorized,128,128,0,4,0,0,0,0,35,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,mul_s4,missed,0,0,0,0,0,0,0,0,10,
+clang-default,i32,mul_s8,missed,0,0,0,0,0,0,0,0,10,
+clang-default,i32,dot_gather,vectorized,128,128,0,6,0,0,0,0,43,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,mul_gather,missed,0,0,0,0,0,0,0,0,11,
+clang-default,i32,bw_read,vectorized,128,128,0,8,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,bw_write,vectorized,128,128,0,0,0,0,0,0,5,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,bw_scale,vectorized,128,128,0,4,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-default,i32,bw_triad,vectorized,128,128,0,6,0,0,0,0,23,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_simd,vectorized,256,256,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-native256,f32,dot_acc2,vectorized,256,256,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_acc4,vectorized,256,256,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_acc8,vectorized,256,256,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 8, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_aligned,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_pred,vectorized,256,256,1,0,0,0,0,3,14,the cost-model indicates that interleaving is not beneficial
+clang-native256,f32,stencil,vectorized,256,256,12,0,0,0,4,0,31,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_s2,vectorized,256,256,4,0,0,0,16,0,31,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_s4,vectorized,256,256,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,dot_s8,vectorized,256,256,4,0,0,0,72,0,112,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_s2,vectorized,256,256,4,0,0,0,16,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_s4,vectorized,256,256,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_s8,vectorized,256,256,8,0,0,0,8,0,29,the cost-model indicates that interleaving is not beneficial
+clang-native256,f32,dot_gather,vectorized,256,256,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,mul_gather,vectorized,256,256,1,0,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native256,f32,bw_read,vectorized,256,256,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,bw_write,vectorized,256,256,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,bw_scale,vectorized,256,256,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f32,bw_triad,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_simd,vectorized,256,256,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-native256,f64,dot_acc2,vectorized,256,256,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_acc4,vectorized,256,256,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_acc8,vectorized,256,256,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 4, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_aligned,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_pred,vectorized,256,256,1,0,0,0,0,3,10,the cost-model indicates that interleaving is not beneficial
+clang-native256,f64,stencil,vectorized,256,256,12,0,0,0,8,0,31,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_s2,vectorized,256,256,4,0,0,0,8,0,24,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_s4,vectorized,256,256,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_s8,vectorized,256,256,4,1,0,8,0,8,33,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_s2,vectorized,256,256,4,0,0,0,8,0,28,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_s4,vectorized,256,256,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_s8,vectorized,256,256,4,1,0,8,0,8,37,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,dot_gather,vectorized,256,256,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,mul_gather,vectorized,256,256,4,0,0,4,0,4,27,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,bw_read,vectorized,256,256,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,bw_write,vectorized,256,256,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,bw_scale,vectorized,256,256,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,f64,bw_triad,vectorized,256,256,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_simd,vectorized,256,256,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_plain,vectorized,256,256,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_acc2,vectorized,256,256,0,16,0,0,0,0,28,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_acc4,vectorized,256,256,0,32,0,0,0,0,51,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_acc8,vectorized,256,256,0,32,0,0,0,0,54,"vectorized loop (vectorization width: 8, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul,vectorized,256,256,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_aligned,vectorized,256,256,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_pred,vectorized,256,256,0,1,0,0,0,3,14,the cost-model indicates that interleaving is not beneficial
+clang-native256,i32,stencil,vectorized,256,256,0,20,0,0,0,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_s2,vectorized,256,256,0,8,0,0,16,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_s4,vectorized,256,256,0,8,0,0,16,0,52,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,dot_s8,vectorized,256,256,0,28,0,0,28,0,108,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_s2,vectorized,256,256,0,4,0,0,16,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_s4,vectorized,256,256,0,4,0,0,16,0,52,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_s8,vectorized,256,256,0,6,0,0,7,0,29,the cost-model indicates that interleaving is not beneficial
+clang-native256,i32,dot_gather,vectorized,256,256,0,8,0,4,0,4,27,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,mul_gather,vectorized,256,256,0,1,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native256,i32,bw_read,vectorized,256,256,0,16,0,0,0,0,19,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,bw_write,vectorized,256,256,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,bw_scale,vectorized,256,256,0,4,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native256,i32,bw_triad,vectorized,256,256,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_simd,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-native512,f32,dot_acc2,vectorized,512,512,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_acc4,vectorized,512,512,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_acc8,vectorized,512,512,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 16, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_aligned,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_pred,vectorized,512,512,1,0,0,0,0,3,13,the cost-model indicates that interleaving is not beneficial
+clang-native512,f32,stencil,vectorized,512,512,12,0,0,0,4,0,31,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_s2,vectorized,512,512,4,0,0,0,8,0,23,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_s4,vectorized,512,512,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,dot_s8,vectorized,512,512,4,0,0,0,48,8,96,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_s2,vectorized,512,512,4,0,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_s4,vectorized,512,512,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_s8,vectorized,512,512,8,0,0,0,6,1,28,the cost-model indicates that interleaving is not beneficial
+clang-native512,f32,dot_gather,vectorized,512,512,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,mul_gather,vectorized,512,512,1,0,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native512,f32,bw_read,vectorized,512,512,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,bw_scale,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f32,bw_triad,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_simd,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized: cannot prove it is safe to reorder floating-point operations; allow reordering by specifying '#pragma clang loop vectorize(enable)' before 
+clang-native512,f64,dot_acc2,vectorized,512,512,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_acc4,vectorized,512,512,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_acc8,vectorized,512,512,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 8, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_aligned,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_pred,vectorized,512,512,1,0,0,0,0,3,10,the cost-model indicates that interleaving is not beneficial
+clang-native512,f64,stencil,vectorized,512,512,12,0,0,0,4,0,31,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_s2,vectorized,512,512,4,0,0,0,8,0,24,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_s4,vectorized,512,512,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,dot_s8,vectorized,512,512,4,1,0,8,0,8,33,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_s2,vectorized,512,512,4,0,0,0,8,0,28,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_s4,vectorized,512,512,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_s8,vectorized,512,512,1,1,0,2,0,2,13,the cost-model indicates that interleaving is not beneficial
+clang-native512,f64,dot_gather,vectorized,512,512,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,mul_gather,vectorized,512,512,4,0,0,4,0,4,27,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,bw_read,vectorized,512,512,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,bw_scale,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,f64,bw_triad,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_simd,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_plain,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_acc2,vectorized,512,512,0,16,0,0,0,0,28,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_acc4,vectorized,512,512,0,32,0,0,0,0,51,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_acc8,vectorized,512,512,0,32,0,0,0,0,54,"vectorized loop (vectorization width: 16, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul,vectorized,512,512,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_aligned,vectorized,512,512,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_pred,vectorized,512,512,0,1,0,0,0,3,13,the cost-model indicates that interleaving is not beneficial
+clang-native512,i32,stencil,vectorized,512,512,0,20,0,0,0,0,35,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_s2,vectorized,512,512,0,8,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_s4,vectorized,512,512,0,8,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,dot_s8,vectorized,512,512,0,36,0,0,20,4,100,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_s2,vectorized,512,512,0,4,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_s4,vectorized,512,512,0,4,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_s8,vectorized,512,512,0,8,0,0,5,1,28,the cost-model indicates that interleaving is not beneficial
+clang-native512,i32,dot_gather,vectorized,512,512,0,8,0,4,0,4,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,mul_gather,vectorized,512,512,0,1,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native512,i32,bw_read,vectorized,512,512,0,16,0,0,0,0,19,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,bw_scale,vectorized,512,512,0,4,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512,i32,bw_triad,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_simd,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_plain,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_acc2,vectorized,512,512,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_acc4,vectorized,512,512,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_acc8,vectorized,512,512,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 16, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_aligned,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_pred,vectorized,512,512,1,0,0,0,0,3,13,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,f32,stencil,vectorized,512,512,12,0,0,0,4,0,31,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_s2,vectorized,512,512,4,0,0,0,8,0,23,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_s4,vectorized,512,512,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,dot_s8,vectorized,512,512,36,0,0,0,24,4,100,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_s2,vectorized,512,512,4,0,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_s4,vectorized,512,512,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_s8,vectorized,512,512,8,0,0,0,6,1,28,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,f32,dot_gather,vectorized,512,512,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,mul_gather,vectorized,512,512,1,0,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,f32,bw_read,vectorized,512,512,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,bw_scale,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f32,bw_triad,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_simd,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_plain,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_acc2,vectorized,512,512,8,0,0,0,0,0,20,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_acc4,vectorized,512,512,16,0,0,0,0,0,35,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_acc8,vectorized,512,512,16,0,0,0,0,0,38,"vectorized loop (vectorization width: 8, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_aligned,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_pred,vectorized,512,512,1,0,0,0,0,3,10,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,f64,stencil,vectorized,512,512,12,0,0,0,4,0,31,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_s2,vectorized,512,512,4,0,0,0,8,0,24,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_s4,vectorized,512,512,4,0,0,0,24,0,48,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,dot_s8,vectorized,512,512,4,1,0,8,0,8,33,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_s2,vectorized,512,512,4,0,0,0,8,0,28,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_s4,vectorized,512,512,4,0,0,0,24,0,52,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_s8,vectorized,512,512,1,1,0,2,0,2,13,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,f64,dot_gather,vectorized,512,512,4,0,0,4,0,4,23,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,mul_gather,vectorized,512,512,4,0,0,4,0,4,27,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,bw_read,vectorized,512,512,16,0,0,0,0,0,19,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,bw_scale,vectorized,512,512,4,0,0,0,0,0,11,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,f64,bw_triad,vectorized,512,512,4,0,0,0,0,0,15,"vectorized loop (vectorization width: 8, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_simd,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_plain,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_acc2,vectorized,512,512,0,16,0,0,0,0,28,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_acc4,vectorized,512,512,0,32,0,0,0,0,51,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_acc8,vectorized,512,512,0,32,0,0,0,0,54,"vectorized loop (vectorization width: 16, interleaved count: 2) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul,vectorized,512,512,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_aligned,vectorized,512,512,0,4,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_pred,vectorized,512,512,0,1,0,0,0,3,13,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,i32,stencil,vectorized,512,512,0,20,0,0,0,0,35,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_s2,vectorized,512,512,0,8,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_s4,vectorized,512,512,0,8,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,dot_s8,vectorized,512,512,0,36,0,0,20,4,100,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_s2,vectorized,512,512,0,4,0,0,8,0,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_s4,vectorized,512,512,0,4,0,0,24,0,52,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_s8,vectorized,512,512,0,8,0,0,5,1,28,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,i32,dot_gather,vectorized,512,512,0,8,0,4,0,4,27,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,mul_gather,vectorized,512,512,0,1,0,1,0,1,9,the cost-model indicates that interleaving is not beneficial
+clang-native512fm,i32,bw_read,vectorized,512,512,0,16,0,0,0,0,19,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,bw_write,vectorized,512,512,0,0,0,0,0,0,7,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,bw_scale,vectorized,512,512,0,4,0,0,0,0,11,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-native512fm,i32,bw_triad,vectorized,512,512,0,8,0,0,0,0,15,"vectorized loop (vectorization width: 16, interleaved count: 4) [-Rpass=loop-vectorize]"
+clang-scalar,f32,dot_simd,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f32,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f32,dot_acc2,missed,0,128,0,0,16,0,0,0,37,loop not vectorized
+clang-scalar,f32,dot_acc4,missed,0,128,0,0,16,0,0,0,35,loop not vectorized
+clang-scalar,f32,dot_acc8,missed,0,128,0,0,16,0,0,0,47,loop not vectorized
+clang-scalar,f32,mul,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f32,mul_aligned,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f32,mul_pred,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f32,stencil,missed,0,128,0,0,24,0,0,0,43,loop not vectorized
+clang-scalar,f32,dot_s2,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f32,dot_s4,missed,0,128,0,0,8,0,0,0,20,loop not vectorized
+clang-scalar,f32,dot_s8,missed,0,128,0,0,8,0,0,0,20,loop not vectorized
+clang-scalar,f32,mul_s2,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f32,mul_s4,missed,0,128,0,0,8,0,0,0,28,loop not vectorized
+clang-scalar,f32,mul_s8,missed,0,128,0,0,8,0,0,0,28,loop not vectorized
+clang-scalar,f32,dot_gather,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f32,mul_gather,missed,0,128,0,0,8,0,0,0,35,loop not vectorized
+clang-scalar,f32,bw_read,missed,0,128,0,0,32,0,0,0,35,loop not vectorized
+clang-scalar,f32,bw_write,missed,0,128,0,0,0,0,0,0,11,loop not vectorized
+clang-scalar,f32,bw_scale,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f32,bw_triad,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f64,dot_simd,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f64,dot_plain,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f64,dot_acc2,missed,0,128,0,0,16,0,0,0,37,loop not vectorized
+clang-scalar,f64,dot_acc4,missed,0,128,0,0,16,0,0,0,35,loop not vectorized
+clang-scalar,f64,dot_acc8,missed,0,128,0,0,16,0,0,0,47,loop not vectorized
+clang-scalar,f64,mul,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f64,mul_aligned,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f64,mul_pred,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f64,stencil,missed,0,128,0,0,24,0,0,0,43,loop not vectorized
+clang-scalar,f64,dot_s2,missed,0,128,0,0,8,0,0,0,20,loop not vectorized
+clang-scalar,f64,dot_s4,missed,0,128,0,0,8,0,0,0,20,loop not vectorized
+clang-scalar,f64,dot_s8,missed,0,128,0,0,8,0,0,0,20,loop not vectorized
+clang-scalar,f64,mul_s2,missed,0,128,0,0,8,0,0,0,28,loop not vectorized
+clang-scalar,f64,mul_s4,missed,0,128,0,0,8,0,0,0,28,loop not vectorized
+clang-scalar,f64,mul_s8,missed,0,128,0,0,8,0,0,0,28,loop not vectorized
+clang-scalar,f64,dot_gather,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,f64,mul_gather,missed,0,128,0,0,8,0,0,0,35,loop not vectorized
+clang-scalar,f64,bw_read,missed,0,128,0,0,32,0,0,0,35,loop not vectorized
+clang-scalar,f64,bw_write,missed,0,128,0,0,0,0,0,0,11,loop not vectorized
+clang-scalar,f64,bw_scale,missed,0,128,0,0,8,0,0,0,19,loop not vectorized
+clang-scalar,f64,bw_triad,missed,0,128,0,0,8,0,0,0,27,loop not vectorized
+clang-scalar,i32,dot_simd,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,dot_plain,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,dot_acc2,missed,0,0,0,0,0,0,0,0,53,loop not vectorized
+clang-scalar,i32,dot_acc4,missed,0,0,0,0,0,0,0,0,57,loop not vectorized
+clang-scalar,i32,dot_acc8,missed,0,0,0,0,0,0,0,0,93,loop not vectorized
+clang-scalar,i32,mul,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,mul_aligned,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,mul_pred,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,stencil,missed,0,0,0,0,0,0,0,0,75,loop not vectorized
+clang-scalar,i32,dot_s2,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,dot_s4,missed,0,0,0,0,0,0,0,0,28,loop not vectorized
+clang-scalar,i32,dot_s8,missed,0,0,0,0,0,0,0,0,28,loop not vectorized
+clang-scalar,i32,mul_s2,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,mul_s4,missed,0,0,0,0,0,0,0,0,28,loop not vectorized
+clang-scalar,i32,mul_s8,missed,0,0,0,0,0,0,0,0,28,loop not vectorized
+clang-scalar,i32,dot_gather,missed,0,0,0,0,0,0,0,0,35,loop not vectorized
+clang-scalar,i32,mul_gather,missed,0,0,0,0,0,0,0,0,35,loop not vectorized
+clang-scalar,i32,bw_read,missed,0,0,0,0,0,0,0,0,35,loop not vectorized
+clang-scalar,i32,bw_write,missed,0,0,0,0,0,0,0,0,11,loop not vectorized
+clang-scalar,i32,bw_scale,missed,0,0,0,0,0,0,0,0,27,loop not vectorized
+clang-scalar,i32,bw_triad,missed,0,0,0,0,0,0,0,0,35,loop not vectorized
+gcc-default,f32,dot_simd,vectorized,128,128,2,0,0,0,0,0,7,src/kernels_body.inc:22:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_plain,vectorized,128,128,1,0,4,0,0,0,15,src/kernels_body.inc:31:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_acc2,vectorized,128,128,4,0,0,0,0,0,11,src/kernels_body.inc:43:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_acc4,vectorized,128,128,8,0,0,0,0,0,19,src/kernels_body.inc:56:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_acc8,vectorized,128,128,16,0,0,0,0,0,40,src/kernels_body.inc:71:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,mul,vectorized,128,128,1,0,0,0,0,0,7,src/kernels_body.inc:88:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,mul_aligned,vectorized,128,128,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,mul_pred,vectorized,128,128,1,0,0,0,0,0,7,src/kernels_body.inc:105:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,stencil,vectorized,128,128,5,0,0,0,0,0,12,src/kernels_body.inc:113:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_s2,vectorized,128,128,2,0,0,0,0,0,11,src/kernels_body.inc:121:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_s4,vectorized,128,128,2,0,0,0,0,0,20,src/kernels_body.inc:128:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,dot_s8,missed,0,128,0,0,2,0,0,0,6,couldn't vectorize loop
+gcc-default,f32,mul_s2,vectorized,128,128,1,0,0,0,0,0,11,src/kernels_body.inc:140:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,mul_s4,vectorized,128,128,1,0,0,0,0,0,19,src/kernels_body.inc:144:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,mul_s8,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-default,f32,dot_gather,missed,0,128,0,0,2,0,0,0,7,couldn't vectorize loop
+gcc-default,f32,mul_gather,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-default,f32,bw_read,vectorized,128,128,4,0,0,0,0,0,11,src/kernels_body.inc:176:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,bw_write,vectorized,128,128,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,bw_scale,vectorized,128,128,1,0,0,0,0,0,6,src/kernels_body.inc:191:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f32,bw_triad,vectorized,128,128,2,0,0,0,0,0,8,src/kernels_body.inc:195:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_simd,vectorized,128,128,2,0,0,0,0,0,7,src/kernels_body.inc:22:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_plain,vectorized,128,128,1,0,2,0,0,0,9,src/kernels_body.inc:31:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_acc2,vectorized,128,128,4,0,0,0,0,0,11,src/kernels_body.inc:43:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_acc4,vectorized,128,128,8,0,0,0,0,0,19,src/kernels_body.inc:56:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_acc8,vectorized,128,128,16,0,0,0,0,0,41,src/kernels_body.inc:71:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,mul,vectorized,128,128,1,0,0,0,0,0,7,src/kernels_body.inc:88:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,mul_aligned,vectorized,128,128,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,mul_pred,vectorized,128,128,1,0,0,0,0,0,7,src/kernels_body.inc:105:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,stencil,vectorized,128,128,5,0,0,0,0,0,13,src/kernels_body.inc:113:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_s2,vectorized,128,128,2,0,0,0,0,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,dot_s4,missed,0,128,0,0,2,0,0,0,6,couldn't vectorize loop
+gcc-default,f64,dot_s8,missed,0,128,0,0,2,0,0,0,6,couldn't vectorize loop
+gcc-default,f64,mul_s2,vectorized,128,128,1,0,0,0,0,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,mul_s4,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-default,f64,mul_s8,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-default,f64,dot_gather,missed,0,128,0,0,2,0,0,0,7,couldn't vectorize loop
+gcc-default,f64,mul_gather,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-default,f64,bw_read,vectorized,128,128,4,0,0,0,0,0,11,src/kernels_body.inc:176:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,bw_write,vectorized,128,128,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,bw_scale,vectorized,128,128,1,0,0,0,0,0,6,src/kernels_body.inc:191:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,f64,bw_triad,vectorized,128,128,2,0,0,0,0,0,8,src/kernels_body.inc:195:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_simd,vectorized,128,128,0,2,0,0,0,0,7,src/kernels_body.inc:22:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_plain,vectorized,128,128,0,2,0,0,0,0,7,src/kernels_body.inc:31:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_acc2,vectorized,128,128,0,4,0,0,0,0,11,src/kernels_body.inc:43:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_acc4,vectorized,128,128,0,8,0,0,0,0,19,src/kernels_body.inc:56:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_acc8,vectorized,128,128,0,16,0,0,0,0,40,src/kernels_body.inc:71:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,mul,vectorized,128,128,0,1,0,0,0,0,7,src/kernels_body.inc:88:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,mul_aligned,vectorized,128,128,0,1,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,mul_pred,vectorized,128,128,0,1,0,0,0,0,7,src/kernels_body.inc:105:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,stencil,vectorized,128,128,0,5,0,0,0,0,12,src/kernels_body.inc:113:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_s2,vectorized,128,128,0,2,0,0,0,0,11,src/kernels_body.inc:121:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_s4,vectorized,128,128,0,2,0,0,0,0,20,src/kernels_body.inc:128:42: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,dot_s8,missed,0,0,0,0,0,0,0,0,6,couldn't vectorize loop
+gcc-default,i32,mul_s2,vectorized,128,128,0,1,0,0,0,0,11,src/kernels_body.inc:140:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,mul_s4,vectorized,128,128,0,1,0,0,0,0,19,src/kernels_body.inc:144:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,mul_s8,missed,0,0,0,0,0,0,0,0,7,couldn't vectorize loop
+gcc-default,i32,dot_gather,missed,0,0,0,0,0,0,0,0,7,couldn't vectorize loop
+gcc-default,i32,mul_gather,missed,0,0,0,0,0,0,0,0,7,couldn't vectorize loop
+gcc-default,i32,bw_read,vectorized,128,128,0,4,0,0,0,0,11,src/kernels_body.inc:176:16: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,bw_write,vectorized,128,128,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,bw_scale,vectorized,128,128,0,1,0,0,0,0,6,src/kernels_body.inc:191:26: optimized: loop vectorized using 16 byte vectors
+gcc-default,i32,bw_triad,vectorized,128,128,0,2,0,0,0,0,8,src/kernels_body.inc:195:26: optimized: loop vectorized using 16 byte vectors
+gcc-native256,f32,dot_simd,vectorized,256,256,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_plain,vectorized,256,256,1,0,8,0,7,0,20,src/kernels_body.inc:31:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_acc2,vectorized,256,256,4,0,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_acc4,vectorized,256,256,8,0,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_acc8,vectorized,256,256,16,0,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_aligned,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_pred,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,stencil,vectorized,256,256,5,0,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_s2,vectorized,256,256,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_s4,vectorized,256,256,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_s8,vectorized,256,256,2,0,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_s2,vectorized,256,256,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_s4,vectorized,256,256,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_s8,vectorized,256,256,1,0,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,dot_gather,vectorized,256,256,2,0,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,mul_gather,vectorized,256,256,1,0,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,bw_read,vectorized,256,256,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,bw_write,vectorized,256,256,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,bw_scale,vectorized,256,256,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f32,bw_triad,vectorized,256,256,2,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_simd,vectorized,256,256,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_plain,vectorized,256,256,1,0,4,0,3,0,12,src/kernels_body.inc:31:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_acc2,vectorized,256,256,4,0,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_acc4,vectorized,256,256,8,0,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_acc8,vectorized,256,256,16,0,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul_aligned,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul_pred,vectorized,256,256,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,stencil,vectorized,256,256,5,0,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_s2,vectorized,256,256,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_s4,vectorized,256,256,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,dot_s8,missed,0,128,0,0,2,0,0,0,6,couldn't vectorize loop
+gcc-native256,f64,mul_s2,vectorized,256,256,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul_s4,vectorized,256,256,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul_s8,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-native256,f64,dot_gather,vectorized,256,256,4,0,0,2,1,2,15,src/kernels_body.inc:157:46: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,mul_gather,vectorized,256,256,2,0,0,2,1,2,13,src/kernels_body.inc:163:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,bw_read,vectorized,256,256,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,bw_write,vectorized,256,256,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,bw_scale,vectorized,256,256,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,f64,bw_triad,vectorized,256,256,2,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_simd,vectorized,256,256,0,2,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_plain,vectorized,256,256,0,2,0,0,0,0,6,src/kernels_body.inc:31:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_acc2,vectorized,256,256,0,4,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_acc4,vectorized,256,256,0,8,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_acc8,vectorized,256,256,0,16,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul,vectorized,256,256,0,1,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_aligned,vectorized,256,256,0,1,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_pred,vectorized,256,256,0,1,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,stencil,vectorized,256,256,0,5,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_s2,vectorized,256,256,0,2,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_s4,vectorized,256,256,0,2,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_s8,vectorized,256,256,0,2,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_s2,vectorized,256,256,0,1,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_s4,vectorized,256,256,0,1,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_s8,vectorized,256,256,0,1,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,dot_gather,vectorized,256,256,0,2,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,mul_gather,vectorized,256,256,0,1,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,bw_read,vectorized,256,256,0,4,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,bw_write,vectorized,256,256,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,bw_scale,vectorized,256,256,0,1,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 32 byte vectors
+gcc-native256,i32,bw_triad,vectorized,256,256,0,2,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 32 byte vectors
+gcc-native512,f32,dot_simd,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_plain,vectorized,512,512,1,0,16,0,15,0,36,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_acc2,vectorized,512,512,4,0,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_acc4,vectorized,512,512,8,0,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_acc8,vectorized,512,512,16,0,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_aligned,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_pred,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,stencil,vectorized,512,512,5,0,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_s2,vectorized,512,512,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_s4,vectorized,512,512,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_s8,vectorized,512,512,2,0,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_s2,vectorized,512,512,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_s4,vectorized,512,512,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_s8,vectorized,512,512,1,0,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,dot_gather,vectorized,512,512,2,0,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,mul_gather,vectorized,512,512,1,0,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,bw_read,vectorized,512,512,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,bw_scale,vectorized,512,512,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f32,bw_triad,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_simd,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_plain,vectorized,512,512,1,0,8,0,7,0,20,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_acc2,vectorized,512,512,4,0,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_acc4,vectorized,512,512,8,0,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_acc8,vectorized,512,512,16,0,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_aligned,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_pred,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,stencil,vectorized,512,512,5,0,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_s2,vectorized,512,512,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_s4,vectorized,512,512,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,dot_s8,vectorized,512,512,2,0,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_s2,vectorized,512,512,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_s4,vectorized,512,512,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_s8,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-native512,f64,dot_gather,vectorized,512,512,4,0,0,2,1,2,15,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,mul_gather,vectorized,512,512,2,0,0,2,1,2,13,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,bw_read,vectorized,512,512,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,bw_scale,vectorized,512,512,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,f64,bw_triad,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_simd,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_plain,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_acc2,vectorized,512,512,0,4,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_acc4,vectorized,512,512,0,8,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_acc8,vectorized,512,512,0,16,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_aligned,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_pred,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,stencil,vectorized,512,512,0,5,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_s2,vectorized,512,512,0,2,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_s4,vectorized,512,512,0,2,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_s8,vectorized,512,512,0,2,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_s2,vectorized,512,512,0,1,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_s4,vectorized,512,512,0,1,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_s8,vectorized,512,512,0,1,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,dot_gather,vectorized,512,512,0,2,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,mul_gather,vectorized,512,512,0,1,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,bw_read,vectorized,512,512,0,4,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,bw_scale,vectorized,512,512,0,1,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512,i32,bw_triad,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_simd,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_plain,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_acc2,vectorized,512,512,2,0,0,0,0,0,7,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_acc4,vectorized,512,512,4,0,0,0,0,0,11,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_acc8,vectorized,512,512,8,0,0,0,0,0,24,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_aligned,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_pred,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,stencil,vectorized,512,512,3,0,0,0,0,0,7,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_s2,vectorized,512,512,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_s4,vectorized,512,512,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_s8,vectorized,512,512,2,0,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_s2,vectorized,512,512,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_s4,vectorized,512,512,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_s8,vectorized,512,512,1,0,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,dot_gather,vectorized,512,512,1,0,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,mul_gather,vectorized,512,512,1,0,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,bw_read,vectorized,512,512,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,bw_scale,vectorized,512,512,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f32,bw_triad,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_simd,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_plain,vectorized,512,512,2,0,0,0,0,0,6,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_acc2,vectorized,512,512,2,0,0,0,0,0,7,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_acc4,vectorized,512,512,4,0,0,0,0,0,11,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_acc8,vectorized,512,512,8,0,0,0,0,0,24,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_aligned,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_pred,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,stencil,vectorized,512,512,3,0,0,0,0,0,7,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_s2,vectorized,512,512,2,0,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_s4,vectorized,512,512,2,0,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,dot_s8,vectorized,512,512,2,0,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_s2,vectorized,512,512,1,0,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_s4,vectorized,512,512,1,0,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_s8,missed,0,128,0,0,1,0,0,0,7,couldn't vectorize loop
+gcc-native512fm,f64,dot_gather,vectorized,512,512,2,0,0,2,1,2,15,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,mul_gather,vectorized,512,512,2,0,0,2,1,2,13,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,bw_read,vectorized,512,512,4,0,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,bw_scale,vectorized,512,512,1,0,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,f64,bw_triad,vectorized,512,512,1,0,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_simd,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:22:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_plain,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:31:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_acc2,vectorized,512,512,0,4,0,0,0,0,9,src/kernels_body.inc:43:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_acc4,vectorized,512,512,0,8,0,0,0,0,15,src/kernels_body.inc:56:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_acc8,vectorized,512,512,0,16,0,0,0,0,31,src/kernels_body.inc:71:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:88:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_aligned,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:97:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_pred,vectorized,512,512,0,1,0,0,0,0,6,src/kernels_body.inc:105:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,stencil,vectorized,512,512,0,5,0,0,0,0,9,src/kernels_body.inc:113:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_s2,vectorized,512,512,0,2,0,0,2,0,9,src/kernels_body.inc:121:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_s4,vectorized,512,512,0,2,0,0,6,0,16,src/kernels_body.inc:128:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_s8,vectorized,512,512,0,2,0,0,14,0,28,src/kernels_body.inc:135:42: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_s2,vectorized,512,512,0,1,0,0,2,0,9,src/kernels_body.inc:140:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_s4,vectorized,512,512,0,1,0,0,6,0,15,src/kernels_body.inc:144:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_s8,vectorized,512,512,0,1,0,0,14,0,29,src/kernels_body.inc:148:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,dot_gather,vectorized,512,512,0,2,0,1,0,1,9,src/kernels_body.inc:157:46: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,mul_gather,vectorized,512,512,0,1,0,1,0,1,8,src/kernels_body.inc:163:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,bw_read,vectorized,512,512,0,4,0,0,0,0,7,src/kernels_body.inc:176:16: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,bw_write,vectorized,512,512,0,0,0,0,0,0,4,src/kernels_body.inc:187:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,bw_scale,vectorized,512,512,0,1,0,0,0,0,5,src/kernels_body.inc:191:26: optimized: loop vectorized using 64 byte vectors
+gcc-native512fm,i32,bw_triad,vectorized,512,512,0,2,0,0,0,0,6,src/kernels_body.inc:195:26: optimized: loop vectorized using 64 byte vectors
+gcc-scalar,f32,dot_simd,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f32,dot_plain,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f32,dot_acc2,missed,0,128,0,0,4,0,0,0,9,
+gcc-scalar,f32,dot_acc4,missed,0,128,0,0,8,0,0,0,15,
+gcc-scalar,f32,dot_acc8,missed,0,128,0,0,16,0,0,0,34,
+gcc-scalar,f32,mul,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f32,mul_aligned,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f32,mul_pred,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f32,stencil,missed,0,128,0,0,10,0,0,0,17,
+gcc-scalar,f32,dot_s2,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f32,dot_s4,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f32,dot_s8,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f32,mul_s2,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f32,mul_s4,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f32,mul_s8,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f32,dot_gather,missed,0,128,0,0,2,0,0,0,7,
+gcc-scalar,f32,mul_gather,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f32,bw_read,missed,0,128,0,0,4,0,0,0,7,
+gcc-scalar,f32,bw_write,missed,0,128,0,0,0,0,0,0,4,
+gcc-scalar,f32,bw_scale,missed,0,128,0,0,1,0,0,0,5,
+gcc-scalar,f32,bw_triad,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,dot_simd,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,dot_plain,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,dot_acc2,missed,0,128,0,0,4,0,0,0,9,
+gcc-scalar,f64,dot_acc4,missed,0,128,0,0,8,0,0,0,15,
+gcc-scalar,f64,dot_acc8,missed,0,128,0,0,16,0,0,0,34,
+gcc-scalar,f64,mul,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f64,mul_aligned,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f64,mul_pred,missed,0,128,0,0,1,0,0,0,6,
+gcc-scalar,f64,stencil,missed,0,128,0,0,10,0,0,0,17,
+gcc-scalar,f64,dot_s2,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,dot_s4,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,dot_s8,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,f64,mul_s2,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f64,mul_s4,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f64,mul_s8,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f64,dot_gather,missed,0,128,0,0,2,0,0,0,7,
+gcc-scalar,f64,mul_gather,missed,0,128,0,0,1,0,0,0,7,
+gcc-scalar,f64,bw_read,missed,0,128,0,0,4,0,0,0,7,
+gcc-scalar,f64,bw_write,missed,0,128,0,0,0,0,0,0,4,
+gcc-scalar,f64,bw_scale,missed,0,128,0,0,1,0,0,0,5,
+gcc-scalar,f64,bw_triad,missed,0,128,0,0,2,0,0,0,6,
+gcc-scalar,i32,dot_simd,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,dot_plain,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,dot_acc2,missed,0,0,0,0,0,0,0,0,9,
+gcc-scalar,i32,dot_acc4,missed,0,0,0,0,0,0,0,0,18,
+gcc-scalar,i32,dot_acc8,missed,0,0,0,0,0,0,0,0,34,
+gcc-scalar,i32,mul,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,mul_aligned,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,mul_pred,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,stencil,missed,0,0,0,0,0,0,0,0,23,
+gcc-scalar,i32,dot_s2,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,dot_s4,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,dot_s8,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,mul_s2,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,mul_s4,missed,0,0,0,0,0,0,0,0,7,
+gcc-scalar,i32,mul_s8,missed,0,0,0,0,0,0,0,0,7,
+gcc-scalar,i32,dot_gather,missed,0,0,0,0,0,0,0,0,7,
+gcc-scalar,i32,mul_gather,missed,0,0,0,0,0,0,0,0,7,
+gcc-scalar,i32,bw_read,missed,0,0,0,0,0,0,0,0,7,
+gcc-scalar,i32,bw_write,missed,0,0,0,0,0,0,0,0,4,
+gcc-scalar,i32,bw_scale,missed,0,0,0,0,0,0,0,0,6,
+gcc-scalar,i32,bw_triad,missed,0,0,0,0,0,0,0,0,7,

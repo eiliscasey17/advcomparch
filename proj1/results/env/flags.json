@@ -1,0 +1,88 @@
+{
+  "kernel_base": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas",
+  "fixed_cc": "/usr/bin/gcc",
+  "fixed_cflags": "-O2 -std=gnu11 -Wall -Wextra -g",
+  "ref_cflags": "-O0 -std=gnu11 -ffp-contract=off -Wall",
+  "compilers": {
+    "gcc": {
+      "path": "/usr/bin/gcc",
+      "version": "gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-14)"
+    },
+    "clang": {
+      "path": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "version": "clang version 20.1.8 (https://github.com/conda-forge/clangdev-feedstock 51599a0e3ed5a8b0e89061700fd078088955c745)"
+    }
+  },
+  "builds": {
+    "gcc-scalar": {
+      "cc": "/usr/bin/gcc",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -fno-tree-vectorize -fno-tree-slp-vectorize -DKERNELS_SCALAR",
+      "resolved": {
+        "-march": "znver4",
+        "-mprefer-vector-width": "256",
+        "-mtune": "znver4"
+      }
+    },
+    "gcc-default": {
+      "cc": "/usr/bin/gcc",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -fopenmp-simd",
+      "resolved": {
+        "-march": "x86-64-v2",
+        "-mprefer-vector-width": "none",
+        "-mtune": "generic"
+      }
+    },
+    "gcc-native256": {
+      "cc": "/usr/bin/gcc",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -fopenmp-simd",
+      "resolved": {
+        "-march": "znver4",
+        "-mprefer-vector-width": "256",
+        "-mtune": "znver4"
+      }
+    },
+    "gcc-native512": {
+      "cc": "/usr/bin/gcc",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -mprefer-vector-width=512 -fopenmp-simd",
+      "resolved": {
+        "-march": "znver4",
+        "-mprefer-vector-width": "512",
+        "-mtune": "znver4"
+      }
+    },
+    "gcc-native512fm": {
+      "cc": "/usr/bin/gcc",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -mprefer-vector-width=512 -fopenmp-simd -ffast-math",
+      "resolved": {
+        "-march": "znver4",
+        "-mprefer-vector-width": "512",
+        "-mtune": "znver4"
+      }
+    },
+    "clang-scalar": {
+      "cc": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -fno-vectorize -fno-slp-vectorize -DKERNELS_SCALAR",
+      "resolved": "znver4"
+    },
+    "clang-default": {
+      "cc": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -fopenmp-simd",
+      "resolved": "x86-64"
+    },
+    "clang-native256": {
+      "cc": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -mprefer-vector-width=256 -fopenmp-simd",
+      "resolved": "znver4"
+    },
+    "clang-native512": {
+      "cc": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -mprefer-vector-width=512 -fopenmp-simd",
+      "resolved": "znver4"
+    },
+    "clang-native512fm": {
+      "cc": "/home/caseye2/miniconda3/envs/advcomparch/bin/clang",
+      "flags": "-O3 -std=c11 -Wall -Wextra -Wno-unknown-pragmas -march=native -mprefer-vector-width=512 -fopenmp-simd -ffast-math",
+      "resolved": "znver4"
+    }
+  }
+}

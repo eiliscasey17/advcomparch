@@ -14,7 +14,7 @@ HDRS        := src/kernels.h src/perfctr.h src/timing.h
 
 .PHONY: all test test-c test-perfctr test-py flags-json clean
 all: $(foreach b,$(BUILDS),build/$(b)/bench build/$(b)/test_kernels build/$(b)/kernels.objdump.txt) \
-     $(COMMON)/calib_peak $(COMMON)/test_perfctr
+     $(COMMON)/calib_peak $(COMMON)/calib_align $(COMMON)/test_perfctr
 
 $(COMMON):
 	mkdir -p $@
@@ -32,6 +32,9 @@ $(COMMON)/test_kernels.o: tests/test_kernels.c tests/reference.h src/kernels.h |
 # -march=native only so the assembler/OS path is enabled for zmm.
 $(COMMON)/calib_peak: src/calib_peak.c src/perfctr.h src/timing.h $(COMMON)/perfctr.o
 	$(FIXED_CC) $(FIXED_CFLAGS) -march=native $< $(COMMON)/perfctr.o -o $@ -lm
+
+$(COMMON)/calib_align: src/calib_align.c src/perfctr.h $(COMMON)/perfctr.o
+	$(FIXED_CC) $(FIXED_CFLAGS) -march=native $< $(COMMON)/perfctr.o -o $@
 
 $(COMMON)/test_perfctr: tests/test_perfctr.c src/perfctr.h $(COMMON)/perfctr.o
 	$(FIXED_CC) $(FIXED_CFLAGS) -march=native -Isrc $< $(COMMON)/perfctr.o -o $@ -lm

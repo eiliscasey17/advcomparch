@@ -8,4 +8,5 @@ dependencies:
   - matplotlib
   - scipy
   - pytest
-  - clang=20.1
+  - clang=20.1        # resolved: 20.1.8 (see results/env/environment.txt)
+  - nodejs            # only for the dataviz palette validator
