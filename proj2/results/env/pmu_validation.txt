@@ -1,0 +1,45 @@
+test                               event             expect  per-load   band          status
+10-instruction loop                instructions       1.000     1.000   [0.99, 1.01]  PASS
+[info] clock: 4.443 instructions/cycle
+[info] 4.0 cycles/load
+chase L1 (16 KiB)                  l1d_miss           0.000     0.000   [0.00, 0.05]  PASS
+chase L1 (16 KiB)                  fill_l2            0.000     0.000   [0.00, 0.05]  PASS
+chase L1 (16 KiB)                  fill_ccx           0.000     0.000   [0.00, 0.05]  PASS
+chase L1 (16 KiB)                  fill_dram          0.000     0.000   [0.00, 0.05]  PASS
+[info] 14.1 cycles/load
+chase L2 (512 KiB)                 l1d_miss           1.000     1.000   [0.90, 1.10]  PASS
+chase L2 (512 KiB)                 fill_l2            1.000     1.000   [0.90, 1.10]  PASS
+chase L2 (512 KiB)                 fill_ccx           0.000     0.000   [0.00, 0.05]  PASS
+chase L2 (512 KiB)                 fill_dram          0.000     0.000   [0.00, 0.05]  PASS
+[info] 14.2 cycles/load
+chase L2 (512 KiB)                 l2_miss_dc         0.000     0.000   [0.00, 0.05]  PASS
+[info] 60.3 cycles/load
+chase L3 (16384 KiB)               l1d_miss           1.000     1.000   [0.90, 1.10]  PASS
+chase L3 (16384 KiB)               fill_l2            0.000     0.031   [0.00, 0.11]  PASS
+chase L3 (16384 KiB)               fill_ccx           1.000     0.943   [0.84, 1.10]  PASS
+chase L3 (16384 KiB)               fill_dram          0.000     0.025   [0.00, 0.05]  PASS
+[info] 60.5 cycles/load
+chase L3 (16384 KiB)               l2_miss_dc         1.000     0.968   [0.90, 1.10]  PASS
+[info] 486.2 cycles/load
+chase DRAM (1048576 KiB)           l1d_miss           1.000     1.000   [0.90, 1.10]  PASS
+chase DRAM (1048576 KiB)           fill_l2            0.000     0.001   [0.00, 0.05]  PASS
+chase DRAM (1048576 KiB)           fill_ccx           0.000     0.019   [0.00, 0.05]  PASS
+chase DRAM (1048576 KiB)           fill_dram          1.000     0.981   [0.90, 1.10]  PASS
+[info] 485.3 cycles/load
+chase DRAM (1048576 KiB)           l2_miss_dc         1.000     1.000   [0.90, 1.10]  PASS
+[info] 4.0 cycles/load
+pagerand 48 x 4K, 4k pages         dtlb_miss          0.000     0.000   [0.00, 0.05]  PASS
+pagerand 48 x 4K, 4k pages         dtlb_l2_miss       0.000     0.000   [0.00, 0.05]  PASS
+[info] 22.1 cycles/load
+pagerand 1024 x 4K, 4k pages       dtlb_miss          1.000     1.000   [0.90, 1.10]  PASS
+pagerand 1024 x 4K, 4k pages       dtlb_l2_miss       0.000     0.000   [0.00, 0.05]  PASS
+[info] 83.4 cycles/load
+pagerand 16384 x 4K, 4k pages      dtlb_miss          1.000     1.000   [0.90, 1.10]  PASS
+pagerand 16384 x 4K, 4k pages      dtlb_l2_miss       1.000     0.997   [0.90, 1.10]  PASS
+[info] 43.9 cycles/load
+pagerand 16384 x 4K, 2m pages      dtlb_miss          0.000     0.000   [0.00, 0.05]  PASS
+pagerand 16384 x 4K, 2m pages      dtlb_l2_miss       0.000     0.000   [0.00, 0.05]  PASS
+[info] streaming read 512 MiB, sum=562949886312448: cycles=6.350/line l1d_miss=1.000/line l2pf_hit_l3=0.000/line l2pf_miss_l3=0.801/line fill_dram=0.258/line
+stream read 512 MiB                pf_miss_l3+fill_dram     1.000     1.059   [0.85, 1.25]  PASS
+
+0 failed, 0 skipped

@@ -2,6 +2,10 @@
 proj1/build/
 # raw per-sample measurements (summaries in results/summary/ ARE committed)
 proj1/results/raw/
+proj2/build/
+proj2/results/raw/
+# Intel MLC is not redistributable (license click-through); see proj2/scripts/mlc.py
+proj2/tools/
 __pycache__/
 *.pyc
 .pytest_cache/

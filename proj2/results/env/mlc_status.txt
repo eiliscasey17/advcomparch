@@ -1,0 +1,1 @@
+20261021-120426: Intel MLC v3.13 refused to run (exit 22): it requires reserved hugetlbfs pages (echo 4000 > /proc/sys/vm/nr_hugepages, root only). Cross-check not possible on this machine without admin help; raw output in results/raw/MLC/20261021-120426/.

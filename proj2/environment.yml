@@ -1,0 +1,11 @@
+# Same conda env as proj1 (proj2 itself needs only gcc + these Python packages).
+name: advcomparch
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - pytest

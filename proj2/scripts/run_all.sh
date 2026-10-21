@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Full suite: env capture, every experiment, summaries, plots (~1-2 h of
+# measurement; the idle-hardware gate waits, without limit, for quiet cpus).
+# Re-running resumes: experiments with a completed run are skipped.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+PY=${PY:-$HOME/miniconda3/envs/advcomparch/bin/python}
+./scripts/capture_env.sh
+# single-core experiments (E6, E7) before whole-node ones (E5, E8): they only
+# need one quiet CCD, so they can run while the nodes are busy
+for e in ${@:-E0 E1 E2 E3 E4 E6 E7 E5 E8}; do
+  # resume: skip experiments that already have a completed full run
+  if ls results/raw/"$e"/*[0-9].meta.json >/dev/null 2>&1; then
+    echo "$e: completed run exists, skipping (delete its meta.json to re-run)"
+  else
+    # resume an interrupted run (round CSVs but no meta.json) instead of starting over
+    part=$( (ls results/raw/"$e"/*[0-9]__r0.csv 2>/dev/null || true) | tail -1 | xargs -r basename | sed 's/__r0.csv//')
+    $PY scripts/run.py "$e" ${part:+--resume "$part"}
+  fi
+  $PY scripts/summarize.py "$e"
+done
+$PY scripts/mlc.py || true
+$PY scripts/plot.py all
+echo ALL DONE

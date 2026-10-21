@@ -1,0 +1,2 @@
+[info] 2m buffer thp=1.000, 4k buffer thp=0.000, first-touch node 0 frac 1.00
+225 checks, 0 failed
