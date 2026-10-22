@@ -43,6 +43,8 @@ This is the single place to find what was run, how, and what it showed. The figu
 | E8 | 20261017-190359 | 1 | 2 × 9 | 12 | 141 s | 0 |
 | E9 | 20261017-190621 | 25 | 3 × 11 | 56 | 16 s | 0 |
 
+The run IDs in the table are pinned in `results/runs.json`. `scripts/common.py:load_raw` uses them, so later or interrupted re-runs never silently replace the committed figures, and regenerating from these runs reproduces every summary and figure byte for byte. Only completed runs (those with a `.meta.json`) are ever loaded.
+
 The commands for every experiment are:
 - `python scripts/run.py <ID>`, then
 - `python scripts/summarize.py <ID>`, then

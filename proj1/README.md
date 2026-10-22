@@ -48,7 +48,7 @@ The single source of truth for flags is [config/flags.mk](config/flags.mk). `mak
 conda env create -f environment.yml        # python + clang 20 + nodejs (palette check)
 make -j16                                   # 10 kernel builds + tools
 make test                                   # C correctness (10 builds), PMU validation, pytest
-./scripts/run_all.sh                        # all experiments, one pinned core (~1 h)
+./scripts/run_all.sh                        # all experiments, one pinned core (~25 min on an idle CCD)
 python scripts/summarize.py all && python scripts/plot.py all && python scripts/vec_evidence.py
 ```
 - **One experiment:** `python scripts/run.py E4` (append `--quick` for a smoke test).

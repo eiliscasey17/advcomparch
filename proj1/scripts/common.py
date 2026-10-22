@@ -4,6 +4,7 @@ Every derived number in the plots (GFLOP/s, GiB/s, cycles/element, arithmetic
 intensity, footprint) is computed here and nowhere else, so tests can pin the
 formulas down (tests/test_analysis.py).
 """
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -135,8 +136,14 @@ def load_raw(exp, run=None):
     files = sorted(d.glob("*.csv"))
     if not files:
         raise FileNotFoundError(f"no raw data for {exp} in {d}")
-    runs = sorted({f.name.split("__")[0] for f in files})
+    # only completed runs (the .meta.json is written last); an interrupted run
+    # must never be picked up as "latest"
+    runs = sorted({f.name.split("__")[0] for f in files
+                   if (d / (f.name.split("__")[0] + ".meta.json")).exists()})
     full = [r for r in runs if not r.endswith("-quick")]
+    pins = RESULTS / "runs.json"  # run IDs behind the committed figures
+    if run is None and pins.exists():
+        run = json.loads(pins.read_text()).get(exp)
     run = run or (full or runs)[-1]  # latest full run; quick runs only as fallback
     parts = [pd.read_csv(f) for f in files if f.name.startswith(run + "__")]
     return pd.concat(parts, ignore_index=True), run
