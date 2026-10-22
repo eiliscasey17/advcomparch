@@ -6,6 +6,8 @@ proj2/build/
 proj2/results/raw/
 # Intel MLC is not redistributable (license click-through); see proj2/scripts/mlc.py
 proj2/tools/
+# proj3: raw fio JSON / logs (summaries in results/summary/ ARE committed)
+proj3/results/raw/
 __pycache__/
 *.pyc
 .pytest_cache/

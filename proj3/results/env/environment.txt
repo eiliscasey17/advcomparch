@@ -1,0 +1,36 @@
+# captured 2026-10-22T13:07:16-04:00 on epic2.ecse.rpi.edu  git 02a9e98
+## tools
+fio-3.43
+libaio engine: 1
+io_uring_disabled=2 (2 = io_uring unavailable to everyone)
+## kernel
+5.14.0-687.57.1.el9_8.x86_64
+## /data
+/dev/md124     xfs    18T   13T  4.7T  74% /data
+meta-data=/dev/md124             isize=512    agcount=32, agsize=146206720 blks
+         =                       sectsz=4096  attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+## md124
+md124 : active raid5 nvme4n1p1[4] nvme5n1p1[2] nvme1n1p1[1] nvme3n1p1[0]
+      18714461184 blocks super 1.2 level 5, 512k chunk, algorithm 2 [4/4] [UUUU]
+      bitmap: 9/47 pages [36KB], 65536KB chunk
+chunk=524288 level=raid5 raid_disks=4 stripe_cache_size=256 group_thread_cnt=0
+## member drives
+nvme1n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
+nvme3n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
+nvme4n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
+nvme5n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
+## health / temperature
+
+nvme hwmon sensors visible: 0 (temperature/throttling not observable without root)
+## memory
+MemTotal:       791763728 kB
+Dirty:               340 kB
+dirty_ratio=40 dirty_background_ratio=10
+## cpu
+Model name:                              AMD EPYC 9334 32-Core Processor
+NUMA node0 CPU(s):                       0-31
+NUMA node1 CPU(s):                       32-63
+## python
+3.11.17 numpy 2.4.6 pandas 3.0.6 matplotlib 3.11.2

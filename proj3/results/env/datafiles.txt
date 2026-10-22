@@ -1,0 +1,2 @@
+OK  /data/home/caseye2/fio_proj3/data.dat: 224.00 GiB, allocated 1.0000, 0 unwritten extents, min zlib ratio 0.985, 0 all-zero chunks
+OK  /data/home/caseye2/fio_proj3/pagecache.dat: 8.00 GiB, allocated 1.0000, 0 unwritten extents, min zlib ratio 0.997, 0 all-zero chunks

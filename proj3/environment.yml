@@ -1,0 +1,12 @@
+# Same conda env as proj1/proj2, plus fio (conda-forge build has the libaio engine).
+name: advcomparch
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - pytest
+  - fio=3.43
