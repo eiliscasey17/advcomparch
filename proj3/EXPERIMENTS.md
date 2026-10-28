@@ -12,9 +12,10 @@ This is the single place to find what was run, how, and what it showed.
 
 See the [README](README.md#system-under-test-no-root).
 
-**Status (2026-10-22):**
-- **Complete:** F0–F3.
-- **Running:** F4 (queue-depth sweep), F5 (tails, at QDs chosen from F4's knee), F6 (LBA range), F8 (pitfalls), F7 (device state, about 1 h of sustained writes). This file and the plots are updated when they finish.
+**Status (2026-10-28):**
+- **Complete:** F0–F5. F4 and F5 have summaries in `results/summary/`. Their figures have not been rendered yet; that needs `python scripts/plot.py F4 F5`.
+- **Not complete:** F6, F7 and F8. The suite stopped on 2026-10-22 during F6 round 2 (no error in the log; the machine was most likely restarted). F6 has one partial round (raw only); F8 and F7 never started.
+- **To finish:** `./scripts/run_all.sh F6 F8 F7`. It is resumable and skips completed experiments.
 - **Verification:** 22 pytest tests pass, covering the formulas and fio method checks. `results/env/datafiles.txt` confirms the test files are fully allocated, have no unwritten extents and are incompressible.
 
 ## Common method
@@ -40,7 +41,9 @@ See the [README](README.md#system-under-test-no-root).
 | F1 | 〃 | 3 | 4 | 8 min | 0 / 0 |
 | F2 | 〃 | 2 | 34 | 32 min | 0 / 0 |
 | F3 | 20261022-135117 | 3 | 8 | 11 min | 0 / 0 |
-| F4–F8 | running | | | | |
+| F4 | 20261022-140240 | 2 | 55 | 52 min | 0 / 0 |
+| F5 | 20261022-145446 | 2 | 9 | 21 min | 0 / 0 |
+| F6–F8 | not complete (see Status) | | | | |
 
 Commands:
 ```
@@ -119,13 +122,85 @@ IOPS × mean latency = 1.00 for all four, so exactly one request was in flight.
 
 **Figures:** `f3_mix_throughput_{rand4k,seq128k}.jpg`, `f3_mix_latency_{rand4k,seq128k}.jpg`.
 
-## F4–F8
-Running; results to follow. Planned content:
-- **F4:** queue-depth / parallelism sweep. Throughput-vs-latency curves, the knee, a Little's-Law check, iodepth vs numjobs.
-- **F5:** tail latency (CCDF, p99–p99.99) at mid, knee and past-knee QD.
+## F4: Queue-depth / parallelism sweep
+**Question:** how do throughput and latency trade off as concurrency grows, where is the knee, and does Little's Law hold?
+
+**Results, 4 KiB random read:**
+
+| total QD | 1 job: K IOPS / mean µs / p99 µs | 8 jobs: K IOPS / mean µs / p99 µs |
+|---|---|---|
+| 1 | 14.4 / 69 / 77 | – |
+| 8 | 110 / 72 / 101 | 114 / 70 / 99 |
+| 16 | **162 / 99** / 133 | 227 / 70 / 106 |
+| 32 | 162 / 197 / 237 | 443 / 72 / 115 |
+| 64 | 163 / 393 / 438 | 832 / 77 / 129 |
+| 128 | 162 / 788 / 836 | **1114 / 115** / 167 |
+| 256 | 162 / 1575 / 1630 | 1117 / 229 / 281 |
+| 1024 | – | 1111 / 922 / 1026 |
+
+- With iodepth 32 per job: 2 / 4 / 8 / 16 jobs give 298K / 573K / 1113K / **1947K IOPS** (16 jobs: 263 µs mean).
+- **Little's Law holds everywhere:** IOPS × mean latency equals the configured QD to within 1% (e.g. 0.997 at QD1, 127.95 at QD128).
+- **4 KiB random write** (4 jobs):
+
+  | QD | throughput | mean latency |
+  |---|---|---|
+  | 4 | 32.6K IOPS | 123 µs |
+  | 16 | 56.1K | 285 µs |
+  | 32 | **64.4K** | 498 µs |
+  | 128 | 58.7K | 2.2 ms |
+  | 512 | 55.6K | 9.2 ms |
+
+- **128 KiB sequential:**
+  - Reads reach 15.7 GB/s (1 job, QD64) and 18.7 GB/s (4 jobs, QD128).
+  - Writes reach 1.50 GB/s (1 job, QD64) and 1.22 GB/s (4 jobs, QD128), with latency rising to 5.6–13.8 ms.
+
+**Interpretation:**
+- **Below the knee, latency is flat** (69–72 µs up to QD 8 for one job, up to QD 64 for 8 jobs), so throughput grows linearly with QD = IOPS × latency.
+- **Past the knee, throughput is flat and latency grows linearly with QD.** One job at QD 256 delivers the same 162K IOPS as at QD 16, at 16× the latency. Each extra request only waits in a queue.
+- **For reads, the knee is set by the submitting CPU threads, not the SSDs.**
+  - One fio thread saturates at about 162K IOPS (diskstats show only about 10 requests in flight at the drives).
+  - Eight threads saturate at about 1.11M IOPS (about 73 at the drives).
+  - Sixteen threads reach 1.95M IOPS.
+  - To find the device's knee, you need more submitters (numjobs), not more iodepth per thread.
+- **For writes, the knee comes early (QD ≈ 32) and is set by md RAID5.**
+  - About 60K IOPS of small-write RMW go through a single parity thread.
+  - Beyond the knee, throughput even drops slightly while latency explodes.
+- **Device-side queue depth (`dev_qd`) is reliable for reads only.** For writes, md's member-request accounting yields meaningless values, so it is not used.
+
+## F5: Tail latency at mid-QD, knee and past-knee
+QDs: the knee is taken from F4 (smallest total QD reaching 90% of the 8-job peak) = 128; mid = 32; past = 512. Each run uses 4 jobs, 2 × 60 s, with json+ histograms.
+
+| workload | QD | K IOPS | p50 | p99 | p99.9 | p99.99 (µs) |
+|---|---|---|---|---|---|---|
+| 4 KiB random read | 32 (mid) | 424 | 69 | 91 | 118 | 140 |
+| | 128 (knee) | 573 | 216 | 239 | 264 | 301 |
+| | 512 (past) | 571 | 889 | 913 | 946 | 983 |
+| 4 KiB random write | 32 | 55.8 | 565 | 696 | 811 | 1,047 |
+| | 128 | 55.0 | 2,376 | 2,654 | 2,867 | 3,178 |
+| | 512 | 54.0 | 9,372 | 10,551 | 11,076 | 13,304 |
+| 70/30, reads | 32 | 166 total | 68 | 165 | 446 | 688 |
+| | 128 | 170 total | 69 | 226 | 534 | 819 |
+| | 512 | 169 total | 70 | 178 | 502 | 815 |
+| 70/30, writes | 32 | | 449 | 635 | 807 | 1,042 |
+| | 512 | | 9,896 | 10,420 | 10,813 | 13,566 |
+
+**Interpretation:**
+- **Past the knee, the whole distribution shifts right; it does not just grow a tail.**
+  - With 4 jobs, the read knee is at about 573K IOPS (4 submitting threads).
+  - At QD 512 the median is 889 µs, almost exactly QD / IOPS = 512 / 571K = 897 µs (Little's Law). The extra requests sit in fio/kernel queues, and every one of them waits.
+  - The tail ratio p99.99 / p50 stays small (2.0 at mid, 1.1 past).
+- **Write tails scale the same way** (p50 565 µs → 9.4 ms) because RAID5 RMW is the queueing server.
+- **The mixed workload is where tails hurt reads.**
+  - The read median stays at about 69 µs at every QD.
+  - The read p99.9 is already 446–534 µs, 6–8× the median, even at QD 32.
+  - These are reads that land on a drive busy with RMW traffic.
+  - Pushing the mix deeper only inflates the write side (p50 10 ms at QD 512), with no throughput gain (166K → 169K IOPS).
+
+## F6–F8 (not complete)
+Planned content:
 - **F6:** LBA range from 16 MiB to 224 GiB.
 - **F7:** device state. About 40 min of sustained 4 KiB random writes over 224 GiB (≈ 0.5 TB written by the host, about 1 TB on the drives), with QD1 probes before, right after, and after 10 min idle. Also RAID5 amplification.
-- **F8:** pitfalls:
+- **F8:** pitfalls (re-run needed):
   - the page cache
   - buffered writes
   - effective vs requested QD
