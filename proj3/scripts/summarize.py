@@ -34,6 +34,11 @@ def reparse(df, exp, run):
     new = pd.DataFrame(rows, index=df.index)
     for c in new:
         df[c] = new[c]
+    if "mem_in_queue_ms" in df and "wall_s" in df:
+        # from fio's own member list, not C.MEMBERS at run time: runs from
+        # 2026-10-29 sampled a stale device name (3 of 4 members + another drive)
+        df["dev_qd"] = df.mem_in_queue_ms / (df.wall_s * 1e3)
+        df["dev_busy"] = df.mem_util_mean / 100
     return df
 
 

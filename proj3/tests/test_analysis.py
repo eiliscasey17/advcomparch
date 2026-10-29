@@ -111,7 +111,9 @@ def test_raid_geometry_matches_sysfs():
     assert (md / "level").read_text().strip() == "raid5"
     assert int((md / "raid_disks").read_text()) == C.RAID_DATA_DISKS + 1
     slaves = sorted(p.name.removesuffix("p1") for p in Path(f"/sys/block/{C.MD}/slaves").iterdir())
-    assert slaves == sorted(C.MEMBERS)
+    assert slaves == sorted(C.MEMBERS) and len(C.MEMBERS) == C.RAID_DATA_DISKS + 1
+    for m in C.MEMBERS:  # the 6.4 TB Microns, not whatever drive got their old name
+        assert int(Path(f"/sys/block/{m}/size").read_text()) * 512 > 6e12
 
 
 # -------------------------------------------------------- command builder --
@@ -173,7 +175,9 @@ def test_device_qd_measures_drive_side(tfile):
     requests wait to be reaped, so the drives see fewer (an F4 finding)."""
     names = C.MEMBERS
     seen = []
-    for qd, lo, hi in ((1, 0.3, 1.05), (32, 4, 40)):
+    # QD1 upper bound 1.2, not 1.0: the 2 s normalization ignores fio start-up
+    # and any other users' I/O on /data lands in the same counters
+    for qd, lo, hi in ((1, 0.3, 1.2), (32, 4, 40)):
         a = C.diskstats(names)
         import time
         t0 = time.time()
@@ -185,6 +189,22 @@ def test_device_qd_measures_drive_side(tfile):
         seen.append(dev_qd * wall / 2.0)  # normalized to the 2 s of I/O
         assert lo <= seen[-1] <= hi
     assert seen[1] > 5 * seen[0]
+
+
+def test_device_qd_from_fio_json_matches_diskstats(tfile):
+    """dev_qd is re-derived from the member drives fio lists in its own JSON
+    (robust to device renames); it must agree with /proc/diskstats on C.MEMBERS."""
+    import time
+    a, t0 = C.diskstats(C.MEMBERS), time.time()
+    d = fio("--name=dj", f"--filename={tfile}", "--size=256m", "--rw=randread", "--bs=4k",
+            "--direct=1", "--ioengine=libaio", "--iodepth=16", "--time_based", "--runtime=2",
+            json_out=True)
+    wall, b = time.time() - t0, C.diskstats(C.MEMBERS)
+    listed = sorted(u["name"] for u in d["disk_util"] if u["name"] != C.MD)
+    assert listed == sorted(C.MEMBERS)
+    r = C.parse_fio(d)
+    via_diskstats = sum(b[m][5] - a[m][5] for m in C.MEMBERS) / (wall * 1e3)
+    assert r["mem_in_queue_ms"] / (wall * 1e3) == pytest.approx(via_diskstats, rel=0.1)
 
 
 def test_psync_ignores_iodepth(tfile):

@@ -7,6 +7,7 @@ are carried over from proj2.
 """
 import json
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -26,7 +27,18 @@ DATAFILE = SCRATCH / "data.dat"          # prefilled, incompressible, fully writ
 DATA_SIZE = 224 * GiB                    # budget agreed with the user: <= 256 GiB in total
 MAIN_REGION = 64 * GiB                   # region used unless an experiment sweeps it
 MD = "md124"                             # /data
-MEMBERS = ["nvme1n1", "nvme3n1", "nvme4n1", "nvme5n1"]  # Micron MTFDKCC6T4TGQ, 6.4 TB
+
+
+def md_members(md=MD):
+    """Member drives of the array, read from sysfs: NVMe names are not stable
+    across reboots (after the 2026-10-22 restart nvme1n1 became nvme2n1)."""
+    p = Path(f"/sys/block/{md}/slaves")
+    if not p.exists():
+        return ["nvme2n1", "nvme3n1", "nvme4n1", "nvme5n1"]
+    return sorted(re.sub(r"p\d+$", "", s.name) for s in p.iterdir())
+
+
+MEMBERS = md_members()                   # 4 x Micron MTFDKCC6T4TGQ, 6.4 TB
 RAID_CHUNK = 512 * KiB
 RAID_DATA_DISKS = 3                      # RAID5 over 4: one chunk of parity per stripe
 FULL_STRIPE = RAID_CHUNK * RAID_DATA_DISKS  # 1.5 MiB
@@ -83,9 +95,15 @@ def parse_fio(doc):
     out["lat_mean_us"] = ((r["lat_ns"]["mean"] * r["total_ios"] + w["lat_ns"]["mean"] *
                            w["total_ios"]) / ios / 1e3) if ios else np.nan
     # device-level view fio itself recorded (md + member drives), same window
+    mem_util = []
     for du in doc.get("disk_util", []):
         name = du["name"]
-        if name == MD:
+        if name != MD:
+            # md's members, as fio itself found them: in_queue is diskstats'
+            # weighted ms, so sum / wall ms = requests in flight at the drives
+            out["mem_in_queue_ms"] = out.get("mem_in_queue_ms", 0) + du["in_queue"]
+            mem_util.append(du["util"])
+        else:
             out["md_read_ios"], out["md_write_ios"] = du["read_ios"], du["write_ios"]
             out["md_read_sectors"], out["md_write_sectors"] = du["read_sectors"], du["write_sectors"]
             out["md_util"] = du["util"]
@@ -94,6 +112,8 @@ def parse_fio(doc):
             out["mem_read_sectors"] = du.get("aggr_read_sectors", np.nan) * len(MEMBERS)
             out["mem_write_sectors"] = du.get("aggr_write_sectors", np.nan) * len(MEMBERS)
             out["mem_util"] = du.get("aggr_util", np.nan)
+    if mem_util:
+        out["mem_util_mean"] = float(np.mean(mem_util))
     return out
 
 

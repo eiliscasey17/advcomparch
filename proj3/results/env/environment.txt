@@ -1,10 +1,10 @@
-# captured 2026-10-22T13:07:16-04:00 on epic2.ecse.rpi.edu  git 02a9e98
+# captured 2026-10-29T11:12:24-04:00 on epic2.ecse.rpi.edu  git 41ee064
 ## tools
 fio-3.43
 libaio engine: 1
 io_uring_disabled=2 (2 = io_uring unavailable to everyone)
 ## kernel
-5.14.0-687.57.1.el9_8.x86_64
+5.14.0-687.61.1.el9_8.x86_64
 ## /data
 /dev/md124     xfs    18T   13T  4.7T  74% /data
 meta-data=/dev/md124             isize=512    agcount=32, agsize=146206720 blks
@@ -12,12 +12,12 @@ meta-data=/dev/md124             isize=512    agcount=32, agsize=146206720 blks
          =                       crc=1        finobt=1, sparse=1, rmapbt=0
          =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
 ## md124
-md124 : active raid5 nvme4n1p1[4] nvme5n1p1[2] nvme1n1p1[1] nvme3n1p1[0]
+md124 : active raid5 nvme2n1p1[1] nvme4n1p1[4] nvme5n1p1[2] nvme3n1p1[0]
       18714461184 blocks super 1.2 level 5, 512k chunk, algorithm 2 [4/4] [UUUU]
-      bitmap: 9/47 pages [36KB], 65536KB chunk
+      bitmap: 5/47 pages [20KB], 65536KB chunk
 chunk=524288 level=raid5 raid_disks=4 stripe_cache_size=256 group_thread_cnt=0
 ## member drives
-nvme1n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
+nvme1n1 model=Micron_7450_MTFDKBA800TFS fw=E2MU200 size=800GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
 nvme3n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
 nvme4n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
 nvme5n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-deadline kyber bfq  nr_requests=1023 numa=0 hw_queues=65 sqsize=1023
@@ -25,8 +25,8 @@ nvme5n1 model=MTFDKCC6T4TGQ-1BK1DABYY fw=E3MQ000 size=6401GB sched=[none] mq-dea
 
 nvme hwmon sensors visible: 0 (temperature/throttling not observable without root)
 ## memory
-MemTotal:       791763728 kB
-Dirty:               340 kB
+MemTotal:       791763712 kB
+Dirty:                28 kB
 dirty_ratio=40 dirty_background_ratio=10
 ## cpu
 Model name:                              AMD EPYC 9334 32-Core Processor

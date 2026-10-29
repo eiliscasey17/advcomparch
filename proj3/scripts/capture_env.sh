@@ -17,7 +17,8 @@ mkdir -p "$OUT"
   echo "## md124";   grep -A2 '^md124' /proc/mdstat
   echo "chunk=$(cat /sys/block/md124/md/chunk_size) level=$(cat /sys/block/md124/md/level) raid_disks=$(cat /sys/block/md124/md/raid_disks) stripe_cache_size=$(cat /sys/block/md124/md/stripe_cache_size) group_thread_cnt=$(cat /sys/block/md124/md/group_thread_cnt)"
   echo "## member drives"
-  for d in nvme1n1 nvme3n1 nvme4n1 nvme5n1; do
+  # from sysfs: NVMe names change across reboots (nvme1n1 became nvme2n1 on 2026-10-22)
+  for d in $(ls /sys/block/md124/slaves | sed 's/p[0-9]*$//'); do
     c=${d%n1}
     echo "$d model=$(cat /sys/block/$d/device/model | xargs) fw=$(cat /sys/block/$d/device/firmware_rev | xargs) size=$(( $(cat /sys/block/$d/size) * 512 / 1000000000 ))GB sched=$(cat /sys/block/$d/queue/scheduler) nr_requests=$(cat /sys/block/$d/queue/nr_requests) numa=$(cat /sys/class/nvme/$c/numa_node) hw_queues=$(cat /sys/class/nvme/$c/queue_count) sqsize=$(cat /sys/class/nvme/$c/sqsize)"
   done
