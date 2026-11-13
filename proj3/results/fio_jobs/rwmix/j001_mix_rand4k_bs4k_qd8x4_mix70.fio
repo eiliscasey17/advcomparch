@@ -1,0 +1,25 @@
+; reconstructed from results/raw_runs/rwmix/20261022-135117/j001_r0.json.gz (fio-3.43 'job options')
+; run as: fio --output-format=json <this file>
+[mix_rand4k]
+filename=/data/home/caseye2/fio_proj3/data.dat
+rw=randrw
+bs=4k
+iodepth=8
+numjobs=4
+group_reporting=1
+direct=1
+ioengine=libaio
+time_based=1
+runtime=20
+ramp_time=5
+percentile_list=50:90:95:99:99.9:99.99
+norandommap=1
+randrepeat=0
+random_generator=tausworthe64
+allow_file_create=0
+invalidate=1
+buffer_compress_percentage=0
+size=68719476736
+rwmixread=70
+cpus_allowed=1,8,16,24
+cpus_allowed_policy=split

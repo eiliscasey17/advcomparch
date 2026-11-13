@@ -16,6 +16,26 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 RAW, SUMMARY, PLOTS, ENV = (RESULTS / d for d in ("raw", "summary", "plots", "env"))
+# Raw results behind the committed figures (per-job CSV rows, every fio JSON,
+# the iops logs), gzipped and tracked in git; the full local raw/ tree (with
+# quick and interrupted runs) is gitignored.
+RAW_COMMITTED = RESULTS / "raw_runs"
+FIO_JOBS = RESULTS / "fio_jobs"          # job files reconstructed from those JSONs
+
+# Experiment IDs, in the order of the assignment's required list. The old
+# numeric IDs (F0..F8) are still accepted as aliases everywhere.
+EXPERIMENT_IDS = ["calib", "qd1", "blocksize", "rwmix", "qdsweep", "tail", "lba", "state",
+                  "pitfall"]
+LEGACY_IDS = {f"F{i}": e for i, e in enumerate(EXPERIMENT_IDS)}
+
+
+def exp_id(name):
+    """Canonical experiment ID for a new-style name or a legacy F<n> alias."""
+    name = name.strip()
+    e = LEGACY_IDS.get(name.upper(), name.lower())
+    if e not in EXPERIMENT_IDS:
+        raise ValueError(f"unknown experiment {name!r}; known: {', '.join(EXPERIMENT_IDS)}")
+    return e
 FIO = Path(os.environ.get("FIO", Path.home() / "miniconda3/envs/advcomparch/bin/fio"))
 
 KiB, MiB, GiB = 1 << 10, 1 << 20, 1 << 30
@@ -191,25 +211,71 @@ def diskstats_delta(a, b):
 
 
 # ------------------------------------------------------------- raw data ----
+def _run_dirs(exp):
+    """Local raw dir first (full data, gitignored), then the committed copy."""
+    return [RAW / exp, RAW_COMMITTED / exp]
+
+
+def raw_file(exp, run, name):
+    """Path of one raw file of a run (e.g. 'j003_r1.json'): the local copy if
+    present, else the gzipped committed one. Raises if neither exists."""
+    exp = exp_id(exp)
+    for d in _run_dirs(exp):
+        for p in (d / run / name, d / run / f"{name}.gz"):
+            if p.exists():
+                return p
+    raise FileNotFoundError(f"{exp}/{run}/{name}")
+
+
+def raw_glob(exp, run, pattern):
+    """Raw files of a run matching a glob (local copy preferred), sorted by
+    their uncompressed name."""
+    exp = exp_id(exp)
+    for d in _run_dirs(exp):
+        hits = sorted((d / run).glob(pattern)) or sorted((d / run).glob(pattern + ".gz"))
+        if hits:
+            return hits
+    return []
+
+
+def read_text(p):
+    import gzip
+    p = Path(p)
+    return gzip.open(p, "rt").read() if p.suffix == ".gz" else p.read_text()
+
+
 def load_raw(exp, run=None):
-    """Concatenate raw CSVs of one experiment run (latest completed full run
-    if run is None)."""
-    d = RAW / exp
-    files = sorted(d.glob("*.csv"))
-    if not files:
-        raise FileNotFoundError(f"no raw data for {exp} in {d}")
-    runs = sorted({f.name.split("__")[0] for f in files
-                   if (d / (f.name.split("__")[0] + ".meta.json")).exists()})
-    if not runs:
-        raise FileNotFoundError(f"no completed run for {exp} in {d}")
-    full = [r for r in runs if not r.endswith("-quick")]
-    run = run or (full or runs)[-1]
-    parts = [pd.read_csv(f) for f in files if f.name.startswith(run + "__")]
-    return pd.concat(parts, ignore_index=True), run
+    """Concatenate the per-job CSV rows of one experiment run.
+
+    Run choice: `run` if given, else the ID pinned in results/runs.json (the
+    run behind the committed figures), else the latest completed full run.
+    Files come from the local raw/ tree if present, otherwise from the
+    gzipped copies committed under results/raw_runs/. Only completed runs
+    (those with a .meta.json, written last) are ever picked up."""
+    exp = exp_id(exp)
+    found = {}  # run id -> {round: file}
+    for d, pattern in ((RAW_COMMITTED / exp, "*__r*.csv.gz"), (RAW / exp, "*__r*.csv")):
+        for f in sorted(d.glob(pattern)):
+            r = f.name.split("__")[0]
+            if (d / f"{r}.meta.json").exists():
+                found.setdefault(r, {})[f.name.split("__")[1].split(".")[0]] = f  # local wins
+    if not found:
+        raise FileNotFoundError(f"no completed raw run for {exp} in {RAW / exp} or {RAW_COMMITTED / exp}")
+    pins = RESULTS / "runs.json"
+    if run is None and pins.exists():
+        run = json.loads(pins.read_text()).get(exp)
+    if run is None:
+        full = sorted(r for r in found if not r.endswith("-quick"))
+        run = (full or sorted(found))[-1]
+    if run not in found:
+        raise FileNotFoundError(f"run {run} of {exp} not found")
+    df = pd.concat([pd.read_csv(found[run][k]) for k in sorted(found[run])], ignore_index=True)
+    df["exp"] = exp  # rows recorded before the rename carry the old F<n> label
+    return df, run
 
 
 def load_json(exp, run, job, rnd):
-    return json.loads((RAW / exp / run / f"j{job:03d}_r{rnd}.json").read_text())
+    return json.loads(read_text(raw_file(exp, run, f"j{job:03d}_r{rnd}.json")))
 
 
 def bootstrap_median_ci(x, n_boot=2000, alpha=0.05, rng=None):

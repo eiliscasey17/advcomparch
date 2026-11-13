@@ -4,7 +4,7 @@
   data.dat       224 GiB  every byte written once, sequentially, in full
                           RAID5 stripes (1.5 MiB) with --refill_buffers ->
                           no unwritten extents, no holes, incompressible data
-  pagecache.dat    8 GiB  same, for the page-cache pitfall (F8)
+  pagecache.dat    8 GiB  same, for the page-cache pitfall (pitfall experiment)
 
   python scripts/prep.py            create what is missing, then verify
   python scripts/prep.py --verify   verify only

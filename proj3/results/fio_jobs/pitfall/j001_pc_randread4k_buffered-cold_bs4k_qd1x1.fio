@@ -1,0 +1,24 @@
+; reconstructed from results/raw_runs/pitfall/20261029-113511/j001_r0.json.gz (fio-3.43 'job options')
+; run as: fio --output-format=json <this file>
+[pc_randread4k_buffered-cold]
+filename=/data/home/caseye2/fio_proj3/pagecache.dat
+rw=randread
+bs=4k
+iodepth=1
+numjobs=1
+group_reporting=1
+direct=0
+ioengine=psync
+time_based=1
+runtime=20
+ramp_time=0
+percentile_list=50:90:95:99:99.9:99.99
+norandommap=1
+randrepeat=0
+random_generator=tausworthe64
+allow_file_create=0
+invalidate=1
+buffer_compress_percentage=0
+size=8589934592
+cpus_allowed=1
+cpus_allowed_policy=split

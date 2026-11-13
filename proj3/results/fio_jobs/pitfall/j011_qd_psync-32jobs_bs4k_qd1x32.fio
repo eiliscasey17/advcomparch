@@ -1,0 +1,24 @@
+; reconstructed from results/raw_runs/pitfall/20261029-113511/j011_r0.json.gz (fio-3.43 'job options')
+; run as: fio --output-format=json <this file>
+[qd_psync-32jobs]
+filename=/data/home/caseye2/fio_proj3/data.dat
+rw=randread
+bs=4k
+iodepth=1
+numjobs=32
+group_reporting=1
+direct=1
+ioengine=psync
+time_based=1
+runtime=20
+ramp_time=5
+percentile_list=50:90:95:99:99.9:99.99
+norandommap=1
+randrepeat=0
+random_generator=tausworthe64
+allow_file_create=0
+invalidate=1
+buffer_compress_percentage=0
+size=68719476736
+cpus_allowed=1,8,16,24,2,9,17,25,3,10,18,26,4,11,19,27,5,12,20,28,6,13,21,29,7,14,22,30,15,23,31
+cpus_allowed_policy=split

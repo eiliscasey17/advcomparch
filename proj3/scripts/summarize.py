@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Raw per-job rows -> one summary row per configuration.
 
-  python scripts/summarize.py F4|all [--run RUN_ID]
+  python scripts/summarize.py qdsweep|all [--run RUN_ID]    (old IDs like F4 also work)
 
-Writes results/summary/<EXP>.csv: medians over rounds of every metric,
-bootstrap 95% CIs for the primary ones (`<m>_lo/_hi`), Little's-Law depth
-(IOPS x mean latency) and RAID member I/O per host I/O.
+Writes results/summary/<EXP>.csv: medians over rounds of every metric;
+bootstrap 95% CIs for the primary ones (`<m>_lo/_hi`); the min and max over
+rounds (`<m>_min/_max`, the error bars in the figures: with 2-3 rounds per
+configuration a range is more honest than a CI) for every throughput,
+latency, percentile, Little's-Law, device-queue and amplification metric;
+Little's-Law depth (IOPS x mean latency) and RAID member I/O per host I/O.
 """
 import argparse
-import json
+import re
 import sys
 from pathlib import Path
 
@@ -21,6 +24,8 @@ import common as C  # noqa: E402
 KEYS = ["exp", "tag", "rw", "bs", "bs_bytes", "qd", "jobs", "qd_total", "region", "mix", "direct",
         "engine", "extra", "pattern", "phase", "segment", "file"]
 PRIMARY = ["iops", "bw_MBps", "lat_mean_us", "r_p99_us", "w_p99_us"]
+RANGED = ["iops", "bw_MBps", "lat_mean_us", "little_qd", "dev_qd", "md_vs_fio_bytes", "md_MBps",
+          "mem_read_bytes_per_host_byte", "mem_write_bytes_per_host_byte", "usr_cpu"]
 SKIP = {"round", "job", "attempts", "runtime", "ramp", "runtime_eff", "ramp_eff"}
 
 
@@ -29,8 +34,10 @@ def reparse(df, exp, run):
     source of truth), so parser improvements apply to finished runs too."""
     rows = []
     for _, r in df.iterrows():
-        p = C.RAW / exp / run / f"j{int(r.job):03d}_r{int(r['round'])}.json"
-        rows.append(C.parse_fio(json.loads(p.read_text())) if p.exists() else {})
+        try:
+            rows.append(C.parse_fio(C.load_json(exp, run, int(r.job), int(r["round"]))))
+        except FileNotFoundError:
+            rows.append({})
     new = pd.DataFrame(rows, index=df.index)
     for c in new:
         df[c] = new[c]
@@ -59,7 +66,12 @@ def add_metrics(df):
     # O_DIRECT, ~0 when the page cache or unwritten extents answer instead
     fio_total = df.io_bytes * (df.runtime_eff + df.ramp_eff) / df.runtime_eff
     df["md_vs_fio_bytes"] = df.md_bytes_wall / fio_total.where(df.io_bytes > 0)
+    df["md_MBps"] = df.md_bytes_wall / df.wall_s / 1e6  # bytes that reached /data, per second
     return df
+
+
+def ranged(c):
+    return c in RANGED or re.fullmatch(r"[rw]_(iops|bw_MBps|lat_mean_us|p[\d.]+_us)", c)
 
 
 def summarize(raw):
@@ -79,6 +91,9 @@ def summarize(raw):
             if c in g and g[c].notna().any():
                 med, lo, hi = C.bootstrap_median_ci(g[c].values)
                 row[c], row[f"{c}_lo"], row[f"{c}_hi"] = med, lo, hi
+        for c in num:
+            if ranged(c) and g[c].notna().any():
+                row[f"{c}_min"], row[f"{c}_max"] = float(g[c].min()), float(g[c].max())
         row["samples"] = len(g)
         row["others_MBps_max"] = float(g.others_MBps.max())
         rows.append(row)
@@ -108,8 +123,9 @@ def main():
     ap.add_argument("exp", nargs="+")
     ap.add_argument("--run")
     a = ap.parse_args()
-    exps = sorted(p.name for p in C.RAW.iterdir() if p.is_dir()) if a.exp == ["all"] else \
-        [e.upper() for e in a.exp]
+    have = {p.name for d in (C.RAW, C.RAW_COMMITTED) if d.exists() for p in d.iterdir() if p.is_dir()}
+    exps = [e for e in C.EXPERIMENT_IDS if e in have] if a.exp == ["all"] else \
+        [C.exp_id(e) for e in a.exp]
     C.SUMMARY.mkdir(parents=True, exist_ok=True)
     for e in exps:
         try:

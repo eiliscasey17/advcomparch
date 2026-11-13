@@ -19,8 +19,10 @@ mkdir -p "$OUT"
   echo "## member drives"
   # from sysfs: NVMe names change across reboots (nvme1n1 became nvme2n1 on 2026-10-22)
   for d in $(ls /sys/block/md124/slaves | sed 's/p[0-9]*$//'); do
-    c=${d%n1}
-    echo "$d model=$(cat /sys/block/$d/device/model | xargs) fw=$(cat /sys/block/$d/device/firmware_rev | xargs) size=$(( $(cat /sys/block/$d/size) * 512 / 1000000000 ))GB sched=$(cat /sys/block/$d/queue/scheduler) nr_requests=$(cat /sys/block/$d/queue/nr_requests) numa=$(cat /sys/class/nvme/$c/numa_node) hw_queues=$(cat /sys/class/nvme/$c/queue_count) sqsize=$(cat /sys/class/nvme/$c/sqsize)"
+    # controller of this namespace, from sysfs (namespace and controller numbers need not match)
+    c=$(basename "$(readlink -f /sys/block/$d/device)")
+    pci=/sys/class/nvme/$c/device
+    echo "$d ctrl=$c model=$(cat /sys/block/$d/device/model | xargs) fw=$(cat /sys/block/$d/device/firmware_rev | xargs) size=$(( $(cat /sys/block/$d/size) * 512 / 1000000000 ))GB sched=$(cat /sys/block/$d/queue/scheduler) nr_requests=$(cat /sys/block/$d/queue/nr_requests) numa=$(cat /sys/class/nvme/$c/numa_node) hw_queues=$(cat /sys/class/nvme/$c/queue_count) sqsize=$(cat /sys/class/nvme/$c/sqsize) pcie=$(cat $pci/current_link_speed | tr -d ' ')x$(cat $pci/current_link_width) (max $(cat $pci/max_link_speed | tr -d ' ')x$(cat $pci/max_link_width))"
   done
   echo "## health / temperature"
   smartctl -a /dev/nvme1 2>&1 | head -3 | tail -1 || true

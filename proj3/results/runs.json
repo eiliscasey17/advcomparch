@@ -1,0 +1,12 @@
+{
+  "_comment": "Run IDs behind the committed summaries/figures (see EXPERIMENTS.md). load_raw() uses these unless a run is passed explicitly; delete an entry to fall back to the latest completed run.",
+  "calib": "20261022-130718",
+  "qd1": "20261022-131122",
+  "blocksize": "20261022-131904",
+  "rwmix": "20261022-135117",
+  "qdsweep": "20261022-140240",
+  "tail": "20261022-145446",
+  "lba": "20261029-111226",
+  "state": "20261029-115805",
+  "pitfall": "20261029-113511"
+}

@@ -3,7 +3,9 @@
 This is the single place to find what was run, how, and what it showed.
 - **Figures:** `results/plots/`, one graph per JPG.
 - **Numbers behind every figure:** `results/summary/<ID>.csv`. Rows hold medians over rounds, bootstrap 95% CIs (`*_lo`, `*_hi`) and `others_MBps_max` (foreign traffic seen). `results/summary/<ID>_hist.csv` holds the pooled json+ latency histograms.
-- **Raw fio JSON:** `results/raw/` (gitignored). Regenerate it with the commands below.
+- **Raw results behind every figure:** committed, gzipped, in `results/raw_runs/<experiment>/`. That's every fio JSON, the IOPS logs and the per-job CSV rows, with the runs pinned in `results/runs.json`. The full local `results/raw/` tree (quick and interrupted runs too) is gitignored.
+- **fio job files:** `results/fio_jobs/<experiment>/*.fio`, rebuilt from the options in each job's own JSON.
+- **Experiment IDs** were renamed from `F0`–`F8` to descriptive names. The old IDs still work as aliases in every script.
 
 **System under test:**
 - `/data`: XFS on mdadm RAID5 over 4 × Micron 6.4 TB NVMe, with a 512 KiB chunk (1.5 MiB full stripe).
@@ -13,8 +15,8 @@ This is the single place to find what was run, how, and what it showed.
 See the [README](README.md#system-under-test-no-root).
 
 **Status (2026-10-29): complete.**
-- **All experiments F0–F8 are done**, with summaries in `results/summary/` and 33 figures in `results/plots/`.
-- **History:** the first full run stopped on 2026-10-22 during F6 (the machine was restarted). F6, F8 and F7 were re-run from scratch on 2026-10-29 with `./scripts/run_all.sh F6 F8 F7`; the partial F6 run (20261022-151518) is ignored.
+- **All nine experiments are done**, with summaries in `results/summary/` and 33 figures in `results/plots/`.
+- **History:** the first full run stopped on 2026-10-22 during lba (the machine was restarted). lba, pitfall and state were re-run from scratch on 2026-10-29 with `./scripts/run_all.sh lba pitfall state`; the partial lba run (20261022-151518) is ignored.
 - **Verification:** 23 pytest tests pass, covering the formulas and fio method checks. `results/env/datafiles.txt` confirms the test files are fully allocated, have no unwritten extents and are incompressible.
 
 ## Common method
@@ -22,10 +24,10 @@ See the [README](README.md#system-under-test-no-root).
   - `--norandommap --randrepeat=0`; random offsets are aligned to the block size (verified).
   - `--group_reporting` with full JSON. The tail experiments use `json+`, which keeps the full latency histogram.
 - **Fixed QD for the sweeps.** QD 32 = 4 jobs × iodepth 8. Sequential multi-job runs use disjoint per-job regions (`offset_increment`, verified).
-- **Region.** The first 64 GiB of `data.dat`, unless the experiment sweeps it (F6 goes up to 224 GiB).
+- **Region.** The first 64 GiB of `data.dat`, unless the experiment sweeps it (lba goes up to 224 GiB).
 - **Placement.** One CPU per job on NUMA node 0, where the NVMe controllers sit.
 - **Data.** Writes are incompressible: `--buffer_compress_percentage=0`, zlib ratio 1.00. fio reuses its buffers, so the data is dedupable; neither md nor the drives deduplicate.
-- **Order and repetition.** Job order is shuffled in each round (F7 and F8 are ordered because state matters). Results are medians over 2–3 rounds.
+- **Order and repetition.** Job order is shuffled in each round (state and pitfall are ordered because state matters). Results are medians over 2–3 rounds.
 - **Gate.**
   - Before each job: /data must carry ≤ 300 IOPS and ≤ 30 MB/s of other traffic.
   - During each job: foreign traffic = md124 bytes minus fio's own block I/O (per-process accounting). A job that saw more than 30 MB/s of it is re-measured.
@@ -36,15 +38,15 @@ See the [README](README.md#system-under-test-no-root).
 
 | ID | run_id | rounds | jobs | wall time | re-measured / still disturbed |
 |---|---|---|---|---|---|
-| F0 | see `results/summary/F0.csv` (`run`) | 3 | 3 | 1.5 min | 0 / 0 |
-| F1 | 〃 | 3 | 4 | 8 min | 0 / 0 |
-| F2 | 〃 | 2 | 34 | 32 min | 0 / 0 |
-| F3 | 20261022-135117 | 3 | 8 | 11 min | 0 / 0 |
-| F4 | 20261022-140240 | 2 | 55 | 52 min | 0 / 0 |
-| F5 | 20261022-145446 | 2 | 9 | 21 min | 0 / 0 |
-| F6 | 20261029-111226 | 2 | 24 | 23 min | 0 / 0 |
-| F7 | 20261029-115805 | 1 (ordered) | 49 | 57 min | 0 / 0 |
-| F8 | 20261029-113511 | 2 (ordered) | 26 | 23 min | 2 / 0 (writeback of F8's own buffered-write job) |
+| calib | see `results/summary/calib.csv` (`run`) | 3 | 3 | 1.5 min | 0 / 0 |
+| qd1 | 〃 | 3 | 4 | 8 min | 0 / 0 |
+| blocksize | 〃 | 2 | 34 | 32 min | 0 / 0 |
+| rwmix | 20261022-135117 | 3 | 8 | 11 min | 0 / 0 |
+| qdsweep | 20261022-140240 | 2 | 55 | 52 min | 0 / 0 |
+| tail | 20261022-145446 | 2 | 9 | 21 min | 0 / 0 |
+| lba | 20261029-111226 | 2 | 24 | 23 min | 0 / 0 |
+| state | 20261029-115805 | 1 (ordered) | 49 | 57 min | 0 / 0 |
+| pitfall | 20261029-113511 | 2 (ordered) | 26 | 23 min | 2 / 0 (writeback of pitfall's own buffered-write job) |
 
 Commands:
 ```
@@ -57,11 +59,11 @@ python scripts/plot.py <ID>
 
 ---
 
-## F0: Calibration
+## calib: Calibration
 - **fio's own cost** (null engine, no I/O): 0.03 µs per I/O at QD1 (8.4M IOPS) and 0.13 µs at QD32. That is negligible against the 69 µs of a real 4 KiB read, so latencies measure the storage stack, not fio.
 - **Sanity:** a 4 KiB random read at QD1 takes 69.0 µs mean, p99 73 µs.
 
-## F1: Zero-queue (QD=1) baselines
+## qd1: Zero-queue (QD=1) baselines
 **Question:** what does one request cost when nothing else is queued?
 
 **Results** (3 × 30 s, medians; completion-latency percentiles in µs):
@@ -81,9 +83,9 @@ IOPS × mean latency = 1.00 for all four, so exactly one request was in flight.
 - **128 KiB sequential reads** are bimodal. The p50 of 45 µs is below the 4 KiB random read, because the drive's internal read-ahead within a 512 KiB chunk serves the next request. The p99 of 301 µs comes from requests that cross a chunk or drive boundary.
 - **128 KiB sequential writes** are partial stripes (128 KiB of a 1.5 MiB stripe), so md still reads 0.67 bytes per byte written. The latency is bimodal: p50 140 µs, p99 619 µs, which is when the stripe cache must read before it can write.
 
-**Figures:** `f1_qd1_latency_table.jpg`, `f1_qd1_latency_percentiles.jpg`, `f1_qd1_latency_ccdf.jpg`.
+**Figures:** `qd1_latency_table.jpg`, `qd1_latency_percentiles.jpg`, `qd1_latency_ccdf.jpg`.
 
-## F2: Block-size sweep (QD 32)
+## blocksize: Block-size sweep (QD 32)
 **Question:** how do throughput and latency, taken from the same runs, change with block size?
 
 **Results:**
@@ -104,9 +106,9 @@ IOPS × mean latency = 1.00 for all four, so exactly one request was in flight.
   - Even then, parity is computed by a single kernel thread (`group_thread_cnt=0`), which caps write bandwidth far below the drives' combined capability.
   - The full-stripe 1.5 MiB size is no faster than 1 MiB at QD 32, because both are already mostly full-stripe after merging.
 
-**Figures:** `f2_bs_throughput_{random,sequential}.jpg`, `f2_bs_latency_{random,sequential}.jpg`.
+**Figures:** `blocksize_throughput_{random,sequential}.jpg`, `blocksize_latency_{random,sequential}.jpg`.
 
-## F3: Read/write mix (QD 32)
+## rwmix: Read/write mix (QD 32)
 **Results:**
 
 | mix | 4 KiB random: total IOPS (read / write) | read mean / p99 | write mean / p99 | 128 KiB sequential: total GB/s |
@@ -121,9 +123,9 @@ IOPS × mean latency = 1.00 for all four, so exactly one request was in flight.
 - **Read latency.** The mean read latency stays at about 77 µs; reads are not blocked behind writes on average. The read p99, though, rises from 91 to about 155 µs, because some reads collide with RMW reads and writes on the same drive.
 - **Sequential 128 KiB** shows the same effect, but stronger, because each sequential write costs a large partial-stripe RMW.
 
-**Figures:** `f3_mix_throughput_{rand4k,seq128k}.jpg`, `f3_mix_latency_{rand4k,seq128k}.jpg`.
+**Figures:** `rwmix_throughput_{rand4k,seq128k}.jpg`, `rwmix_latency_{rand4k,seq128k}.jpg`.
 
-## F4: Queue-depth / parallelism sweep
+## qdsweep: Queue-depth / parallelism sweep
 **Question:** how do throughput and latency trade off as concurrency grows, where is the knee, and does Little's Law hold?
 
 **Results, 4 KiB random read:**
@@ -168,10 +170,10 @@ IOPS × mean latency = 1.00 for all four, so exactly one request was in flight.
   - Beyond the knee, throughput even drops slightly while latency explodes.
 - **Device-side queue depth (`dev_qd`) is reliable for reads only.** For writes, md's member-request accounting yields meaningless values, so it is not used.
 
-**Figures:** `f4_qd_curve_{randread4k,randwrite4k,seq128k}.jpg`, `f4_qd_iodepth_vs_jobs.jpg`, `f4_little_check.jpg`.
+**Figures:** `qdsweep_curve_{randread4k,randwrite4k,seq128k}.jpg`, `qdsweep_iodepth_vs_jobs.jpg`, `qdsweep_little_check.jpg`.
 
-## F5: Tail latency at mid-QD, knee and past-knee
-QDs: the knee is taken from F4 (smallest total QD reaching 90% of the 8-job peak) = 128; mid = 32; past = 512. Each run uses 4 jobs, 2 × 60 s, with json+ histograms.
+## tail: Tail latency at mid-QD, knee and past-knee
+QDs: the knee is taken from qdsweep (smallest total QD reaching 90% of the 8-job peak) = 128; mid = 32; past = 512. Each run uses 4 jobs, 2 × 60 s, with json+ histograms.
 
 | workload | QD | K IOPS | p50 | p99 | p99.9 | p99.99 (µs) |
 |---|---|---|---|---|---|---|
@@ -199,9 +201,9 @@ QDs: the knee is taken from F4 (smallest total QD reaching 90% of the 8-job peak
   - These are reads that land on a drive busy with RMW traffic.
   - Pushing the mix deeper only inflates the write side (p50 10 ms at QD 512), with no throughput gain (166K → 169K IOPS).
 
-**Figures:** `f5_tail_ccdf_{randread4k,randwrite4k,randrw70-4k}.jpg`, `f5_tail_percentiles.jpg`.
+**Figures:** `tail_ccdf_{randread4k,randwrite4k,randrw70-4k}.jpg`, `tail_percentiles.jpg`.
 
-## F6: LBA range (working set)
+## lba: LBA range (working set)
 **Question:** does the span of addresses touched matter? Candidates: the drives' FTL mapping cache, and md's stripe cache.
 
 Run 20261029-111226: 2 rounds, 24 jobs. Random offsets are restricted to the first N bytes of `data.dat`, N = 16 MiB … 224 GiB.
@@ -226,12 +228,12 @@ Run 20261029-111226: 2 rounds, 24 jobs. Random offsets are restricted to the fir
   - At 16 MiB the RAID5 read-modify-write reads disappear (0.00 drive reads per host byte, against the usual 2.0). The old data and parity are found in md's stripe cache, so throughput is 80K IOPS instead of about 60K (+30%), and the mean latency is 397 µs.
   - Hit rates fall as the region grows (1.26 reads at 64 MiB, 1.80 at 256 MiB). From 1 GiB on every write misses: 2 drive reads + 2 drive writes per host write, about 60K IOPS.
   - md grows its stripe cache above the configured `stripe_cache_size` (256) on demand, which is why tens of MiB are still partly cached.
-  - Between 1 GiB and 224 GiB, write throughput varies between 60K and 64K IOPS. That is within the round-to-round spread already seen in F2–F5, not a trend.
+  - Between 1 GiB and 224 GiB, write throughput varies between 60K and 64K IOPS. That is within the round-to-round spread already seen in the blocksize to tail experiments, not a trend.
 - **Consequence for benchmarking:** a small test file overstates RAID5 small-write throughput by about a third. The other experiments use 64 GiB, well past this effect.
 
-**Figures:** `f6_lba_iops_qd32.jpg`, `f6_lba_latency.jpg`.
+**Figures:** `lba_iops_qd32.jpg`, `lba_latency.jpg`.
 
-## F7: Device state (sustained writes, idle recovery) and RAID5 amplification
+## state: Device state (sustained writes, idle recovery) and RAID5 amplification
 **Question:** do the drives slow down once their write cache and spare blocks are used up (the "fresh-out-of-box vs steady state" cliff), do they recover when idle, and what does the RAID5 layer really send to the drives?
 
 Run 20261029-115805: one ordered pass, 57 min.
@@ -261,15 +263,15 @@ Run 20261029-115805: one ordered pass, 57 min.
 - **Reads were unaffected** by 40 min of heavy writes, both during the probes and 10 min later.
 - **QD1 writes were about 10% faster after the sustained phase** (111 → 100 µs), and stayed that way after 10 min idle. One plausible cause is that the 64 GiB probe region had just been rewritten, so the drives' write path or md's stripe cache was warm. This cannot be confirmed without SMART or drive telemetry.
 - **What would be needed to see steady state:** writing the full drive capacity several times over, at the raw device. Without root and on a shared filesystem, that is neither possible nor acceptable. Temperature, SLC-cache occupancy and garbage-collection activity are not observable here (no SMART), so this result is "no state effect visible from the host at this write volume", not "the drives have no state".
-- **RAID5 amplification** (`f7_device_io_amplification.jpg`, from F1–F3 runs):
+- **RAID5 amplification** (`state_device_io_amplification.jpg`, from the qd1, blocksize and rwmix runs):
   - Small random writes cost 2 drive reads + 2 drive writes per host byte.
   - Full-stripe (1.5 MiB) and 1 MiB sequential writes cost 4/3 writes and almost no reads (0.06–0.07).
   - 128 KiB sequential writes land in between (0.67 reads + 1.75–2.0 writes), depending on how much of each stripe md can merge.
-  - This, plus md's single parity thread, is why every write result in F1–F7 is capped near 60K IOPS / 1.5 GB/s while reads reach 2M IOPS / 21 GB/s.
+  - This, plus md's single parity thread, is why every write result from qd1 to state is capped near 60K IOPS / 1.5 GB/s while reads reach 2M IOPS / 21 GB/s.
 
-**Figures:** `f7_sustained_iops.jpg`, `f7_sustained_latency.jpg`, `f7_state_probes.jpg`, `f7_device_io_amplification.jpg`.
+**Figures:** `state_sustained_iops.jpg`, `state_sustained_latency.jpg`, `state_probes.jpg`, `state_device_io_amplification.jpg`.
 
-## F8: Pitfalls (misleading setups)
+## pitfall: Pitfalls (misleading setups)
 Run 20261029-113511: 2 rounds, 26 jobs in a fixed order (state matters). The page-cache jobs use the 8 GiB `pagecache.dat`; the data-pattern and generator jobs use a temporary 8 GiB `pattern.dat`, so zeros never reach `data.dat`.
 
 **(a) Page cache: reads.** 4 KiB random reads at QD1, and 128 KiB sequential reads at QD1:
@@ -288,7 +290,7 @@ Run 20261029-113511: 2 rounds, 26 jobs in a fixed order (state matters). The pag
 - Caveats:
   - The page-cache jobs skip the foreign-traffic re-measure, because buffered I/O does not show up in fio's per-process block accounting. In round 2 they saw up to 84 MB/s of other traffic.
   - The direct 128 KiB row is round 1 only (round 2 was disturbed: 7.1K IOPS).
-  - On this 8 GiB file, a 128 KiB direct read takes 113 µs, against 70 µs on `data.dat` in F1. This was not investigated further.
+  - On this 8 GiB file, a 128 KiB direct read takes 113 µs, against 70 µs on `data.dat` in qd1. This was not investigated further.
 
 **(b) Buffered writes.**
 - 4 KiB random writes at QD1: direct gives 8.3K IOPS at 114 µs; buffered gives **204K IOPS at 4.7 µs** (24×).
@@ -306,7 +308,7 @@ Run 20261029-113511: 2 rounds, 26 jobs in a fixed order (state matters). The pag
 
 - **libaio without O_DIRECT submits synchronously.** Only one I/O at a time reaches the device, so throughput equals QD1. fio still stamps 32 requests as queued, so its reported latency is 32 × 69 µs. Little's Law on fio's own numbers (IOPS × latency = 32) cannot reveal this; the device-side count (about 1 in flight) does.
 - **`psync` ignores iodepth.** It runs at QD1. Parallelism has to come from numjobs.
-- The 1-job direct row (166K IOPS, 10.4 in flight at the drives) is F4's CPU-bound submitter again.
+- The 1-job direct row (166K IOPS, 10.4 in flight at the drives) is qdsweep's CPU-bound submitter again.
 - In-flight ranges are the two rounds. The device-side count includes other users' requests on the same drives, which pushed round 2 of the QD1 rows above 1.
 
 **(d) Never-written (fallocated) extents.**
@@ -335,11 +337,11 @@ Run 20261029-113511: 2 rounds, 26 jobs in a fixed order (state matters). The pag
 - At QD1, refilling halves throughput. IOPS × latency = 0.51 means the device is idle half the time while fio generates data.
 - At QD32 the cost mostly overlaps with I/O, and md's parity thread is the bottleneck anyway.
 
-**Figures:** `f8_pitfall_page_cache_reads.jpg`, `f8_pitfall_buffered_write.jpg`, `f8_pitfall_effective_qd.jpg`, `f8_pitfall_unwritten_reads.jpg`, `f8_pitfall_first_write.jpg`, `f8_data_pattern.jpg`, `f8_pitfall_generator.jpg`.
+**Figures:** `pitfall_page_cache_reads.jpg`, `pitfall_buffered_write.jpg`, `pitfall_effective_qd.jpg`, `pitfall_unwritten_reads.jpg`, `pitfall_first_write.jpg`, `pitfall_data_pattern.jpg`, `pitfall_generator.jpg`.
 
 ## Findings during development (already verified)
-- **NVMe device names changed across the 2026-10-22 restart.** The member that was `nvme1n1` became `nvme2n1`, and `nvme1n1` is now an unrelated 800 GB drive. The F6–F8 runs sampled `/proc/diskstats` with the old hard-coded list (3 of 4 members plus that drive), so their device-side queue depth came out 25% low.
-  - **Fix:** the member list is now read from sysfs, and `summarize.py` re-derives `dev_qd` from the member drives fio lists in its own JSON. On F4 this matches the diskstats value exactly.
+- **NVMe device names changed across the 2026-10-22 restart.** The member that was `nvme1n1` became `nvme2n1`, and `nvme1n1` is now an unrelated 800 GB drive. The lba, state and pitfall runs sampled `/proc/diskstats` with the old hard-coded list (3 of 4 members plus that drive), so their device-side queue depth came out 25% low.
+  - **Fix:** the member list is now read from sysfs, and `summarize.py` re-derives `dev_qd` from the member drives fio lists in its own JSON. On qdsweep this matches the diskstats value exactly.
   - **Not affected:** RAID amplification (drive bytes per host byte), which always came from fio's own member list.
   - New tests check the members are the 6.4 TB drives and that the JSON-based value agrees with diskstats.
 - **fio deletes and recreates an existing file it is asked to extend** (unless `--overwrite=1`). The 224 GiB data file became a sparse file of zeros. The verification in `prep.py` (allocation, zero chunks) caught it; prep now never extends files.

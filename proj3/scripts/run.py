@@ -3,8 +3,8 @@
 rounds, or an ordered sequence for state-dependent experiments), keep every
 fio JSON, write one CSV row per job.
 
-  python scripts/run.py F1            # full
-  python scripts/run.py F1 --quick    # smoke test (short runs, 1 round)
+  python scripts/run.py qd1            # full (old IDs like F1 also work)
+  python scripts/run.py qd1 --quick    # smoke test (short runs, 1 round)
   python scripts/run.py --list
 
 Output: results/raw/<EXP>/<run_id>__r<round>.csv, results/raw/<EXP>/<run_id>/
@@ -53,7 +53,7 @@ PATTERNS = {
     "incompressible": ["--buffer_compress_percentage=0"],
     "compress50": ["--buffer_compress_percentage=50", "--buffer_compress_chunk=4k"],
     "zeros": ["--zero_buffers=1", "--scramble_buffers=0"],
-    # unique + incompressible, but fio regenerates every buffer: ~3 us/KiB of CPU (F8 pitfall)
+    # unique + incompressible, but fio regenerates every buffer: ~3 us/KiB of CPU (pitfall experiment)
     "refill": ["--refill_buffers=1", "--buffer_compress_percentage=0"],
 }
 
@@ -110,20 +110,20 @@ BS_SWEEP = ["4k", "16k", "32k", "64k", "128k", "256k", "512k", "1m"]
 STRIPE_BS = "1536k"  # one full RAID5 stripe (3 data chunks x 512 KiB): no read-modify-write
 
 
-def f0(q):
+def jobs_calib(q):
     """Calibration: fio software floor (null engine) and a QD1 sanity read."""
     return [J("null:qd1", "randread", "4k", engine="null", direct=0, check_io=False),
             J("null:qd32", "randread", "4k", engine="null", direct=0, check_io=False, **QD32),
             J("sanity:randread4k:qd1", "randread", "4k")]
 
 
-def f1(q):
+def jobs_qd1(q):
     """QD=1 baselines: 4 KiB random and 128 KiB sequential, read and write (json+ tails)."""
     return [J(f"qd1:{p}:{d}", RW[(p, d)], bs, runtime=30, hist=True)
             for p, bs in (("rand", "4k"), ("seq", "128k")) for d in ("read", "write")]
 
 
-def f2(q):
+def jobs_blocksize(q):
     """Block-size sweep 4 KiB-1 MiB, random and sequential, read and write, QD 32 (4x8)."""
     bss = BS_SWEEP if not q else ["4k", "128k", "1m"]
     jobs = [J(f"bs:{p}:{d}", RW[(p, d)], bs, **QD32)
@@ -132,7 +132,7 @@ def f2(q):
     return jobs + [J(f"bs:seq:{d}", RW[("seq", d)], STRIPE_BS, **QD32) for d in ("read", "write")]
 
 
-def f3(q):
+def jobs_rwmix(q):
     """Read/write mix 100/70/50/0 % reads: 4 KiB random and 128 KiB sequential, QD 32."""
     jobs = []
     for p, bs, rw in (("rand", "4k", "randrw"), ("seq", "128k", "rw")):
@@ -141,7 +141,7 @@ def f3(q):
     return jobs
 
 
-def f4(q):
+def jobs_qdsweep(q):
     """Queue-depth / parallelism sweep: iodepth x numjobs for 4 KiB random and 128 KiB sequential."""
     jobs = []
     d1 = [1, 2, 4, 8, 16, 32, 64, 128, 256] if not q else [1, 16, 128]
@@ -164,10 +164,10 @@ def f4(q):
     return jobs
 
 
-def f4_knee_qd(default=32):
-    """Total QD at the throughput knee of the 4 KiB random-read j8 curve (from F4)."""
+def qdsweep_knee_qd(default=32):
+    """Total QD at the throughput knee of the 4 KiB random-read j8 curve (from qdsweep)."""
     try:
-        s = pd.read_csv(C.SUMMARY / "F4.csv")
+        s = pd.read_csv(C.SUMMARY / "qdsweep.csv")
         d = s[s.tag == "qd:randread4k:j8"]
         i = C.knee_by_gain(d.qd_total, d.iops)
         return int(d.qd_total.iloc[i])
@@ -175,9 +175,9 @@ def f4_knee_qd(default=32):
         return default
 
 
-def f5(q):
+def jobs_tail(q):
     """Tail latency (json+ histograms, 60 s) at mid-QD, near-knee and past-knee QD."""
-    kq = f4_knee_qd()
+    kq = qdsweep_knee_qd()
     jobs = []
     for label, tot in (("mid", max(4, kq // 4)), ("knee", kq), ("past", min(1024, kq * 4))):
         n = 4 if tot >= 4 else 1
@@ -188,7 +188,7 @@ def f5(q):
     return jobs
 
 
-def f6(q):
+def jobs_lba(q):
     """Working set / LBA range 16 MiB-224 GiB: 4 KiB random read (QD1, QD32) and write (QD32)."""
     regions = [16 * M, 64 * M, 256 * M, 1 * G, 4 * G, 16 * G, 64 * G, C.DATA_SIZE]
     if q:
@@ -207,7 +207,7 @@ PROBES = lambda ph: [  # noqa: E731
     J(f"state:{ph}:randread4k:qd32", "randread", "4k", phase=ph, **QD32)]
 
 
-def f7(q):
+def jobs_state(q):
     """Device state: QD1 probes, ~40 min sustained 4 KiB random write over 224 GiB, probes after and after 10 min idle."""
     seg = 40 if not q else 2
     steps = PROBES("before")
@@ -221,11 +221,11 @@ def f7(q):
 
 
 PC_FILE = C.SCRATCH / "pagecache.dat"   # 8 GiB, fully written
-PAT_FILE = C.SCRATCH / "pattern.dat"    # 8 GiB, F8 data-pattern runs only (zeros never touch data.dat)
+PAT_FILE = C.SCRATCH / "pattern.dat"    # 8 GiB, pitfall data-pattern runs only (zeros never touch data.dat)
 FA_FILE = C.SCRATCH / "fallocated.dat"  # 16 GiB, fallocated, never written
 
 
-def f8(q):
+def jobs_pitfall(q):
     """Pitfalls: page cache, wrong effective QD, unwritten extents, data pattern, CPU-bound generator."""
     pc = dict(file=PC_FILE, region=8 * G, check_io=False, ramp=0)
     steps = [
@@ -272,10 +272,12 @@ def f8(q):
     return steps
 
 
-EXPERIMENTS = {"F0": f0, "F1": f1, "F2": f2, "F3": f3, "F4": f4, "F5": f5, "F6": f6,
-               "F7": f7, "F8": f8}
-ORDERED = {"F7", "F8"}  # device/page-cache state matters: never shuffle
-DEFAULTS = {"F0": 3, "F1": 3, "F2": 2, "F3": 3, "F4": 2, "F5": 2, "F6": 2, "F7": 1, "F8": 2}
+EXPERIMENTS = {"calib": jobs_calib, "qd1": jobs_qd1, "blocksize": jobs_blocksize,
+               "rwmix": jobs_rwmix, "qdsweep": jobs_qdsweep, "tail": jobs_tail, "lba": jobs_lba,
+               "state": jobs_state, "pitfall": jobs_pitfall}
+ORDERED = {"state", "pitfall"}  # device/page-cache state matters: never shuffle
+DEFAULTS = {"calib": 3, "qd1": 3, "blocksize": 2, "rwmix": 3, "qdsweep": 2, "tail": 2, "lba": 2,
+            "state": 1, "pitfall": 2}
 
 
 # --------------------------------------------------------------------- runner
@@ -379,12 +381,12 @@ def main():
             n = sum("tag" in j for j in f(False))
             print(f"{k}: {n:3d} jobs  {(f.__doc__ or '').strip().splitlines()[0]}")
         return
-    exp = a.exp.upper()
+    exp = C.exp_id(a.exp)
     rounds = 1 if a.quick else (a.rounds or DEFAULTS[exp])
     steps = EXPERIMENTS[exp](a.quick)
     if not C.DATAFILE.exists() or C.DATAFILE.stat().st_size < C.DATA_SIZE:
         sys.exit(f"{C.DATAFILE} missing or short: run scripts/prep.py first")
-    if exp == "F8" and (not PC_FILE.exists() or PC_FILE.stat().st_size < 8 * G):
+    if exp == "pitfall" and (not PC_FILE.exists() or PC_FILE.stat().st_size < 8 * G):
         sys.exit(f"{PC_FILE} missing: run scripts/prep.py first")
     node_cpus = pick_core.node_order(C.NVME_NODE)
     # keep this driver off the cpus fio will use

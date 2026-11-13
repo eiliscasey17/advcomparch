@@ -291,3 +291,54 @@ def test_json_plus_hist_matches_fio_percentiles(tfile):
 def test_data_files_sound():
     assert prep.verify(C.DATAFILE, C.DATA_SIZE)
     assert prep.verify(R.PC_FILE, 8 * C.GiB)
+
+
+# ------------------------------------------------ committed raw data --
+def test_committed_raw_reproduces_summaries(tmp_path, monkeypatch):
+    """A fresh clone has only results/raw_runs/ (gzipped CSV rows + every fio
+    JSON). Every pinned run must load from there alone, and re-summarizing
+    from the committed fio JSON must give back the committed summary."""
+    import io
+    import pandas as pd
+    import summarize as S
+    monkeypatch.setattr(C, "RAW", tmp_path)  # hide the local (gitignored) raw tree
+    pins = json.loads((C.RESULTS / "runs.json").read_text())
+    for exp, run in pins.items():
+        if exp.startswith("_"):
+            continue
+        df, got = C.load_raw(exp)
+        assert got == run and len(df) > 0 and (df.exp == exp).all()
+        C.load_json(exp, run, int(df.job.iloc[0]), int(df["round"].iloc[0]))
+    for exp in ("qd1", "rwmix", "pitfall"):
+        raw, run = C.load_raw(exp)
+        new = S.summarize(S.reparse(raw, exp, run)).assign(run=run)
+        old = pd.read_csv(C.SUMMARY / f"{exp}.csv")
+        new = pd.read_csv(io.StringIO(new.to_csv(index=False)))  # same float round-trip
+        pd.testing.assert_frame_equal(new, old)
+
+
+def test_legacy_experiment_ids():
+    assert [C.exp_id(f"F{i}") for i in range(9)] == C.EXPERIMENT_IDS
+    assert C.exp_id("tail") == "tail" and C.exp_id("f5") == "tail"
+    assert set(R.EXPERIMENTS) == set(C.EXPERIMENT_IDS)
+    with pytest.raises(ValueError):
+        C.exp_id("F9")
+
+
+def test_fio_job_files_parse_and_match_json():
+    """Every committed job file parses with fio and carries exactly the job
+    options fio recorded for that job."""
+    files = sorted(C.FIO_JOBS.glob("*/*.fio"))
+    pins = {k: v for k, v in json.loads((C.RESULTS / "runs.json").read_text()).items()
+            if not k.startswith("_")}
+    assert files and {f.parent.name for f in files} == set(pins)
+    for f in files:
+        p = subprocess.run([str(C.FIO), "--parse-only", str(f)], capture_output=True, text=True)
+        assert p.returncode == 0, (f, p.stderr)
+        src = next(l for l in f.read_text().splitlines() if "reconstructed from" in l).split()[3]
+        doc = json.loads(C.read_text(C.ROOT / src))
+        opts = dict(doc["jobs"][0]["job options"])
+        name = opts.pop("name", doc["jobs"][0]["jobname"])
+        body = [l for l in f.read_text().splitlines() if l and not l.startswith(";")]
+        assert body[0] == f"[{name}]"
+        assert dict(l.split("=", 1) for l in body[1:]) == opts
