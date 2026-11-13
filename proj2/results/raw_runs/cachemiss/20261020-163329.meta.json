@@ -1,0 +1,7193 @@
+{
+ "exp": "E6",
+ "run_id": "20261020-163329",
+ "quick": false,
+ "rounds": 2,
+ "samples": 7,
+ "min_ms": 20,
+ "ms": 200,
+ "core": 2,
+ "ccd": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "node": 0,
+ "node_cpus": [
+  1,
+  8,
+  16,
+  24,
+  2,
+  9,
+  17,
+  25,
+  3,
+  10,
+  18,
+  26,
+  4,
+  11,
+  19,
+  27,
+  5,
+  12,
+  20,
+  28,
+  6,
+  13,
+  21,
+  29,
+  7,
+  14,
+  22,
+  30,
+  15,
+  23,
+  31
+ ],
+ "remote_cpu": 63,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "79b55a5",
+ "started": "2026-10-20T16:33:29.017743",
+ "n_jobs": 594,
+ "jobs": [
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 640,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 640,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 640,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 576,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 576,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 576,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1024,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1024,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1024,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 960,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 960,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 960,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 64,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 768,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1408,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1408,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1408,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1344,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1344,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1344,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 128,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1152,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2048,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2048,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2048,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 256,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 256,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 256,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1920,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1920,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1920,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 192,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 192,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 192,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1600,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2880,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2880,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2880,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2688,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2688,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2688,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 320,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2304,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4096,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4096,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4096,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 512,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 512,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 512,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3840,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3840,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3840,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 448,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 448,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 448,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3264,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5760,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5760,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5760,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 704,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 704,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 704,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4608,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4608,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4608,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5440,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5440,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5440,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 640,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 640,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 640,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4672,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4672,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4672,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8192,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8192,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8192,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1024,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1024,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1024,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6528,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6528,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6528,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7680,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7680,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7680,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 960,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 960,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 960,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6592,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6592,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6592,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11584,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11584,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11584,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1408,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1408,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1408,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9216,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9216,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9216,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 10880,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 10880,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 10880,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1344,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1344,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1344,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9344,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9344,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9344,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16384,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16384,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16384,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2048,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2048,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2048,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13056,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13056,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13056,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15424,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15424,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15424,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1920,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1920,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1920,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13184,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13184,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13184,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23168,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23168,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23168,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2880,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2880,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2880,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18496,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18496,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18496,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 21824,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 21824,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 21824,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2688,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2688,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2688,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 18688,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 18688,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 18688,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 32768,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 32768,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 32768,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4096,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4096,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4096,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26176,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26176,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26176,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 30848,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 30848,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 30848,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3840,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3840,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3840,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 26432,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 26432,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 26432,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 46336,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 46336,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 46336,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5760,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5760,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5760,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37056,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37056,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37056,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 43648,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 43648,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 43648,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5440,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5440,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5440,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 37440,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 37440,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 37440,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 65536,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 65536,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 65536,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8192,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8192,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8192,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 52416,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 52416,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 52416,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 61760,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 61760,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 61760,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 7680,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 7680,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 7680,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 52928,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 52928,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 52928,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 92672,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 92672,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 92672,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 11584,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 11584,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 11584,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 74112,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 74112,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 74112,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 87360,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 87360,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 87360,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 10880,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 10880,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 10880,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 74880,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 74880,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 74880,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 131072,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 131072,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 131072,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 16384,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 16384,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 16384,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 104832,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 104832,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 104832,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 123520,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 123520,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 123520,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 15424,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 15424,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 15424,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 105920,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 105920,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 105920,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 185344,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 185344,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 185344,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 23168,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 23168,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 23168,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 148288,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 148288,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 148288,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 174720,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 174720,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 174720,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 21824,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 21824,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 21824,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 149760,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 149760,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 149760,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 262144,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 262144,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 262144,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 32768,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 32768,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 32768,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 209664,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 209664,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 209664,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 247104,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 247104,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 247104,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 30848,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 30848,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 30848,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 211840,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 211840,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 211840,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 370688,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 370688,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 370688,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 46336,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 46336,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 46336,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 296576,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 296576,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 296576,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 349504,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 349504,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 349504,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 43648,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 43648,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 43648,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 299584,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 299584,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 299584,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 524288,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 524288,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 524288,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 65536,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 65536,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 65536,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 419392,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 419392,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 419392,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 494272,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 494272,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 494272,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 61760,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 61760,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 61760,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 423680,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 423680,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 423680,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 741440,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 741440,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 741440,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 92672,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 92672,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 92672,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 593152,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 593152,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 593152,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 699008,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 699008,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 699008,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 87360,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 87360,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 87360,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 599168,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 599168,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 599168,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1048576,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1048576,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1048576,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 131072,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 131072,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 131072,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 838848,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 838848,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 838848,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 988544,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 988544,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 988544,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 123520,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 123520,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 123520,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 847360,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 847360,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 847360,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1482880,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1482880,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 1482880,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 185344,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 185344,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 185344,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1186304,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1186304,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1186304,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1398080,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1398080,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1398080,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 174720,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 174720,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 174720,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1198336,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1198336,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1198336,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2097152,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2097152,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2097152,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 262144,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 262144,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 262144,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1677696,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1677696,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 1677696,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1977152,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1977152,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 1977152,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 247104,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 247104,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 247104,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1694720,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1694720,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 1694720,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2965760,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2965760,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 2965760,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 370688,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 370688,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 370688,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2372608,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2372608,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 2372608,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2796160,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2796160,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 2796160,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 349504,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 349504,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 349504,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2396736,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2396736,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 2396736,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4194304,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4194304,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 4194304,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 524288,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 524288,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 524288,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3355392,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3355392,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 3355392,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3954368,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3954368,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 3954368,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 494272,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 494272,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 494272,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3389504,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3389504,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 3389504,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5931584,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5931584,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 5931584,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 741440,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 741440,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 741440,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4745280,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4745280,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 4745280,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5592384,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5592384,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 5592384,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 699008,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 699008,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 699008,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4793472,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4793472,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 4793472,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8388608,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8388608,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 8388608,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1048576,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1048576,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1048576,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6710848,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6710848,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 6710848,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7908800,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7908800,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 7908800,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 988544,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 988544,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 988544,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6779008,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6779008,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 6779008,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11863232,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11863232,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 11863232,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1482880,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1482880,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 1482880,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9490624,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9490624,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 9490624,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 11184768,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 11184768,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 11184768,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1398080,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1398080,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1398080,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9586944,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9586944,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 9586944,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16777216,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16777216,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 16777216,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2097152,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2097152,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2097152,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13421760,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13421760,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 13421760,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15817664,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15817664,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 15817664,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1977152,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1977152,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 1977152,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13558016,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13558016,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 13558016,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23726528,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23726528,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 23726528,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2965760,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2965760,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 2965760,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18981248,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18981248,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 18981248,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 22369600,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 22369600,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 22369600,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2796160,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2796160,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 2796160,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 19173952,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 19173952,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 19173952,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 33554432,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 33554432,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 33554432,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4194304,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4194304,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 4194304,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26843520,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26843520,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 26843520,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 31635392,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 31635392,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 31635392,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3954368,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3954368,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 3954368,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 27116032,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 27116032,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 27116032,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 47453120,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 47453120,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 47453120,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5931584,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5931584,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 5931584,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37962496,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37962496,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 37962496,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 44739200,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 44739200,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "mul",
+    "pattern": "contig",
+    "n": 44739200,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5592384,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5592384,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "mul",
+    "pattern": "stride",
+    "n": 5592384,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 38347904,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 38347904,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "mul",
+    "pattern": "gather",
+    "n": 38347904,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 67108864,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 67108864,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "contig",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "contig",
+    "n": 67108864,
+    "counters": "mem",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8388608,
+    "counters": "cache",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8388608,
+    "counters": "fills",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "stride",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "stride",
+    "n": 8388608,
+    "counters": "mem",
+    "gstride": 8
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 53687040,
+    "counters": "cache",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 53687040,
+    "counters": "fills",
+    "gstride": 1
+   }
+  },
+  {
+   "mode": "kern",
+   "place": "core",
+   "tag": "gather",
+   "args": {
+    "kernel": "axpy",
+    "pattern": "gather",
+    "n": 53687040,
+    "counters": "mem",
+    "gstride": 1
+   }
+  }
+ ],
+ "finished": "2026-10-21T11:46:07.412819",
+ "elapsed_s": 69158.4,
+ "jobs_with_busy_neighbors": 9,
+ "jobs_retried": 35
+}

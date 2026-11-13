@@ -12,18 +12,46 @@ What it covers:
 
 Where things are:
 - **[EXPERIMENTS.md](EXPERIMENTS.md)**: the central registry. For every experiment it gives the method, run ids, results, interpretation and figures.
-- `results/plots/*.jpg`: one graph per file.
+- `results/plots/*.jpg`: one graph per file, named after its experiment.
 - `results/summary/*.csv`: the numbers behind every figure (medians, bootstrap 95% CIs, CV).
+- `results/raw_runs/<experiment>/`: the raw measurements behind every figure (gzipped CSV, one file per round, plus the run's `.meta.json`).
 - `results/env/`: machine state, cpuid geometry, PMU validation and unit-test output.
 
-## Machine
+## Required items and where they are
+| Requirement | Experiment ID | Figures (`results/plots/`) | Data (`results/summary/`) |
+|---|---|---|---|
+| Zero-queue baselines: per-level latency table, units, CPU-frequency conversion | `latency` | `latency_table.jpg` (ns, 95% CI, cycles at the measured GHz, 4 KiB-page variant, fraction served by each level), `latency_by_level.jpg` | `latency.csv` |
+| Pattern and granularity sweep: latency and bandwidth, sequential/random, stride/granularity | `pattern` | `pattern_latency.jpg`, `pattern_bandwidth_stride_{core,node}.jpg`, `pattern_bandwidth_granularity_{core,node}.jpg` | `pattern.csv` |
+| Read/write mix sweep: throughput and latency for 100% R, 100% W, 70/30, 50/50 | `rwmix` | `rwmix_bandwidth_{core,node}.jpg`, `rwmix_loaded_latency.jpg` | `rwmix.csv` |
+| Intensity sweep: throughput vs. latency, the knee, Little's Law | `intensity` | `intensity_latency_vs_bandwidth.jpg` (knees starred, in-flight isolines), `intensity_littles_law.jpg`, `intensity_mlp_{dram,l3}.jpg` | `intensity.csv` |
+| Working-set sweep with L1/L2/LLC/DRAM transitions annotated | `workingset` | `workingset_latency.jpg`, `workingset_fill_source.jpg`, `workingset_bandwidth_{core,node}.jpg` | `workingset.csv` |
+| Cache-miss impact: footprint/pattern vs. perf counters vs. runtime | `cachemiss` | `cachemiss_runtime_vs_footprint.jpg`, `cachemiss_runtime_vs_{l1_misses,l2_misses,dram_lines}.jpg`, `cachemiss_amat_vs_measured.jpg` | `cachemiss.csv` |
+| TLB-miss impact: page locality, 4 KiB vs. 2 MiB huge pages | `tlb` | `tlb_pagerand_latency.jpg`, `tlb_pagerand_misses.jpg`, `tlb_random_chase.jpg`, `tlb_walk_cost.jpg`, `tlb_kernels.jpg` | `tlb.csv` |
+| Benchmark pitfalls: cache reuse posing as DRAM, unpinned / remote placement, prefetchable "random", frequency scaling | `pitfall` | `pitfall_cache_reuse_{latency,bandwidth}.jpg`, `pitfall_pinning_{latency,bandwidth}.jpg`, `pitfall_prefetch_random.jpg`, `pitfall_frequency.jpg` | `pitfall.csv` |
+| Calibration (clock, PMU validation, cpuid geometry) | `calib` | — | `calib.csv`, `results/env/` |
+
+Old experiment IDs (`E0`–`E8`, in the order `calib latency workingset pattern rwmix intensity cachemiss tlb pitfall`) still work as aliases in every script.
+
+**Repeated trials and error bars:** every configuration is measured as 5–11 samples × 2–3 rounds (1 round for `pitfall`), with job order shuffled each round. Figures show the median.
+- **Lines** carry a shaded band and **bars/points** an error bar: the bootstrap 95% CI of the median (2000 resamples).
+- **Throughput–latency points** have both x and y bars.
+- **Page-walk cost** uses a bootstrap of the ratio of the two page sizes' medians.
+- **The pinning pitfall** plots every sample, so its spread is visible directly.
+
+## System configuration
 | | |
 |---|---|
-| CPU | 2 × EPYC 9334, 32 cores each (4 CCDs × 8), no SMT, boost on, `performance` governor |
-| Caches | 32 KiB L1d and 1 MiB L2 per core; 32 MiB L3 per CCD (128 MiB per socket) |
-| DTLB | L1: 72 entries; L2: 3072 entries (4 KiB and 2 MiB pages alike) |
-| DRAM | 12 × DDR5 channels per socket, 384 GiB per node. Peak is at most 460.8 GB/s per socket at DDR5-4800. |
-| OS | RHEL 9 kernel 5.14. THP is `always` with defrag `madvise`. No hugetlbfs pool and no root. `perf_event_paranoid=2`. |
+| **CPU** | 2 × AMD EPYC 9334 (Zen 4 "Genoa", family 19h model 11h), 32 cores per socket = 4 CCDs × 8 cores. Caches: 32 KiB L1d and 1 MiB L2 per core, 32 MiB L3 per CCD (128 MiB per socket). DTLB: 72-entry L1 and 3072-entry L2, for 4 KiB and 2 MiB pages alike (verified against cpuid by the tests). |
+| **SMT** | Off: 1 thread per core (`lscpu`). |
+| **Memory** | 12 DDR5 channels per socket (24 ranks on the EDAC controller), 384 GiB per NUMA node, 768 GiB total. The DIMM speed is not readable without root; DDR5-4800 (the SKU maximum) gives the 460.8 GB/s per-socket upper bound used in the plots. |
+| **NUMA** | 2 nodes (node 0 = cpus 0–31, node 1 = cpus 32–63). Memory is first-touched by the measuring thread, so it is node-local, and every row records its node (`move_pages`). Remote placement is deliberate in `latency` (DRAM remote) and `pitfall`, which first-touch from a cpu on the other socket. |
+| **Pages** | THP `always`, defrag `madvise`; no hugetlbfs pool (no root). 2 MiB pages come from `madvise(MADV_HUGEPAGE)` and 4 KiB pages from `MADV_NOHUGEPAGE`. Every row records the achieved THP fraction: 100% or 0% in every run. |
+| **OS / kernel** | Red Hat Enterprise Linux 9.8, kernel 5.14.0-687.57.1.el9_8 (exact build in `results/env/environment.txt`). `perf_event_paranoid=2`, NMI watchdog on, so at most 5 user-space PMU counters per group. |
+| **Governor / frequency** | `performance` governor, boost on; neither can be changed without root. Every row records PMU cycles / ns: 3.89 GHz on one core, falling to about 3.0 GHz with a whole node loaded (`pitfall_frequency.jpg`). Cycle figures always use the measured clock, never the 2.7 GHz TSC. |
+| **Pinning** | `membench` pins its own threads (`pthread_setaffinity_np`). Single-thread probes run on an idle core of the quietest CCD. Multi-thread runs use one NUMA node, one thread per core, round-robin over its 4 CCDs, leaving the node's first core free. The driver process runs off the measured cpus. `pitfall` also runs deliberately unpinned. |
+| **Shared-machine gate** | Before each job the measured CCD must carry ≤ 0.5 core of other activity, or the measured node ≤ 2 cores (background services keep about 1.1 busy on every node). During the job, other users' activity is measured as busy jiffies minus our own CPU time. A disturbed job is re-measured, up to 3 attempts; the `attempts` and `others_util` columns record this. |
+| **Timing** | `CLOCK_MONOTONIC_RAW`. Chase and kern samples last ≥ 20 ms. bw and loadlat measure all threads together in a fixed 50–200 ms window after a warm-up window. |
+| **Tools** | gcc 11.5.0 (`-O2 -march=native`, which resolves to znver4; loop kernels `-O3`). Python 3.11.17 with numpy 2.4.6, pandas 3.0.6, matplotlib 3.11.2. PMU via in-process `perf_event_open` (no `perf` binary on the machine). Intel MLC v3.13 is installed but blocked (see below). |
 
 ## Tools
 - **`build/membench`** (`src/`) is our MLC-equivalent probe. It pins its own threads and prints one CSV row per sample.
@@ -53,17 +81,8 @@ Where things are:
 ```
 conda env create -f environment.yml          # same env as proj1
 make && make test                            # C unit tests + PMU validation + pytest
-./scripts/run_all.sh                         # env capture, E0-E8, summaries, MLC (if present), plots
-python scripts/run.py E5 [--quick]; python scripts/summarize.py E5; python scripts/plot.py E5
+./scripts/run_all.sh                         # env capture, all experiments, summaries, MLC (if present), plots
+python scripts/run.py intensity [--quick]; python scripts/summarize.py intensity; python scripts/plot.py intensity
 ```
-`make test` pins to `TEST_CPU` (default 62).
-
-## Measurement method (short)
-- **Pinning.** Single-thread probes run on an idle core of the quietest CCD. Multi-thread runs use the quieter NUMA node, one thread per core round-robin over its 4 CCDs, and leave the node's first core alone. The driver process runs off the measured cpus.
-- **Shared machine.**
-  - Before each job, the measured CCD must be quiet (≤ 0.5 core of other activity) or the measured node must be (≤ 2 cores; background services keep about 1.1 cores busy on every node).
-  - During each job, the other users' activity on it is measured as busy jiffies minus our own child CPU time.
-  - A disturbed job is re-measured, up to 3 attempts; the `attempts` and `others_util` columns record this.
-- **Memory.** 2 MiB pages unless a 4 KiB comparison is the point. First touch happens on the measuring thread, so memory is local unless remote placement is the point.
-- **Timing.** Chase and kern samples last ≥ 20 ms each. bw and loadlat use fixed 50–200 ms windows on all threads at once, after a warm-up window. Results are medians over 5–11 samples × 2–3 rounds, with job order shuffled each round.
-- **Clock.** Boost cannot be disabled. Every row records PMU cycles / ns, so cycle figures use the measured clock: 3.89 GHz on one core, about 2.9 GHz with all cores loaded (see the E8 frequency pitfall).
+- `make test` pins to `TEST_CPU` (default 62).
+- **From a fresh clone (no re-measurement):** `summarize.py` and `plot.py` read the committed raw runs in `results/raw_runs/`, pinned by `results/runs.json`. So `python scripts/summarize.py all && python scripts/plot.py all` regenerates every summary and figure, and a test checks it.

@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Make every figure: one graph per JPG in results/plots/.
 
-  python scripts/plot.py all      (or E1 E2 ...)
+  python scripts/plot.py all      (or latency workingset ...; old IDs E1..E8 also work)
 
 Style and helpers are proj1's (scripts/plot.py there): validated categorical
 palette in fixed order, markers on every series (several slots are below 3:1
 contrast on the light surface, so identity never rests on color alone),
 recessive grid, one y-axis per chart, footprint axes shaded by cache level.
 Numbers come from results/summary/<EXP>.csv (the table view of every figure).
+Variability: lines carry a shaded band and bars/points an error bar = bootstrap
+95% CI of the median (2000 resamples) unless the subtitle says otherwise.
 """
 import argparse
 import sys
@@ -129,17 +131,33 @@ def series(ax, x, y, i, label, ls="-", lo=None, hi=None, **kw):
         ax.fill_between(x, np.asarray(lo)[o], np.asarray(hi)[o], color=SLOTS[i], alpha=0.15, lw=0)
 
 
+def yerr(v, lo, hi):
+    """Asymmetric error-bar array from a median and its CI bounds."""
+    v, lo, hi = (np.asarray(a, float) for a in (v, lo, hi))
+    return np.vstack([np.clip(v - lo, 0, None), np.clip(hi - v, 0, None)])
+
+
+def cols(df, metric):
+    """(median, lo, hi) columns of a summary metric, as lists."""
+    return list(df[metric]), list(df[f"{metric}_lo"]), list(df[f"{metric}_hi"])
+
+
 def bars(ax, labels, groups, ylabel, fmt="{:.0f}", log=False, width=0.8):
-    """groups: [(series label, values)] -> grouped bars with value labels."""
+    """groups: [(series label, values[, lo, hi])] -> grouped bars with value
+    labels and, when lo/hi are given, 95% CI error bars."""
     n = len(groups)
     x = np.arange(len(labels))
     w = width / n
-    for i, (name, vals) in enumerate(groups):
+    for i, grp in enumerate(groups):
+        name, vals = grp[0], grp[1]
         pos = x - width / 2 + w * (i + 0.5)
-        b = ax.bar(pos, vals, w * 0.92, color=SLOTS[i], label=name, zorder=2)
-        for r, v in zip(b, vals):
+        err = yerr(vals, grp[2], grp[3]) if len(grp) == 4 else None
+        b = ax.bar(pos, vals, w * 0.92, color=SLOTS[i], label=name, zorder=2, yerr=err,
+                   error_kw=dict(ecolor=INK, lw=0.8, capsize=2))
+        for j, (r, v) in enumerate(zip(b, vals)):
             if np.isfinite(v):
-                ax.annotate(fmt.format(v), (r.get_x() + r.get_width() / 2, v), xytext=(0, 2),
+                top = v + (err[1][j] if err is not None and np.isfinite(err[1][j]) else 0)
+                ax.annotate(fmt.format(v), (r.get_x() + r.get_width() / 2, top), xytext=(0, 2),
                             textcoords="offset points", ha="center", va="bottom", fontsize=7,
                             color=INK2)
     ax.set_xticks(x)
@@ -152,9 +170,9 @@ def bars(ax, labels, groups, ylabel, fmt="{:.0f}", log=False, width=0.8):
         ax.legend(fontsize=8)
 
 
-def e1_latency():
-    """Median ns/load per level from E1 (2 MiB pages, local)."""
-    s = summary("E1")
+def level_latency():
+    """Median ns/load per level from the latency experiment (2 MiB pages, local)."""
+    s = summary("latency")
     out = {}
     for lv in ("L1", "L2", "L3", "DRAM"):
         r = s[s.tag == f"{lv}:2m"]
@@ -162,9 +180,9 @@ def e1_latency():
     return out
 
 
-# ------------------------------------------------------------------------ E1
-def plot_e1():
-    s = summary("E1")
+# ------------------------------------------------------------------------ latency
+def plot_latency():
+    s = summary("latency")
     rows = []
     for lv, name in (("L1", "L1d"), ("L2", "L2"), ("L3", "L3 (own CCD)"), ("DRAM", "DRAM local"),
                      ("DRAM-remote", "DRAM remote")):
@@ -196,25 +214,26 @@ def plot_e1():
     ax.text(0, -0.05, "Random 64 B pointer chase, 1 pinned core, 2 MiB pages unless noted; cycles = PMU "
             "core cycles (boost on). Fill-source PMU counters confirm where each probe lives.",
             transform=ax.transAxes, fontsize=7.5, color=INK2, va="top")
-    save(f, "e1_latency_table")
+    save(f, "latency_table")
 
     f, ax = fig(7.2, 4.2)
     labels = ["L1d\n16 KiB", "L2\n512 KiB", "L3\n16 MiB", "DRAM\n1 GiB", "DRAM remote\n1 GiB"]
     tags = ["L1", "L2", "L3", "DRAM", "DRAM-remote"]
-    v2 = [float(s[s.tag == f"{t}:2m"].ns_per_load.iloc[0]) for t in tags]
-    v4 = [float(s[s.tag == f"{t}:4k"].ns_per_load.iloc[0]) if (s.tag == f"{t}:4k").any() else np.nan
-          for t in tags]
-    bars(ax, labels, [("2 MiB pages", v2), ("4 KiB pages", v4)], "ns per load (log)",
-         fmt="{:.1f}", log=True)
+    def pick(pg, col):
+        return [float(s[s.tag == f"{t}:{pg}"][col].iloc[0]) if (s.tag == f"{t}:{pg}").any()
+                else np.nan for t in tags]
+    groups = [(lab, pick(pg, "ns_per_load"), pick(pg, "ns_per_load_lo"), pick(pg, "ns_per_load_hi"))
+              for lab, pg in (("2 MiB pages", "2m"), ("4 KiB pages", "4k"))]
+    bars(ax, labels, groups, "ns per load (log)", fmt="{:.1f}", log=True)
     ax.set_title("Load latency by level")
     subtitle(ax, "random pointer chase, idle machine; 4 KiB pages add page walks once the "
-             "set exceeds the 12 MiB L2-DTLB reach")
-    save(f, "e1_latency_by_level")
+             "set exceeds the 12 MiB L2-DTLB reach; error bars: 95% CI")
+    save(f, "latency_by_level")
 
 
-# ------------------------------------------------------------------------ E2
-def plot_e2():
-    s = summary("E2")
+# ------------------------------------------------------------------------ workingset
+def plot_workingset():
+    s = summary("workingset")
     lat = s[s.tag == "lat"].sort_values("size")
     f, ax = fig()
     series(ax, lat["size"], lat.ns_per_load, 0, "random chase", lo=lat.ns_per_load_lo,
@@ -222,33 +241,34 @@ def plot_e2():
     plain_log_y(ax)
     ax.set_ylabel("ns per load (log)")
     bytes_axis(ax, lat["size"].min(), lat["size"].max(), spans=CORE_SPANS)
-    for lv, v in e1_latency().items():
+    for lv, v in level_latency().items():
         ax.axhline(v, color=MUTED, lw=0.7, ls=":", zorder=1)
         left = lv == "DRAM"  # the data hug the right end of the DRAM line
         ax.text(lat["size"].min() if left else lat["size"].max() * 1.1, v * 0.93,
-                f"E1 {lv}: {v:.1f} ns", fontsize=7, color=INK2, ha="left" if left else "right",
+                f"{lv} (latency exp.): {v:.1f} ns", fontsize=7, color=INK2, ha="left" if left else "right",
                 va="top")
     ax.set_title("Latency vs working set")
-    subtitle(ax, "1 pinned core, 2 MiB pages; shaded bands are the sysfs capacities "
-             "(32 KiB L1d, 1 MiB L2, 32 MiB L3 per CCD)")
-    save(f, "e2_latency_vs_working_set")
+    subtitle(ax, "1 pinned core, 2 MiB pages; grey bands = sysfs capacities (32 KiB L1d, 1 MiB L2, "
+             "32 MiB L3 per CCD); blue band: 95% CI")
+    save(f, "workingset_latency")
 
     f, ax = fig()
     for i, (c, name) in enumerate((("fill_l2_per_load", "from L2"), ("fill_ccx_per_load", "from L3 (own CCD)"),
                                    ("fill_other_ccx_per_load", "from another CCD's cache"),
                                    ("fill_dram_per_load", "from DRAM"))):
         if c in lat:
-            series(ax, lat["size"], lat[c], i, name)
+            series(ax, lat["size"], lat[c], i, name, lo=lat[f"{c}_lo"], hi=lat[f"{c}_hi"])
     if "l1d_miss_per_load" in lat:
-        series(ax, lat["size"], 1 - lat.l1d_miss_per_load, 4, "L1 hit")
+        series(ax, lat["size"], 1 - lat.l1d_miss_per_load, 4, "L1 hit",
+               lo=1 - lat.l1d_miss_per_load_hi, hi=1 - lat.l1d_miss_per_load_lo)
     ax.set_ylabel("fraction of loads")
     ax.set_ylim(-0.03, 1.05)
     bytes_axis(ax, lat["size"].min(), lat["size"].max(), spans=CORE_SPANS)
     ax.set_title("Where each load is served from")
     subtitle(ax, "PMU LsAnyFillsFromSys (0x44) per load of the random chase; transitions "
-             "line up with the cache capacities")
+             "line up with the cache capacities; bands: 95% CI")
     legend_below(ax, ncol=3)
-    save(f, "e2_fill_source_vs_working_set")
+    save(f, "workingset_fill_source")
 
     for tag, name, spans, xl in (("bw1", "core", CORE_SPANS, "working set"),
                                  ("bwnode", "node", NODE_SPANS, "working set (all 31 threads)")):
@@ -268,35 +288,36 @@ def plot_e2():
         bytes_axis(ax, b.ws.min(), b.ws.max(), label=xl, spans=spans)
         if tag == "bw1":
             ax.set_title("Single-core read bandwidth vs working set")
-            subtitle(ax, "AVX-512 loads, 4 accumulators, 1 pinned core, 2 MiB pages")
+            subtitle(ax, "AVX-512 loads, 4 accumulators, 1 pinned core, 2 MiB pages; band: 95% CI")
         else:
             ax.axhline(C.DRAM_PEAK_GBS, color=MUTED, ls="--", lw=0.8)
             ax.text(b.ws.min(), C.DRAM_PEAK_GBS * 0.97, "DDR5-4800 x 12 ch peak 460.8 GB/s",
                     fontsize=7, color=INK2, va="top")
             ax.set_title("Whole-node read bandwidth vs working set")
             subtitle(ax, "31 threads (one per core, round-robin over 4 CCDs), private slices; "
-                         "bands = summed capacities")
-        save(f, f"e2_bandwidth_vs_working_set_{name}")
+                         "grey bands = summed capacities; orange band: 95% CI")
+        save(f, f"workingset_bandwidth_{name}")
 
 
-# ------------------------------------------------------------------------ E3
-def plot_e3():
-    s = summary("E3")
+# ------------------------------------------------------------------------ pattern
+def plot_pattern():
+    s = summary("pattern")
     lat = s[s.tag.str.startswith("lat:")]
-    labels, g16, g1g = [], [], []
+    labels, rows16, rows1g = [], [], []
     for pat in ("seq", "random"):
         for st in (64, 256, 1024):
             labels.append(f"{'sequential' if pat == 'seq' else 'random'}\n{st} B")
             r = lat[(lat.pattern == pat) & (lat.stride == st)]
-            g16.append(float(r[r["size"] == 16 * C.MiB].ns_per_load.iloc[0]))
-            g1g.append(float(r[r["size"] == C.GiB].ns_per_load.iloc[0]))
+            rows16.append(r[r["size"] == 16 * C.MiB].iloc[0])
+            rows1g.append(r[r["size"] == C.GiB].iloc[0])
     f, ax = fig(7.6, 4.2)
-    bars(ax, labels, [("16 MiB (L3)", g16), ("1 GiB (DRAM)", g1g)], "ns per load (log)",
-         fmt="{:.1f}", log=True)
+    bars(ax, labels, [("16 MiB (L3)", *cols(pd.DataFrame(rows16), "ns_per_load")),
+                      ("1 GiB (DRAM)", *cols(pd.DataFrame(rows1g), "ns_per_load"))],
+         "ns per load (log)", fmt="{:.1f}", log=True)
     ax.set_title("Dependent-load latency by access pattern and stride")
     subtitle(ax, "pointer chase, 1 core: constant strides are prefetched (even 1 KiB apart); "
-                 "random order exposes the full latency")
-    save(f, "e3_latency_by_pattern")
+                 "random order exposes the full latency; error bars: 95% CI")
+    save(f, "pattern_latency")
 
     for who, name in (("core", "1 core, 1 GiB buffer"), ("node", "31 threads, 64 MiB each")):
         b = s[s.tag == f"bw:{who}:stride"]
@@ -305,22 +326,26 @@ def plot_e3():
         labels = ["64 B", "256 B", "1024 B"]
         groups = []
         for order in ("seq", "random"):
-            vals = [float(b[(b.order == order) & (b.stride == st)].gbs_useful.iloc[0])
-                    for st in (64, 256, 1024)]
-            groups.append(("sequential" if order == "seq" else "random", vals))
+            rows = pd.DataFrame([b[(b.order == order) & (b.stride == st)].iloc[0]
+                                 for st in (64, 256, 1024)])
+            groups.append(("sequential" if order == "seq" else "random", *cols(rows, "gbs_useful")))
         f, ax = fig()
         bars(ax, labels, groups, "useful bandwidth (GB/s)")
         ax.set_xlabel("stride between 64 B accesses")
         ax.set_title(f"Read bandwidth by stride and order ({who})")
-        subtitle(ax, f"{name}; one 64 B line used per access, so useful = line bandwidth")
-        save(f, f"e3_bandwidth_stride_{who}")
+        subtitle(ax, f"{name}; one 64 B line used per access, so useful = line bandwidth; "
+                     "error bars: 95% CI")
+        save(f, f"pattern_bandwidth_stride_{who}")
 
         d = s[s.tag == f"bw:{who}:dense"].sort_values("gran")
         p = s[s.tag == f"bw:{who}:partial"].sort_values("gran")
         f, ax = fig()
-        series(ax, d.gran, d.gbs_useful, 0, "dense (stride = granularity): useful")
-        series(ax, p.gran, p.gbs_useful, 1, "one access per 64 B line: useful")
-        series(ax, p.gran, p.gbs_lines, 2, "one access per 64 B line: lines moved", ls="--")
+        series(ax, d.gran, d.gbs_useful, 0, "dense (stride = granularity): useful",
+               lo=d.gbs_useful_lo, hi=d.gbs_useful_hi)
+        series(ax, p.gran, p.gbs_useful, 1, "one access per 64 B line: useful",
+               lo=p.gbs_useful_lo, hi=p.gbs_useful_hi)
+        series(ax, p.gran, p.gbs_lines, 2, "one access per 64 B line: lines moved", ls="--",
+               lo=p.gbs_lines_lo, hi=p.gbs_lines_hi)
         ax.set_xscale("log", base=2)
         ax.set_xticks([8, 16, 32, 64])
         ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.0f} B"))
@@ -329,54 +354,55 @@ def plot_e3():
         ax.set_ylabel("bandwidth (GB/s)")
         ax.set_ylim(bottom=0)
         ax.set_title(f"Read bandwidth by access granularity ({who})")
-        subtitle(ax, f"{name}, DRAM-resident; DRAM always moves whole lines")
+        subtitle(ax, f"{name}, DRAM-resident; DRAM always moves whole lines; bands: 95% CI")
         legend_below(ax, ncol=1)
-        save(f, f"e3_bandwidth_granularity_{who}")
+        save(f, f"pattern_bandwidth_granularity_{who}")
 
 
-# ------------------------------------------------------------------------ E4
+# ------------------------------------------------------------------------ rwmix
 MIX_ORDER = ["1:0", "0:1", "0:1:nt", "7:3", "7:3:nt", "1:1", "1:1:nt"]
 MIX_LABEL = {"1:0": "100%\nread", "0:1": "100%\nwrite", "0:1:nt": "100%\nwrite NT",
              "7:3": "70/30", "7:3:nt": "70/30\nNT", "1:1": "50/50", "1:1:nt": "50/50\nNT"}
 
 
-def plot_e4():
-    s = summary("E4")
+def plot_rwmix():
+    s = summary("rwmix")
     for who, name in (("node", "31 threads"), ("core", "1 core")):
         b = s[s.tag.str.startswith(f"{who}:")]
         order = [m for m in MIX_ORDER if (b.tag == f"{who}:{m}").any()]
-        useful = [float(b[b.tag == f"{who}:{m}"].gbs_useful.iloc[0]) for m in order]
-        traffic = [float(b[b.tag == f"{who}:{m}"].gbs_traffic_model.iloc[0]) for m in order]
+        rows = pd.DataFrame([b[b.tag == f"{who}:{m}"].iloc[0] for m in order])
         f, ax = fig(7.6, 4.2)
         bars(ax, [MIX_LABEL[m] for m in order],
-             [("bytes the program read+wrote", useful),
-              ("DRAM traffic incl. read-for-ownership (model)", traffic)], "GB/s")
+             [("bytes the program read+wrote", *cols(rows, "gbs_useful")),
+              ("DRAM traffic incl. read-for-ownership (model)", *cols(rows, "gbs_traffic_model"))],
+             "GB/s")
         if who == "node":
             ax.axhline(C.DRAM_PEAK_GBS, color=MUTED, ls="--", lw=0.8)
             ax.text(len(order) - 0.6, C.DRAM_PEAK_GBS * 0.98, "DDR5 peak 460.8 GB/s",
                     fontsize=7.5, color=INK2, ha="right", va="top")
         ax.set_title(f"Bandwidth by read/write mix ({who})")
         subtitle(ax, f"{name}, sequential 64 B accesses, DRAM-resident; normal stores read each "
-                 "line before writing it, NT stores don't")
+                 "line before writing it, NT stores don't; error bars: 95% CI")
         legend_below(ax, ncol=1)
-        save(f, f"e4_rw_mix_bandwidth_{who}")
+        save(f, f"rwmix_bandwidth_{who}")
     b = s[s.tag.str.startswith("loaded:")]
     order = [m for m in MIX_ORDER if (b.tag == f"loaded:{m}").any()]
-    lat = [float(b[b.tag == f"loaded:{m}"].lat_ns.iloc[0]) for m in order]
+    rows = pd.DataFrame([b[b.tag == f"loaded:{m}"].iloc[0] for m in order])
     idle = float(s[s.tag == "idle"].lat_ns.iloc[0])
     f, ax = fig(7.6, 4.2)
-    bars(ax, [MIX_LABEL[m] for m in order], [("loaded latency", lat)], "ns per load")
+    bars(ax, [MIX_LABEL[m] for m in order], [("loaded latency", *cols(rows, "lat_ns"))], "ns per load")
     ax.axhline(idle, color=MUTED, ls="--", lw=0.8)
     ax.text(len(order) - 0.6, idle * 0.97, f"idle {idle:.0f} ns", fontsize=7.5, color=INK2,
             ha="right", va="top", bbox=dict(fc=SURFACE, ec="none", pad=1))
     ax.set_title("Loaded DRAM latency at full load, by mix")
-    subtitle(ax, "random-chase probe on 1 core while 30 cores generate the mix at full rate")
-    save(f, "e4_rw_mix_loaded_latency")
+    subtitle(ax, "random-chase probe on 1 core while 30 cores generate the mix at full rate; "
+                 "error bars: 95% CI")
+    save(f, "rwmix_loaded_latency")
 
 
-# ------------------------------------------------------------------------ E5
-def plot_e5():
-    s = summary("E5")
+# ------------------------------------------------------------------------ intensity
+def plot_intensity():
+    s = summary("intensity")
     f, ax = fig(7.4, 4.6)
     knees = {}
     allbw = []
@@ -385,11 +411,14 @@ def plot_e5():
         g = s[(s.tag == f"gens:{rw}") & (s.gens == 30)]  # delay 0 point
         c = pd.concat([d, g]).sort_values("delay", ascending=False)  # rising intensity
         lab = {"1:0": "100% read", "7:3": "70/30 R/W", "1:1": "50/50 R/W"}[rw]
-        ax.plot(c.gbs_total, c.lat_ns, color=SLOTS[i], marker=MARKS[i],
-                label=f"{lab} (30 generators, delay sweep)")
+        ax.errorbar(c.gbs_total, c.lat_ns, xerr=yerr(c.gbs_total, c.gbs_total_lo, c.gbs_total_hi),
+                    yerr=yerr(c.lat_ns, c.lat_ns_lo, c.lat_ns_hi), color=SLOTS[i], marker=MARKS[i],
+                    elinewidth=0.8, capsize=1.5, label=f"{lab} (30 generators, delay sweep)")
         gg = s[s.tag == f"gens:{rw}"].sort_values("gbs_total")
-        ax.plot(gg.gbs_total, gg.lat_ns, ls="none", marker=MARKS[i], mfc=SURFACE, mec=SLOTS[i],
-                ms=6, label=f"{lab} (1-30 generators, no delay)")
+        ax.errorbar(gg.gbs_total, gg.lat_ns, xerr=yerr(gg.gbs_total, gg.gbs_total_lo, gg.gbs_total_hi),
+                    yerr=yerr(gg.lat_ns, gg.lat_ns_lo, gg.lat_ns_hi), ls="none", marker=MARKS[i],
+                    mfc=SURFACE, mec=SLOTS[i], ecolor=SLOTS[i], elinewidth=0.8, capsize=1.5, ms=6,
+                    label=f"{lab} (1-30 generators, no delay)")
         allbw += list(gg.gbs_total)
         k = C.knee(c.gbs_total.values, c.lat_ns.values)
         knees[rw] = (c.gbs_total.values[k], c.lat_ns.values[k])
@@ -411,24 +440,25 @@ def plot_e5():
     ax.set_ylabel("loaded latency (ns)")
     ax.set_title("Throughput vs latency as intensity grows")
     subtitle(ax, "MLC-style loaded latency on one node; dotted = Little's Law curves "
-                 "latency = in-flight lines x 64 B / bandwidth")
+                 "latency = in-flight lines x 64 B / bandwidth; error bars (x and y): 95% CI")
     legend_below(ax, ncol=2)
-    save(f, "e5_latency_vs_bandwidth")
+    save(f, "intensity_latency_vs_bandwidth")
 
     f, ax = fig()
     for i, rw in enumerate(("1:0", "7:3", "1:1")):
         d = s[s.tag.isin([f"delay:{rw}"]) | ((s.tag == f"gens:{rw}") & (s.gens == 30))]
         d = d.sort_values("delay", ascending=False)
-        n = C.little_outstanding(d.gbs_total, d.lat_ns)
-        ax.plot(d.gbs_total, n, color=SLOTS[i], marker=MARKS[i],
-                label={"1:0": "100% read", "7:3": "70/30", "1:1": "50/50"}[rw])
+        ax.errorbar(d.gbs_total, d.lines_in_flight,
+                    yerr=yerr(d.lines_in_flight, d.lines_in_flight_lo, d.lines_in_flight_hi),
+                    color=SLOTS[i], marker=MARKS[i], capsize=1.5, elinewidth=0.8,
+                    label={"1:0": "100% read", "7:3": "70/30", "1:1": "50/50"}[rw])
     ax.set_xlabel("memory bandwidth (GB/s)")
     ax.set_ylabel("lines in flight  L = λ·W")
     ax.set_title("Little's Law: concurrency needed for each bandwidth")
-    subtitle(ax, "L = bandwidth/64 B x loaded latency; past the knee more concurrency buys "
-                 "latency, not bandwidth")
+    subtitle(ax, "L = bandwidth/64 B x loaded latency, per sample; past the knee more concurrency "
+                 "buys latency, not bandwidth; error bars: 95% CI")
     ax.legend()
-    save(f, "e5_littles_law_concurrency")
+    save(f, "intensity_littles_law")
 
     for lv, i in (("DRAM", 0), ("L3", 1)):
         m = s[s.tag == f"mlp:{lv}"].sort_values("chains")
@@ -436,7 +466,8 @@ def plot_e5():
             continue
         f, ax = fig()
         gbs = m.loads_per_ns * C.LINE
-        series(ax, m.chains, gbs, i, "measured")
+        series(ax, m.chains, gbs, i, "measured", lo=m.loads_per_ns_lo * C.LINE,
+               hi=m.loads_per_ns_hi * C.LINE)
         lat1 = float(m[m.chains == 1].ns_per_step.iloc[0])
         ideal = C.little_bandwidth(m.chains, lat1)
         ax.plot(m.chains, ideal, color=MUTED, ls="--", lw=1, label=f"Little's Law, latency fixed at {lat1:.0f} ns")
@@ -452,32 +483,34 @@ def plot_e5():
         ax.set_ylabel("bandwidth (GB/s)")
         ax.set_title(f"Single-core memory-level parallelism ({lv})")
         subtitle(ax, f"k random chases in lockstep over {fmt_bytes(m['size'].iloc[0])}; "
-                     "the plateau is the per-core miss-handling limit")
+                     "the plateau is the per-core miss-handling limit; band: 95% CI")
         ax.legend()
-        save(f, f"e5_mlp_{lv.lower()}")
+        save(f, f"intensity_mlp_{lv.lower()}")
 
 
-# ------------------------------------------------------------------------ E6
+# ------------------------------------------------------------------------ cachemiss
 PAT_I = {"contig": 0, "stride": 1, "gather": 2}
 PAT_LABEL = {"contig": "contiguous", "stride": "stride 8 (1 elem per line)", "gather": "random gather"}
 
 
-def plot_e6():
-    s = summary("E6")
+def plot_cachemiss():
+    s = summary("cachemiss")
     s = s[s.ns_per_elem.notna()]
     f, ax = fig(7.4, 4.4)
     for k, ls in (("mul", "-"), ("axpy", "--")):
         for p, i in PAT_I.items():
             d = s[(s.kernel == k) & (s.pattern == p)].sort_values("footprint")
-            series(ax, d.footprint, d.ns_per_elem, i, f"{k} {PAT_LABEL[p]}", ls=ls)
+            series(ax, d.footprint, d.ns_per_elem, i, f"{k} {PAT_LABEL[p]}", ls=ls,
+                   lo=d.ns_per_elem_lo, hi=d.ns_per_elem_hi)
     plain_log_y(ax)
     ax.set_ylabel("ns per element (log)")
     bytes_axis(ax, s.footprint.min(), s.footprint.max(), label="footprint (all arrays)",
                spans=CORE_SPANS)
     ax.set_title("Kernel runtime vs footprint")
-    subtitle(ax, "z = x·y (solid) and y = a·x + y (dashed), f64, 1 core, -O3 -march=native")
+    subtitle(ax, "z = x·y (solid) and y = a·x + y (dashed), f64, 1 core, -O3 -march=native; "
+                 "bands: 95% CI")
     legend_below(ax, ncol=2)
-    save(f, "e6_runtime_vs_footprint")
+    save(f, "cachemiss_runtime_vs_footprint")
 
     for col, xl, name in (("l1d_miss_per_elem", "L1D misses per element", "l1_misses"),
                           ("l2_miss_dc_per_elem", "L2 demand misses per element", "l2_misses"),
@@ -486,12 +519,17 @@ def plot_e6():
         d = s.copy()
         if col == "dram_lines_per_elem":
             d[col] = d.get("l2pf_miss_l3_per_elem", 0) + d.get("fill_dram_per_elem", 0)
+            for b in ("lo", "hi"):  # sum of the two counters' CI bounds (conservative)
+                d[f"{col}_{b}"] = d[f"l2pf_miss_l3_per_elem_{b}"] + d[f"fill_dram_per_elem_{b}"]
         if col not in d or d[col].isna().all():
             continue
         f, ax = fig()
         for k, mk in (("mul", "o"), ("axpy", "s")):
             for p, i in PAT_I.items():
-                q = d[(d.kernel == k) & (d.pattern == p)]
+                q = d[(d.kernel == k) & (d.pattern == p)].dropna(subset=[col])
+                ax.errorbar(q[col], q.ns_per_elem, xerr=yerr(q[col], q[f"{col}_lo"], q[f"{col}_hi"]),
+                            yerr=yerr(q.ns_per_elem, q.ns_per_elem_lo, q.ns_per_elem_hi),
+                            ls="none", ecolor=SLOTS[i], elinewidth=0.6, zorder=2)
                 ax.scatter(q[col], q.ns_per_elem, color=SLOTS[i], marker=mk, s=22,
                            edgecolor=SURFACE, lw=0.6, label=f"{k} {PAT_LABEL[p]}", zorder=3)
         ok = d[[col, "ns_per_elem"]].dropna()
@@ -499,11 +537,12 @@ def plot_e6():
         ax.set_xlabel(xl)
         ax.set_ylabel("ns per element")
         ax.set_title(f"Runtime vs {xl.split(' per')[0]}")
-        subtitle(ax, f"every footprint 16 KiB-1 GiB; Pearson r = {r:.2f} over all points")
+        subtitle(ax, f"every footprint 16 KiB-1 GiB; Pearson r = {r:.2f} over all points; "
+                     "error bars (x and y): 95% CI")
         legend_below(ax, ncol=2)
-        save(f, f"e6_runtime_vs_{name}")
+        save(f, f"cachemiss_runtime_vs_{name}")
 
-    lat = e1_latency()
+    lat = level_latency()
     need = ["fill_l2_per_elem", "fill_ccx_per_elem", "fill_dram_per_elem"]
     if all(c in s for c in need):
         d = s.dropna(subset=need).copy()
@@ -515,6 +554,9 @@ def plot_e6():
         f, ax = fig(6.4, 5.0)
         for p, i in PAT_I.items():
             q = d[d.pattern == p]
+            ax.errorbar(q.amat, q.ns_per_elem, yerr=yerr(q.ns_per_elem, q.ns_per_elem_lo,
+                                                         q.ns_per_elem_hi),
+                        ls="none", ecolor=SLOTS[i], elinewidth=0.6, zorder=2)
             ax.scatter(q.amat, q.ns_per_elem, color=SLOTS[i], marker=MARKS[i], s=24,
                        edgecolor=SURFACE, lw=0.6, label=PAT_LABEL[p], zorder=3)
         lo = min(d.amat.min(), d.ns_per_elem.min()) / 1.3
@@ -530,15 +572,16 @@ def plot_e6():
         ax.set_xlabel("AMAT prediction, serial (ns per element)")
         ax.set_ylabel("measured (ns per element)")
         ax.set_title("AMAT (no overlap) vs measured runtime")
-        subtitle(ax, "serial AMAT from PMU fill sources x E1 idle latencies; distance below the "
-                     "diagonal = accesses overlapped (MLP)")
+        subtitle(ax, "serial AMAT from PMU fill sources x idle latencies (latency exp.); below the "
+                     "diagonal = accesses overlapped (MLP); y bars: 95% CI")
         ax.legend()
-        save(f, "e6_amat_vs_measured")
+        save(f, "cachemiss_amat_vs_measured")
 
 
-# ------------------------------------------------------------------------ E7
-def plot_e7():
-    s = summary("E7")
+# ------------------------------------------------------------------------ tlb
+def plot_tlb():
+    s = summary("tlb")
+    raw = raw_metrics("tlb")
     pr = s[s.tag.str.startswith("pagerand:")].copy()
     pr["npages"] = pr["size"] // 4096
     f, ax = fig()
@@ -556,9 +599,9 @@ def plot_e7():
     ax.set_ylim(bottom=0)
     ax.set_title("TLB reach: latency vs pages touched")
     subtitle(ax, "one 64 B line per page: both curves carry the same cache misses, so the gap "
-                 "between them is the TLB cost")
+                 "between them is the TLB cost; bands: 95% CI")
     ax.legend()
-    save(f, "e7_tlb_pagerand_latency")
+    save(f, "tlb_pagerand_latency")
 
     f, ax = fig()
     k = 0
@@ -566,7 +609,7 @@ def plot_e7():
         d = pr[pr.pages == pg].sort_values("npages")
         for c, nm in (("dtlb_miss_per_load", "L1 DTLB misses"), ("dtlb_l2_miss_per_load", "L2 DTLB misses (walks)")):
             series(ax, d.npages, d[c], k, f"{nm}, {'4 KiB' if pg == '4k' else '2 MiB'}",
-                   ls="-" if pg == "4k" else "--")
+                   ls="-" if pg == "4k" else "--", lo=d[f"{c}_lo"], hi=d[f"{c}_hi"])
             k += 1
     for n in C.DTLB.values():
         ax.axvline(n, color=MUTED, ls="--", lw=0.8)
@@ -574,15 +617,16 @@ def plot_e7():
     ax.set_xlabel("distinct 4 KiB pages touched")
     ax.set_ylabel("misses per load")
     ax.set_title("DTLB misses per load vs pages touched")
-    subtitle(ax, "PMU LsL1DTlbMiss (0x45): all reloads vs L2-TLB misses")
+    subtitle(ax, "PMU LsL1DTlbMiss (0x45): all reloads vs L2-TLB misses; bands: 95% CI")
     legend_below(ax, ncol=2)
-    save(f, "e7_tlb_pagerand_misses")
+    save(f, "tlb_pagerand_misses")
 
     rc = s[s.tag.str.startswith("random:")]
     f, ax = fig()
     for i, pg in enumerate(("4k", "2m")):
         d = rc[rc.pages == pg].sort_values("size")
-        series(ax, d["size"], d.ns_per_load, i, f"{'4 KiB' if pg == '4k' else '2 MiB'} pages")
+        series(ax, d["size"], d.ns_per_load, i, f"{'4 KiB' if pg == '4k' else '2 MiB'} pages",
+               lo=d.ns_per_load_lo, hi=d.ns_per_load_hi)
     marks = [(C.TLB_REACH[("L1", "4k")], "L1 TLB reach 4K"), (C.TLB_REACH[("L2", "4k")], "L2 TLB reach 4K"),
              (C.TLB_REACH[("L1", "2m")], "L1 TLB reach 2M")]
     for x, nm in marks:
@@ -593,9 +637,9 @@ def plot_e7():
     ax.set_ylabel("ns per load (log)")
     bytes_axis(ax, rc["size"].min(), rc["size"].max(), spans=CORE_SPANS)
     ax.set_title("Random-chase latency: 4 KiB vs 2 MiB pages")
-    subtitle(ax, "same data, same order; the gap is page-walk time")
+    subtitle(ax, "same data, same order; the gap is page-walk time; bands: 95% CI")
     ax.legend(loc="lower right")
-    save(f, "e7_tlb_random_chase")
+    save(f, "tlb_random_chase")
 
     a = rc[rc.pages == "4k"].set_index("size")
     b = rc[rc.pages == "2m"].set_index("size")
@@ -609,7 +653,9 @@ def plot_e7():
         if big.sum() >= 2:
             f, ax = fig()
             per = dy[big] / dx[big]
-            series(ax, per.index, per.values, 0, "extra ns per L2-DTLB miss (4 KiB − 2 MiB)")
+            lo, hi = zip(*[walk_cost_ci(raw, sz) for sz in per.index])
+            series(ax, per.index, per.values, 0, "extra ns per L2-DTLB miss (4 KiB − 2 MiB)",
+                   lo=lo, hi=hi)
             ax.set_ylim(bottom=0)
             ax.set_ylabel("ns per page walk")
             bytes_axis(ax, per.index.min(), per.index.max(), spans=CORE_SPANS)
@@ -618,8 +664,8 @@ def plot_e7():
                             textcoords="offset points", ha="center", fontsize=8, color=INK)
             ax.set_title("Cost of a page walk grows with the working set")
             subtitle(ax, "random chase, (4 KiB − 2 MiB) latency / extra walks per load; page-table "
-                         "entries fall out of the caches as the footprint grows")
-            save(f, "e7_tlb_walk_cost")
+                         "entries fall out of the caches as the footprint grows; band: 95% CI")
+            save(f, "tlb_walk_cost")
 
     kn = s[s["mode"] == "kern"]
     f, ax = fig()
@@ -628,7 +674,7 @@ def plot_e7():
         for pg in ("4k", "2m"):
             d = kn[(kn.pattern == p) & (kn.pages == pg)].sort_values("footprint")
             series(ax, d.footprint, d.ns_per_elem, k, f"mul, {nm}, {'4 KiB' if pg == '4k' else '2 MiB'}",
-                   ls="-" if pg == "4k" else "--")
+                   ls="-" if pg == "4k" else "--", lo=d.ns_per_elem_lo, hi=d.ns_per_elem_hi)
             k += 1
     plain_log_y(ax)
     ax.set_ylabel("ns per element (log)")
@@ -636,12 +682,27 @@ def plot_e7():
                spans=CORE_SPANS)
     ax.set_title("Kernel runtime: 4 KiB vs 2 MiB pages")
     subtitle(ax, "z = x·y, 1 core; huge pages help the random gather, but NOT the 4 KiB-stride "
-                 "loop in DRAM (see EXPERIMENTS.md E7)")
+                 "loop in DRAM (see EXPERIMENTS.md, tlb); bands: 95% CI")
     legend_below(ax, ncol=2)
-    save(f, "e7_tlb_kernels")
+    save(f, "tlb_kernels")
 
 
-# ------------------------------------------------------------------------ E8
+def walk_cost_ci(raw, size, n_boot=2000, alpha=0.05):
+    """Bootstrap CI of (median ns 4K - median ns 2M) / (median walks 4K - median walks 2M)
+    for the random chase at one working-set size (independent resampling per group)."""
+    rng = np.random.default_rng(3)
+    sel = (raw.tag.str.startswith("random:")) & (raw["size"] == size)
+    a, b = raw[sel & (raw.pages == "4k")], raw[sel & (raw.pages == "2m")]
+    ta, tb = a.ns_per_load.dropna().values, b.ns_per_load.dropna().values
+    ma, mb = a.dtlb_l2_miss_per_load.dropna().values, b.dtlb_l2_miss_per_load.dropna().values
+
+    def med(x):
+        return np.median(rng.choice(x, (n_boot, len(x))), axis=1)
+    r = (med(ta) - med(tb)) / (med(ma) - med(mb))
+    return float(np.quantile(r, alpha / 2)), float(np.quantile(r, 1 - alpha / 2))
+
+
+# ------------------------------------------------------------------------ pitfall
 def strip(ax, groups, ylabel):
     for i, (name, vals) in enumerate(groups):
         v = np.asarray(vals, float)
@@ -659,31 +720,32 @@ def strip(ax, groups, ylabel):
     ax.grid(axis="x", visible=False)
 
 
-def plot_e8():
-    s = summary("E8")
-    true_lat = e1_latency()["DRAM"]
+def plot_pitfall():
+    s = summary("pitfall")
+    true_lat = level_latency()["DRAM"]
     r = s[s.tag == "reuse:lat"].sort_values("size")
     f, ax = fig()
-    bars(ax, [fmt_bytes(v) for v in r["size"]], [("reported 'DRAM latency'", list(r.ns_per_load))],
+    bars(ax, [fmt_bytes(v) for v in r["size"]], [("reported 'DRAM latency'", *cols(r, "ns_per_load"))],
          "ns per load", fmt="{:.0f}")
     ax.axhline(true_lat, color=SLOTS[1], ls="--", lw=1)
-    ax.text(-0.4, true_lat * 0.97, f"true DRAM latency (E1) {true_lat:.0f} ns", fontsize=7.5,
+    ax.text(-0.4, true_lat * 0.97, f"true DRAM latency (latency exp.) {true_lat:.0f} ns", fontsize=7.5,
             color=INK2, va="top")
     ax.set_xlabel("buffer size of the 'DRAM' test (L3 = 32 MiB per CCD)")
     ax.set_title("Pitfall: measuring cache reuse instead of DRAM (latency)")
-    subtitle(ax, "same random chase; buffers that fit in L3 report L3 latency")
-    save(f, "e8_pitfall_cache_reuse_latency")
+    subtitle(ax, "same random chase; buffers that fit in L3 report L3 latency; error bars: 95% CI")
+    save(f, "pitfall_cache_reuse_latency")
 
     b = s[s.tag == "reuse:bw"].sort_values("size")
     f, ax = fig()
-    bars(ax, [fmt_bytes(v) for v in b["size"]], [("reported 'DRAM bandwidth'", list(b.gbs_useful))],
+    bars(ax, [fmt_bytes(v) for v in b["size"]], [("reported 'DRAM bandwidth'", *cols(b, "gbs_useful"))],
          "GB/s", fmt="{:.0f}")
     ax.set_xlabel("buffer size of the 'DRAM' test")
     ax.set_title("Pitfall: measuring cache reuse instead of DRAM (bandwidth)")
-    subtitle(ax, "single-core sequential read; only buffers well beyond 32 MiB see DRAM")
-    save(f, "e8_pitfall_cache_reuse_bandwidth")
+    subtitle(ax, "single-core sequential read; only buffers well beyond 32 MiB see DRAM; "
+                 "error bars: 95% CI")
+    save(f, "pitfall_cache_reuse_bandwidth")
 
-    raw = raw_metrics("E8")
+    raw = raw_metrics("pitfall")
     groups = []
     for tag, name in (("pin:local", "pinned,\nlocal memory"), ("pin:remote", "pinned,\nremote memory"),
                       ("pin:unpinned", "unpinned")):
@@ -694,9 +756,9 @@ def plot_e8():
         f, ax = fig()
         strip(ax, groups, "ns per load (each dot = one sample)")
         ax.set_title("Pitfall: thread and memory placement (latency)")
-        subtitle(ax, "1 GiB random chase, 10 separate processes x 5 samples each; remote = memory "
-                     "first-touched on the other socket")
-        save(f, "e8_pitfall_pinning_latency")
+        subtitle(ax, "1 GiB random chase, 10 separate processes x 5 samples each (every sample shown); "
+                     "remote = memory first-touched on the other socket")
+        save(f, "pitfall_pinning_latency")
     groups = []
     for tag, name in (("pin:bw-pinned", "16 threads pinned,\none per core, one node"),
                       ("pin:bw-unpinned", "16 threads\nunpinned")):
@@ -710,9 +772,9 @@ def plot_e8():
         ax.text(-0.5, C.DRAM_PEAK_GBS * 1.01, "one socket's DDR5 peak (460.8 GB/s)", fontsize=7.5,
                 color=INK2, va="bottom")
         ax.set_title("Pitfall: thread placement (bandwidth)")
-        subtitle(ax, "16 x 64 MiB sequential read, 10 processes x 5 samples; unpinned threads "
-                     "spread over BOTH sockets, so the 'node' number is really the machine's")
-        save(f, "e8_pitfall_pinning_bandwidth")
+        subtitle(ax, "16 x 64 MiB sequential read, 10 processes x 5 samples (all shown); unpinned "
+                     "threads spread over BOTH sockets, so the 'node' number is really the machine's")
+        save(f, "pitfall_pinning_bandwidth")
 
     pf = s[s.tag.str.startswith("prefetch:")].copy()
     pf["label"] = [
@@ -722,41 +784,41 @@ def plot_e8():
     order = ["random"] + fake + ["sequential"]
     pf = pf.set_index("label").loc[order]
     f, ax = fig()
-    bars(ax, list(pf.index), [("ns per load", list(pf.ns_per_load))], "ns per load (log)",
+    bars(ax, list(pf.index), [("ns per load", *cols(pf, "ns_per_load"))], "ns per load (log)",
          fmt="{:.1f}", log=True)
     ax.set_title("Pitfall: 'random' that is really a constant stride")
     subtitle(ax, "1 GiB chase where next = (i + step) mod n looks scrambled but the stride "
-                 "prefetchers learn it")
-    save(f, "e8_pitfall_prefetch_random")
+                 "prefetchers learn it; error bars: 95% CI")
+    save(f, "pitfall_prefetch_random")
 
-    e5 = summary("E5")
+    e5 = summary("intensity")
     g = e5[e5.tag == "gens:1:0"].sort_values("gens")
     if len(g):
         f, ax = fig()
-        series(ax, g.gens + 1, g.lat_ghz, 0, "latency-probe core")
+        series(ax, g.gens + 1, g.lat_ghz, 0, "latency-probe core", lo=g.lat_ghz_lo, hi=g.lat_ghz_hi)
         gg = g[g.gens > 0]
-        series(ax, gg.gens + 1, gg.ghz, 1, "load-generator cores (mean)")
+        series(ax, gg.gens + 1, gg.ghz, 1, "load-generator cores (mean)", lo=gg.ghz_lo, hi=gg.ghz_hi)
         ax.axhline(C.TSC_GHZ, color=MUTED, ls=":", lw=0.8)
         ax.text(1, C.TSC_GHZ * 1.01, "TSC 2.7 GHz (nominal)", fontsize=7.5, color=INK2, va="bottom")
         ax.set_ylim(2.0, 4.2)
         ax.set_xlabel("active cores on the node")
         ax.set_ylabel("measured core clock (GHz, PMU cycles / ns)")
         ax.set_title("Pitfall: the clock moves with load")
-        subtitle(ax, "E5 loaded-latency runs; boost cannot be disabled, so one fixed GHz for "
-                     "ns -> cycles is wrong by up to ~30% (TSC too)")
+        subtitle(ax, "intensity runs; boost cannot be disabled, so one fixed GHz for ns -> cycles is "
+                     "wrong by up to ~30% (TSC too); bands: 95% CI")
         ax.legend()
-        save(f, "e8_pitfall_frequency")
+        save(f, "pitfall_frequency")
 
 
-PLOTS = {"E1": plot_e1, "E2": plot_e2, "E3": plot_e3, "E4": plot_e4, "E5": plot_e5,
-         "E6": plot_e6, "E7": plot_e7, "E8": plot_e8}
+PLOTS = {"latency": plot_latency, "workingset": plot_workingset, "pattern": plot_pattern, "rwmix": plot_rwmix,
+         "intensity": plot_intensity, "cachemiss": plot_cachemiss, "tlb": plot_tlb, "pitfall": plot_pitfall}
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("exp", nargs="+")
     a = ap.parse_args()
-    exps = list(PLOTS) if a.exp == ["all"] else [e.upper() for e in a.exp]
+    exps = list(PLOTS) if a.exp == ["all"] else [C.exp_id(e) for e in a.exp]
     for e in exps:
         if e not in PLOTS:
             continue

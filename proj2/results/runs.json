@@ -1,0 +1,12 @@
+{
+  "_comment": "Run IDs behind the committed summaries/figures (see EXPERIMENTS.md). load_raw() uses these unless a run is passed explicitly; delete an entry to fall back to the latest completed run.",
+  "calib": "20261020-134542",
+  "latency": "20261020-134551",
+  "workingset": "20261020-152318",
+  "pattern": "20261020-154658",
+  "rwmix": "20261020-155702",
+  "intensity": "20261021-120458",
+  "cachemiss": "20261020-163329",
+  "tlb": "20261021-114610",
+  "pitfall": "20261021-115649"
+}

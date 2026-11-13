@@ -1,0 +1,547 @@
+{
+ "exp": "E3",
+ "run_id": "20261020-154658",
+ "quick": false,
+ "rounds": 3,
+ "samples": 7,
+ "min_ms": 20,
+ "ms": 200,
+ "core": 57,
+ "ccd": [
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63
+ ],
+ "node": 1,
+ "node_cpus": [
+  33,
+  40,
+  48,
+  56,
+  34,
+  41,
+  49,
+  57,
+  35,
+  42,
+  50,
+  58,
+  36,
+  43,
+  51,
+  59,
+  37,
+  44,
+  52,
+  60,
+  38,
+  45,
+  53,
+  61,
+  39,
+  46,
+  54,
+  62,
+  47,
+  55,
+  63
+ ],
+ "remote_cpu": 31,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "79b55a5",
+ "started": "2026-10-20T15:46:58.677294",
+ "n_jobs": 38,
+ "jobs": [
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:64",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 64
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:256",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 256
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:1024",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 1024
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:64",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 64
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:256",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 256
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:1024",
+   "args": {
+    "size": 16777216,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 1024
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:64",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 64
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:256",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 256
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:seq:1024",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "seq",
+    "stride": 1024
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:64",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 64
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:256",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 256
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "lat:random:1024",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "pattern": "random",
+    "stride": 1024
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "seq",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "seq",
+    "stride": 256,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "seq",
+    "stride": 1024,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "random",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "random",
+    "stride": 256,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:stride",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "order": "random",
+    "stride": 1024,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:dense",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 8,
+    "gran": 8,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:partial",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 64,
+    "gran": 8,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:dense",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 16,
+    "gran": 16,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:partial",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 64,
+    "gran": 16,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:dense",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 32,
+    "gran": 32,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:partial",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 64,
+    "gran": 32,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "bw:core:dense",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "seq",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "seq",
+    "stride": 256,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "seq",
+    "stride": 1024,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "random",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "random",
+    "stride": 256,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:stride",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "order": "random",
+    "stride": 1024,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:dense",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 8,
+    "gran": 8,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:partial",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 64,
+    "gran": 8,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:dense",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 16,
+    "gran": 16,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:partial",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 64,
+    "gran": 16,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:dense",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 32,
+    "gran": 32,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:partial",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 64,
+    "gran": 32,
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "bw:node:dense",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "stride": 64,
+    "gran": 64,
+    "rw": "1:0"
+   }
+  }
+ ],
+ "finished": "2026-10-20T15:56:59.598073",
+ "elapsed_s": 600.9,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 2
+}

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Raw samples -> one summary row per configuration.
 
-  python scripts/summarize.py E1|all [--run RUN_ID]
+  python scripts/summarize.py latency|all [--run RUN_ID]    (old IDs like E1 also work)
 
-Writes results/summary/<EXP>.csv: medians of every derived metric, bootstrap
-95% CIs (`<m>_lo`, `<m>_hi`) and CV for the primary metrics, sample/round
-counts, and the worst other-user activity seen (`others_util_max`).
+Writes results/summary/<EXP>.csv: medians of every derived metric; bootstrap
+95% CIs of the median (`<m>_lo`, `<m>_hi`, the error bars in the figures) for
+the primary metrics (plus their CV) and for the clock, Little's-Law lines in
+flight, the RFO traffic model and every per-load / per-element PMU count;
+sample/round counts; and the worst other-user activity seen
+(`others_util_max`).
 """
 import argparse
 import sys
@@ -22,6 +25,7 @@ KEYS = ["exp", "mode", "tag", "place", "remote", "size", "pattern", "stride", "p
         "gstride", "footprint"]
 PRIMARY = ["ns_per_load", "ns_per_step", "gbs_useful", "gbs_lines", "gbs_total", "lat_ns",
            "ns_per_elem"]
+CI_EXTRA = ["loads_per_ns", "ghz", "lat_ghz", "gbs_traffic_model", "lines_in_flight"]
 SKIP = {"sample", "round", "job", "attempts", "rep", "cpu", "cpu_end", "cpu0", "others_util"}
 
 
@@ -44,6 +48,9 @@ def summarize(raw):
                 row[c], row[f"{c}_lo"], row[f"{c}_hi"] = med, lo, hi
                 v = g[c].dropna()
                 row[f"{c}_cv"] = float(v.std() / v.mean()) if len(v) > 1 and v.mean() else np.nan
+        for c in CI_EXTRA + [c for c in num if c.endswith(("_per_load", "_per_elem"))]:
+            if c not in PRIMARY and c in g and g[c].notna().any():
+                med, row[f"{c}_lo"], row[f"{c}_hi"] = C.bootstrap_median_ci(g[c].values)
         row["samples"] = len(g)
         row["rounds"] = g["round"].nunique() if "round" in g else 1
         row["others_util_max"] = float(g.others_util.max()) if "others_util" in g else np.nan
@@ -58,8 +65,9 @@ def main():
     ap.add_argument("exp", nargs="+")
     ap.add_argument("--run")
     a = ap.parse_args()
-    exps = sorted(p.name for p in C.RAW.iterdir() if p.is_dir()) if a.exp == ["all"] else \
-        [e.upper() for e in a.exp]
+    have = {p.name for d in (C.RAW, C.RAW_COMMITTED) if d.exists() for p in d.iterdir() if p.is_dir()}
+    exps = [e for e in C.EXPERIMENT_IDS if e in have] if a.exp == ["all"] else \
+        [C.exp_id(e) for e in a.exp]
     C.SUMMARY.mkdir(parents=True, exist_ok=True)
     for e in exps:
         try:

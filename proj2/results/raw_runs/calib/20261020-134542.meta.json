@@ -1,0 +1,83 @@
+{
+ "exp": "E0",
+ "run_id": "20261020-134542",
+ "quick": false,
+ "rounds": 3,
+ "samples": 11,
+ "min_ms": 20,
+ "ms": 200,
+ "core": 9,
+ "ccd": [
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "node": 0,
+ "node_cpus": [
+  1,
+  8,
+  16,
+  24,
+  2,
+  9,
+  17,
+  25,
+  3,
+  10,
+  18,
+  26,
+  4,
+  11,
+  19,
+  27,
+  5,
+  12,
+  20,
+  28,
+  6,
+  13,
+  21,
+  29,
+  7,
+  14,
+  22,
+  30,
+  15,
+  23,
+  31
+ ],
+ "remote_cpu": 63,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "79b55a5",
+ "started": "2026-10-20T13:45:42.114753",
+ "n_jobs": 2,
+ "jobs": [
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "clock",
+   "args": {
+    "size": 16384,
+    "counters": "clock"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "dram",
+   "args": {
+    "size": 1073741824,
+    "counters": "fills"
+   }
+  }
+ ],
+ "finished": "2026-10-20T13:45:48.767934",
+ "elapsed_s": 6.7,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 0
+}

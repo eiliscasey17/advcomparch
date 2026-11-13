@@ -6,9 +6,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 PY=${PY:-$HOME/miniconda3/envs/advcomparch/bin/python}
 ./scripts/capture_env.sh
-# single-core experiments (E6, E7) before whole-node ones (E5, E8): they only
+# single-core experiments (cachemiss, tlb) before whole-node ones (intensity, pitfall): they only
 # need one quiet CCD, so they can run while the nodes are busy
-for e in ${@:-E0 E1 E2 E3 E4 E6 E7 E5 E8}; do
+for e in ${@:-calib latency workingset pattern rwmix cachemiss tlb intensity pitfall}; do
   # resume: skip experiments that already have a completed full run
   if ls results/raw/"$e"/*[0-9].meta.json >/dev/null 2>&1; then
     echo "$e: completed run exists, skipping (delete its meta.json to re-run)"

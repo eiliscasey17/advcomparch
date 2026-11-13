@@ -1,0 +1,245 @@
+{
+ "exp": "E1",
+ "run_id": "20261020-134551",
+ "quick": false,
+ "rounds": 3,
+ "samples": 11,
+ "min_ms": 20,
+ "ms": 200,
+ "core": 57,
+ "ccd": [
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63
+ ],
+ "node": 0,
+ "node_cpus": [
+  1,
+  8,
+  16,
+  24,
+  2,
+  9,
+  17,
+  25,
+  3,
+  10,
+  18,
+  26,
+  4,
+  11,
+  19,
+  27,
+  5,
+  12,
+  20,
+  28,
+  6,
+  13,
+  21,
+  29,
+  7,
+  14,
+  22,
+  30,
+  15,
+  23,
+  31
+ ],
+ "remote_cpu": 31,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "79b55a5",
+ "started": "2026-10-20T13:45:51.408316",
+ "n_jobs": 18,
+ "jobs": [
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L1:2m",
+   "args": {
+    "size": 16384,
+    "counters": "fills",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L1:2m",
+   "args": {
+    "size": 16384,
+    "counters": "tlb",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L2:2m",
+   "args": {
+    "size": 524288,
+    "counters": "fills",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L2:2m",
+   "args": {
+    "size": 524288,
+    "counters": "tlb",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L3:2m",
+   "args": {
+    "size": 16777216,
+    "counters": "fills",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L3:2m",
+   "args": {
+    "size": 16777216,
+    "counters": "tlb",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM:2m",
+   "args": {
+    "size": 1073741824,
+    "counters": "fills",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM:2m",
+   "args": {
+    "size": 1073741824,
+    "counters": "tlb",
+    "pages": "2m"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L1:4k",
+   "args": {
+    "size": 16384,
+    "counters": "fills",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L1:4k",
+   "args": {
+    "size": 16384,
+    "counters": "tlb",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L2:4k",
+   "args": {
+    "size": 524288,
+    "counters": "fills",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L2:4k",
+   "args": {
+    "size": 524288,
+    "counters": "tlb",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L3:4k",
+   "args": {
+    "size": 16777216,
+    "counters": "fills",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "L3:4k",
+   "args": {
+    "size": 16777216,
+    "counters": "tlb",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM:4k",
+   "args": {
+    "size": 1073741824,
+    "counters": "fills",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM:4k",
+   "args": {
+    "size": 1073741824,
+    "counters": "tlb",
+    "pages": "4k"
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM-remote:2m",
+   "args": {
+    "size": 1073741824,
+    "counters": "fills",
+    "remote": true
+   }
+  },
+  {
+   "mode": "chase",
+   "place": "core",
+   "tag": "DRAM-remote:2m",
+   "args": {
+    "size": 1073741824,
+    "counters": "tlb",
+    "remote": true
+   }
+  }
+ ],
+ "finished": "2026-10-20T13:46:49.225271",
+ "elapsed_s": 57.8,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 0
+}

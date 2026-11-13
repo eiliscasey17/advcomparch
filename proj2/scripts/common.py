@@ -5,6 +5,7 @@ Every derived number in the plots (ns/load, GB/s, outstanding misses, AMAT,
 knee) is computed here and nowhere else, so tests can pin the formulas down
 (tests/test_analysis.py). Statistics helpers are copied from proj1.
 """
+import json
 from pathlib import Path
 
 import numpy as np
@@ -16,6 +17,24 @@ MEMBENCH = BUILD / "membench"
 RESULTS = ROOT / "results"
 RAW, SUMMARY, PLOTS, ENV = (RESULTS / d for d in ("raw", "summary", "plots", "env"))
 MLC = ROOT / "tools" / "mlc" / "Linux" / "mlc"
+# Raw samples behind the committed figures, gzipped and tracked in git (the
+# full local raw/ tree, with quick and interrupted runs, is gitignored).
+RAW_COMMITTED = RESULTS / "raw_runs"
+
+# Experiment IDs, in the order of the assignment's required list. The old
+# numeric IDs (E0..E8) are still accepted as aliases everywhere.
+EXPERIMENT_IDS = ["calib", "latency", "workingset", "pattern", "rwmix", "intensity", "cachemiss",
+                  "tlb", "pitfall"]
+LEGACY_IDS = {f"E{i}": e for i, e in enumerate(EXPERIMENT_IDS)}
+
+
+def exp_id(name):
+    """Canonical experiment ID for a new-style name or a legacy E<n> alias."""
+    name = name.strip()
+    e = LEGACY_IDS.get(name.upper(), name.lower())
+    if e not in EXPERIMENT_IDS:
+        raise ValueError(f"unknown experiment {name!r}; known: {', '.join(EXPERIMENT_IDS)}")
+    return e
 
 KiB, MiB, GiB = 1 << 10, 1 << 20, 1 << 30
 LINE = 64
@@ -100,6 +119,8 @@ def add_metrics(df):
         df.loc[th, "lat_cyc"] = df.lat_cycles.where(df.lat_cycles > 0) / lat
         # total bandwidth seen by memory, including the probe's own lines
         df.loc[th, "gbs_total"] = df.gbs_lines + (lat.fillna(0) * LINE / df.ns)
+        # Little's Law per sample: lines in flight = (lines/ns) x loaded latency
+        df.loc[th, "lines_in_flight"] = little_outstanding(df.gbs_total[th], df.lat_ns[th])
         if has("cycles"):
             df.loc[th, "ghz"] = df.cycles / (df.ns * df.gens.clip(lower=1))
     kn = m == "kern"
@@ -164,20 +185,36 @@ def knee(x, y):
 
 # ------------------------------------------------------------ raw data --
 def load_raw(exp, run=None):
-    """Concatenate raw CSVs of one experiment run (latest completed full run
-    if run is None)."""
-    d = RAW / exp
-    files = sorted(d.glob("*.csv"))
-    if not files:
-        raise FileNotFoundError(f"no raw data for {exp} in {d}")
-    runs = sorted({f.name.split("__")[0] for f in files
-                   if (d / (f.name.split("__")[0] + ".meta.json")).exists()})
-    if not runs:
-        raise FileNotFoundError(f"no completed run for {exp} in {d}")
-    full = [r for r in runs if not r.endswith("-quick")]
-    run = run or (full or runs)[-1]
-    parts = [pd.read_csv(f) for f in files if f.name.startswith(run + "__")]
-    return pd.concat(parts, ignore_index=True), run
+    """Concatenate the raw sample CSVs of one experiment run.
+
+    Run choice: `run` if given, else the ID pinned in results/runs.json (the
+    run behind the committed figures), else the latest completed full run.
+    Files come from the local raw/ tree if present, otherwise from the
+    gzipped copies committed under results/raw_runs/ (so a fresh clone can
+    regenerate every summary and figure). Only completed runs (those with a
+    .meta.json, written last) are ever picked up."""
+    exp = exp_id(exp)
+    legacy = next(k for k, v in LEGACY_IDS.items() if v == exp)
+    found = {}  # run id -> {round: file}
+    for d, pattern in ((RAW_COMMITTED / exp, "*__r*.csv.gz"), (RAW / exp, "*__r*.csv"),
+                       (RAW / legacy, "*__r*.csv")):
+        for f in sorted(d.glob(pattern)):
+            r = f.name.split("__")[0]
+            if (d / f"{r}.meta.json").exists():
+                found.setdefault(r, {})[f.name.split("__")[1].split(".")[0]] = f  # local wins
+    if not found:
+        raise FileNotFoundError(f"no completed raw run for {exp} in {RAW / exp} or {RAW_COMMITTED / exp}")
+    pins = RESULTS / "runs.json"
+    if run is None and pins.exists():
+        run = json.loads(pins.read_text()).get(exp)
+    if run is None:
+        full = sorted(r for r in found if not r.endswith("-quick"))
+        run = (full or sorted(found))[-1]
+    if run not in found:
+        raise FileNotFoundError(f"run {run} of {exp} not found")
+    df = pd.concat([pd.read_csv(found[run][k]) for k in sorted(found[run])], ignore_index=True)
+    df["exp"] = exp  # rows recorded before the rename carry the old E<n> label
+    return df, run
 
 
 def bootstrap_median_ci(x, n_boot=2000, alpha=0.05, rng=None):

@@ -3,7 +3,8 @@
 This is the single place to find what was run, how, and what it showed.
 - **Figures:** `results/plots/`, one graph per JPG.
 - **Numbers behind every figure:** `results/summary/<ID>.csv`. Each row gives medians, a bootstrap 95% CI (`*_lo`, `*_hi`), the CV, and `others_util_max`.
-- **Raw samples:** `results/raw/` (gitignored). Regenerate them with the commands at the bottom.
+- **Raw samples behind every figure:** committed, gzipped, in `results/raw_runs/<experiment>/`, with the runs pinned in `results/runs.json`. The full local `results/raw/` tree, including quick and interrupted runs, is gitignored.
+- **Experiment IDs** were renamed from `E0`–`E8` to descriptive names. The old IDs still work as aliases in every script.
 
 **Machine:**
 - 2 × AMD EPYC 9334 (Zen 4, Genoa): 4 CCDs × 8 cores per socket, no SMT.
@@ -13,7 +14,7 @@ This is the single place to find what was run, how, and what it showed.
 - Clock: boost on, `performance` governor. 3.89 GHz measured on one core.
 - Software: no root; THP `always` with defrag `madvise`; no hugetlbfs pool; `perf_event_paranoid=2`.
 
-**Status (2026-10-21):** E0–E8 are complete.
+**Status (2026-10-21):** all nine experiments (calib through pitfall) are complete.
 
 Verification passes:
 - 225 C unit checks (`results/env/unit_tests.txt`)
@@ -42,7 +43,7 @@ The Intel MLC cross-check could not run (see [MLC](#mlc-cross-check-blocked)).
   - Before each job, the measured CCD must carry at most 0.5 core of other activity, or the measured node at most 2 cores. Background services keep about 1.1 cores busy on every node.
   - During each job, other users' activity on those cpus is measured as busy jiffies minus our own child CPU time, and saved as `others_util`.
   - A disturbed job is re-measured, up to 3 attempts.
-  - The gate waits without limit for quiet hardware. That is why E6's wall time is 19 h: it waited out the other jobs running at the time (MAGI and LongVILA evals).
+  - The gate waits without limit for quiet hardware. That is why cachemiss's wall time is 19 h: it waited out the other jobs running at the time (MAGI and LongVILA evals).
 - **Memory.**
   - 2 MiB pages by default, via `madvise(MADV_HUGEPAGE)`; verified at 100% THP in every row.
   - 4 KiB pages via `MADV_NOHUGEPAGE`; verified at 0% THP.
@@ -57,19 +58,19 @@ The Intel MLC cross-check could not run (see [MLC](#mlc-cross-check-blocked)).
   - Fill-source events (0x44) attribute each L1D fill to L2, own-CCD L3, another CCD, or DRAM.
   - L2 demand misses come from 0x64, L2-prefetch misses in L3 from 0x72, and L1/L2 DTLB misses from 0x45.
   - Each event was validated on probes with known behaviour. For example, a 512 KiB random chase gives fill_l2/load = 1.000. A 16384-page 4 KiB page-stride chase gives dtlb_l2_miss/load = 0.997.
-- **Little's Law.** In-flight lines = bandwidth / 64 B × latency. **AMAT:** t = Σ (fraction served by level × that level's latency, from E1).
+- **Little's Law.** In-flight lines = bandwidth / 64 B × latency. **AMAT:** t = Σ (fraction served by level × that level's latency, from the latency experiment).
 
 | ID | run_id | core / node | rounds × samples | jobs | wall time | re-measured / still busy |
 |---|---|---|---|---|---|---|
-| E0 | 20261020-134542 | core 9 | 3 × 11 | 2 | 7 s | 0 / 0 |
-| E1 | 20261020-134551 | core 57 (node 1); remote memory on node 0 | 3 × 11 | 18 | 58 s | 0 / 0 |
-| E2 | 20261020-152318 | core 49, node 1 | 2 × 7 | 143 | 24 min | 7 / 0 |
-| E3 | 20261020-154658 | core 57, node 1 | 3 × 7 | 38 | 10 min | 2 / 0 |
-| E4 | 20261020-155702 | core 49, node 1 | 3 × 7 | 22 | 5 min | 0 / 0 |
-| E5 | 20261021-120458 | core 9, node 0 (31 cpus) | 2 × 5 | 114 | 52 min (incl. waiting) | 0 / 0 |
-| E6 | 20261020-163329 | core 2 | 2 × 7 | 594 | 19.2 h (waiting) | 35 / 9 |
-| E7 | 20261021-114610 | core 1 | 2 × 7 | 200 | 7 min | 5 / 1 |
-| E8 | 20261021-115649 | core 9, node 0; remote memory on node 1 | 1 × 7 (pinning: 10 processes × 5) | 70 | 2 min | 0 / 0 |
+| calib | 20261020-134542 | core 9 | 3 × 11 | 2 | 7 s | 0 / 0 |
+| latency | 20261020-134551 | core 57 (node 1); remote memory on node 0 | 3 × 11 | 18 | 58 s | 0 / 0 |
+| workingset | 20261020-152318 | core 49, node 1 | 2 × 7 | 143 | 24 min | 7 / 0 |
+| pattern | 20261020-154658 | core 57, node 1 | 3 × 7 | 38 | 10 min | 2 / 0 |
+| rwmix | 20261020-155702 | core 49, node 1 | 3 × 7 | 22 | 5 min | 0 / 0 |
+| intensity | 20261021-120458 | core 9, node 0 (31 cpus) | 2 × 5 | 114 | 52 min (incl. waiting) | 0 / 0 |
+| cachemiss | 20261020-163329 | core 2 | 2 × 7 | 594 | 19.2 h (waiting) | 35 / 9 |
+| tlb | 20261021-114610 | core 1 | 2 × 7 | 200 | 7 min | 5 / 1 |
+| pitfall | 20261021-115649 | core 9, node 0; remote memory on node 1 | 1 × 7 (pinning: 10 processes × 5) | 70 | 2 min | 0 / 0 |
 
 Commands for every experiment:
 ```
@@ -81,7 +82,7 @@ python scripts/plot.py <ID>
 
 ---
 
-## E0: Calibration
+## calib: Calibration
 **Question:** what clock do cycle figures use, and does the probe behave?
 
 **Results:**
@@ -89,7 +90,7 @@ python scripts/plot.py <ID>
 - The DRAM anchor is 125 ns.
 - cpuid geometry (`results/env/cpuid_info.txt`) matches sysfs and is asserted by pytest.
 
-## E1: Zero-queue latency per level
+## latency: Zero-queue latency per level
 **Question:** what is the unloaded load-to-use latency of each level?
 
 **Method:**
@@ -110,13 +111,13 @@ python scripts/plot.py <ID>
 
 **Interpretation:**
 - Each level costs about 3.5–8× the one above it.
-- Remote DRAM adds about 70 ns, one hop over the socket-to-socket link. The other direction (node 0 → node 1 memory, measured in E8) is 217 ns.
+- Remote DRAM adds about 70 ns, one hop over the socket-to-socket link. The other direction (node 0 → node 1 memory, measured in pitfall) is 217 ns.
 - With 4 KiB pages, a 1 GiB working set misses the L2 TLB on 99% of loads, which adds 17 ns (+14%) to every DRAM access.
 - The 16 MiB "L3" figure includes 2.6% DRAM fills. A pure L3 hit is about 12.9 ns, 50 cycles.
 
-**Figures:** `e1_latency_table.jpg`, `e1_latency_by_level.jpg`. **Data:** `E1.csv`.
+**Figures:** `latency_table.jpg`, `latency_by_level.jpg`. **Data:** `latency.csv`.
 
-## E2: Working-set sweep
+## workingset: Working-set sweep
 **Question:** where are the transitions, and do they match the capacities?
 
 **Method:**
@@ -131,7 +132,7 @@ python scripts/plot.py <ID>
   - 8–19 ns from 1.2 to 28 MiB, a mix of L2 and L3 hits (the L2 share falls from 52% to 2%).
   - Then the DRAM ramp: 24 ns at 32 MiB, 87 ns at 64 MiB, 117 ns at 256 MiB, 126 ns from 1 GiB on.
   - The PMU fill fractions switch exactly at 32 KiB, 1 MiB and 32 MiB.
-- **AMAT check.** Σ (fraction served by level × E1 latency) predicts the measured latency to within 0–3% at every point from 45 MiB to 1 GiB. Examples: 64 MiB, 88.5 predicted vs 86.8 ns measured; 128 MiB, 107.7 vs 106.1 ns.
+- **AMAT check.** Σ (fraction served by level × that level's latency from the latency experiment) predicts the measured latency to within 0–3% at every point from 45 MiB to 1 GiB. Examples: 64 MiB, 88.5 predicted vs 86.8 ns measured; 128 MiB, 107.7 vs 106.1 ns.
 - **Single-core read bandwidth.**
 
   | level | bandwidth | per cycle |
@@ -147,12 +148,12 @@ python scripts/plot.py <ID>
 - The DRAM transition is gradual, not a step. A random set of size WS still hits the 32 MiB L3 with probability ≈ 32 MiB / WS. AMAT with the measured hit fractions reproduces the whole ramp.
 - **Little's Law for one core:**
   - 43.5 GB/s at 126 ns needs 43.5 / 64 × 126 ≈ **86 lines in flight**.
-  - E5 shows that demand misses alone saturate at about 19 per core.
-  - The rest of the concurrency comes from the L2 hardware prefetcher, which is why sequential bandwidth is 4.6× the random-access bandwidth (E3).
+  - intensity shows that demand misses alone saturate at about 19 per core.
+  - The rest of the concurrency comes from the L2 hardware prefetcher, which is why sequential bandwidth is 4.6× the random-access bandwidth (pattern).
 
-**Figures:** `e2_latency_vs_working_set.jpg`, `e2_fill_source_vs_working_set.jpg`, `e2_bandwidth_vs_working_set_core.jpg`, `e2_bandwidth_vs_working_set_node.jpg`. **Data:** `E2.csv`.
+**Figures:** `workingset_latency.jpg`, `workingset_fill_source.jpg`, `workingset_bandwidth_core.jpg`, `workingset_bandwidth_node.jpg`. **Data:** `workingset.csv`.
 
-## E3: Access pattern and granularity
+## pattern: Access pattern and granularity
 **Question:** how do order, stride and access size change latency and bandwidth?
 
 **Method:**
@@ -175,14 +176,14 @@ python scripts/plot.py <ID>
 - **One access per line:** the useful bandwidth is gran/64 of the line bandwidth. 1 core: 5.4 / 9.7 / 20.0 GB/s for 8 / 16 / 32 B, while 38–43 GB/s of whole lines move; node: 38 / 75 / 145 GB/s useful against 290–302 GB/s of lines. The PMU confirms 1.00 DRAM line per access.
 
 **Interpretation:**
-- **Random order.** Random bandwidth on one core is purely latency × MLP bound. 9.0 GB/s × 126 ns / 64 B = **17.6 lines in flight**, which is the per-core demand-miss limit from E5.
-- **Sequential dependent chases are prefetched**, even at a 1 KiB stride (3.8 ns instead of 126 ns). Constant-stride "latency tests" therefore measure the prefetcher, not DRAM (E8c).
+- **Random order.** Random bandwidth on one core is purely latency × MLP bound. 9.0 GB/s × 126 ns / 64 B = **17.6 lines in flight**, which is the per-core demand-miss limit from intensity.
+- **Sequential dependent chases are prefetched**, even at a 1 KiB stride (3.8 ns instead of 126 ns). Constant-stride "latency tests" therefore measure the prefetcher, not DRAM (pitfall, part c).
 - **Strided independent loads (256 B and 1024 B) are no faster than random**, unlike the strided chase. A possible explanation, not verified: the bandwidth loop is unrolled 4×, so each load instruction sees a 4 × stride step (1–4 KiB), which the per-instruction stride prefetcher may not follow.
 - **Granularity.** In DRAM, granularity only matters until there are enough loads in flight. One core cannot issue 8 B loads fast enough (23.6 GB/s is an instruction-rate limit); 31 cores can. Touching part of a line still moves the whole line, so useful bandwidth scales with gran/64.
 
-**Figures:** `e3_latency_by_pattern.jpg`, `e3_bandwidth_stride_{core,node}.jpg`, `e3_bandwidth_granularity_{core,node}.jpg`. **Data:** `E3.csv`.
+**Figures:** `pattern_latency.jpg`, `pattern_bandwidth_stride_{core,node}.jpg`, `pattern_bandwidth_granularity_{core,node}.jpg`. **Data:** `pattern.csv`.
 
-## E4: Read/write mix
+## rwmix: Read/write mix
 **Question:** what do 100% read, 100% write, 70/30 and 50/50 sustain, and at what latency?
 
 **Method:**
@@ -209,9 +210,9 @@ The idle latency is 126 ns.
 - **Loaded latency** at full load rises from +113% (read) to +263% (100% write). The write-to-read turnaround and the doubled traffic of RFO writes add queueing.
 - **Anomaly, unexplained:** one core interleaving NT stores 1:1 with loads reaches only 14.2 GB/s. Both 0:1 NT and 7:3 NT are fine. It is listed under open items.
 
-**Figures:** `e4_rw_mix_bandwidth_{node,core}.jpg`, `e4_rw_mix_loaded_latency.jpg`. **Data:** `E4.csv`.
+**Figures:** `rwmix_bandwidth_{node,core}.jpg`, `rwmix_loaded_latency.jpg`. **Data:** `rwmix.csv`.
 
-## E5: Intensity, throughput vs latency, Little's Law
+## intensity: Intensity, throughput vs latency, Little's Law
 **Question:** how does latency grow as memory intensity grows? Where is the knee, and what concurrency does Little's Law say each point needs?
 
 **Method:**
@@ -243,21 +244,21 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 - **L3.** It plateaus at about 76 GB/s from k ≈ 20–24. 76 × 15 ns / 64 ≈ 18: the same per-core limit, so the cap is in the core (its outstanding-miss tracking), not in DRAM.
 
 **Interpretation:**
-- **The core's limit.** One core can keep about 19 demand misses in flight to any level beyond L2. Random reads (E3, 17.6) and gathers (E6, 19) hit the same ceiling.
+- **The core's limit.** One core can keep about 19 demand misses in flight to any level beyond L2. Random reads (pattern, 17.6) and gathers (cachemiss, 19) hit the same ceiling.
 - **The socket's limit.** Saturating the socket takes about 1300 lines in flight. Thirty cores × 19 demand misses cannot supply that alone; hardware prefetch on the sequential generators supplies the rest.
 - **The knee is the useful operating point.** It reaches 80–85% of peak bandwidth at only 1.3–1.5× idle latency. Beyond it, the device queues are full, and Little's Law turns more concurrency directly into latency.
 - **Writes move the knee left.** 50/50 kneels at 179 GB/s. RFO doubles the write traffic, and DDR5 read/write turnarounds cost bus time.
 
 **Figures:**
-- `e5_latency_vs_bandwidth.jpg`: knees starred, Little's-Law in-flight isolines dotted
-- `e5_littles_law_concurrency.jpg`
-- `e5_mlp_dram.jpg`, `e5_mlp_l3.jpg`
+- `intensity_latency_vs_bandwidth.jpg`: knees starred, Little's-Law in-flight isolines dotted
+- `intensity_littles_law.jpg`
+- `intensity_mlp_dram.jpg`, `intensity_mlp_l3.jpg`
 
-**Data:** `E5.csv`.
+**Data:** `intensity.csv`.
 
 **Caveat:** other users kept 1–1.4 cores busy on node 0 during part of the run, within the 2-core gate and recorded per row. The two rounds agree within ±1%.
 
-## E6: Cache-miss impact on loop kernels
+## cachemiss: Cache-miss impact on loop kernels
 **Question:** how do footprint and access pattern turn into misses, and misses into runtime?
 
 **Method:**
@@ -276,7 +277,7 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 | axpy gather | 0.72 | 0.8–1.1 | 1.3–1.9 | **13.1–13.5** |
 
 - **Correlation with runtime** over all 196 points: DRAM demand fills/element r = 0.98; L2 demand misses r = 0.76; L1 misses r = 0.49 (Spearman 0.90).
-- **AMAT, serial and with no overlap** (fills × E1 latencies), overpredicts every point:
+- **AMAT, serial and with no overlap** (fills × idle latencies from the latency experiment), overpredicts every point:
   - gather in DRAM by 16–20×
   - contiguous by 3–30×
 
@@ -286,14 +287,14 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 - **Random gather is bound by Little's Law.**
   - mul: 3.0 L2 misses per element in 20 ns, i.e. 6.7 ns per miss.
   - axpy: 2.0 misses in 13.4 ns, i.e. 6.7 ns per miss.
-  - 126 ns / 6.7 ns ≈ **19 misses in flight**: the same per-core limit E5 measures with pointer chains.
-- **The serial AMAT** is the right model for a dependent chase (E2, to within 3%). For independent accesses it must be divided by the achieved MLP. The distance below the diagonal in `e6_amat_vs_measured.jpg` is that MLP.
+  - 126 ns / 6.7 ns ≈ **19 misses in flight**: the same per-core limit intensity measures with pointer chains.
+- **The serial AMAT** is the right model for a dependent chase (workingset, to within 3%). For independent accesses it must be divided by the achieved MLP. The distance below the diagonal in `cachemiss_amat_vs_measured.jpg` is that MLP.
 
-**Figures:** `e6_runtime_vs_footprint.jpg`, `e6_runtime_vs_{l1_misses,l2_misses,dram_lines}.jpg`, `e6_amat_vs_measured.jpg`. **Data:** `E6.csv`.
+**Figures:** `cachemiss_runtime_vs_footprint.jpg`, `cachemiss_runtime_vs_{l1_misses,l2_misses,dram_lines}.jpg`, `cachemiss_amat_vs_measured.jpg`. **Data:** `cachemiss.csv`.
 
-**Caveat:** 9 of the 1188 jobs still saw more than 0.5 core of neighbour activity after 3 attempts. Their rows carry `others_util` > 0.5; see `E6.csv` `others_util_max`.
+**Caveat:** 9 of the 1188 jobs still saw more than 0.5 core of neighbour activity after 3 attempts. Their rows carry `others_util` > 0.5; see `cachemiss.csv` `others_util_max`.
 
-## E7: TLB-miss impact, 4 KiB vs 2 MiB pages
+## tlb: TLB-miss impact, 4 KiB vs 2 MiB pages
 **Question:** what do DTLB misses cost, and when do huge pages help?
 
 **Method:**
@@ -327,9 +328,9 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 - The 4 KiB-stride slowdown is attributed, not proven, to physical contiguity. Inside a 2 MiB page, a 4 KiB power-of-two stride maps to the same cache-set and DRAM-bank/channel bits over and over. Scattered 4 KiB physical pages randomize those bits. Huge pages are not a free win.
 - PAGERAND with 2 MiB pages is non-monotonic between 724 and 2048 pages (5.7 / 3.7 / 6.0 ns). The probe places line (page × 5 mod 64) in each page, so these sizes create L1/L2 set conflicts. The effect is the same for both page sizes, so the gap is still valid.
 
-**Figures:** `e7_tlb_pagerand_latency.jpg`, `e7_tlb_pagerand_misses.jpg`, `e7_tlb_random_chase.jpg`, `e7_tlb_walk_cost.jpg`, `e7_tlb_kernels.jpg`. **Data:** `E7.csv`.
+**Figures:** `tlb_pagerand_latency.jpg`, `tlb_pagerand_misses.jpg`, `tlb_random_chase.jpg`, `tlb_walk_cost.jpg`, `tlb_kernels.jpg`. **Data:** `tlb.csv`.
 
-## E8: Benchmark pitfalls
+## pitfall: Benchmark pitfalls
 **(a) Cache reuse posing as DRAM.**
 - A random-chase "DRAM latency test" reports these values by buffer size:
 
@@ -356,8 +357,8 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 | bandwidth, 16 threads pinned on one node | 308 GB/s |
 | bandwidth, 16 threads unpinned | **475 GB/s median**, above one socket's 460.8 GB/s peak |
 
-- Unpinned threads spread over **both** sockets and first-touch locally on each. A "node bandwidth" test then silently measures the machine. 8 cores per socket give 245 GB/s (E5), and 2 × 245 ≈ 490 GB/s.
-- Remote latency also depends on direction and on load on the remote socket: 196 ns from node 1 (E1), 217 ns from node 0.
+- Unpinned threads spread over **both** sockets and first-touch locally on each. A "node bandwidth" test then silently measures the machine. 8 cores per socket give 245 GB/s (intensity), and 2 × 245 ≈ 490 GB/s.
+- Remote latency also depends on direction and on load on the remote socket: 196 ns from node 1 (latency), 217 ns from node 0.
 
 **(c) Prefetchable "random".**
 - A chase with next = (i + step) mod n looks scrambled. For steps of 3, 17, 67 and 257 lines it reports 4.2–4.6 ns, **27–30× below** the true 126.6 ns.
@@ -365,23 +366,23 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
 - A pure sequential chase gives 1.8 ns.
 
 **(d) Frequency.**
-- The core clock is 3.88 GHz with ≤ 9 cores busy on a node (E5 generator sweep), 3.53 GHz at 13 cores, 3.23 GHz at 17, and 2.97–3.06 GHz at 21–31 cores (−23%).
+- The core clock is 3.88 GHz with ≤ 9 cores busy on a node (intensity generator sweep), 3.53 GHz at 13 cores, 3.23 GHz at 17, and 2.97–3.06 GHz at 21–31 cores (−23%).
 - Converting ns to cycles with a fixed single-core clock overstates cycles by up to 30% under load; the 2.7 GHz TSC understates them by about 30% on an idle core. Every cycle figure here uses PMU cycles / ns.
 
 **Figures:**
-- `e8_pitfall_cache_reuse_latency.jpg`, `e8_pitfall_cache_reuse_bandwidth.jpg`
-- `e8_pitfall_pinning_latency.jpg`, `e8_pitfall_pinning_bandwidth.jpg`
-- `e8_pitfall_prefetch_random.jpg`
-- `e8_pitfall_frequency.jpg`
+- `pitfall_cache_reuse_latency.jpg`, `pitfall_cache_reuse_bandwidth.jpg`
+- `pitfall_pinning_latency.jpg`, `pitfall_pinning_bandwidth.jpg`
+- `pitfall_prefetch_random.jpg`
+- `pitfall_frequency.jpg`
 
-**Data:** `E8.csv`, plus raw E8 samples for the strip plots.
+**Data:** `pitfall.csv`, plus raw pitfall samples for the strip plots.
 
 ---
 
 ## MLC cross-check (blocked)
 - Intel MLC v3.13 is installed in `tools/mlc`. The archive's SHA256 matches Intel's published value.
 - It refuses every mode with exit 22 unless at least 1000 hugetlbfs 2 MiB pages are reserved per node (`echo 4000 > /proc/sys/vm/nr_hugepages`). That requires root, and v3.13 has no flag to skip the check.
-- The raw output is in `results/raw/MLC/`, and the status in `results/env/mlc_status.txt`.
+- MLC's raw output stays local in `results/raw/MLC/` (gitignored); the status is in `results/env/mlc_status.txt`.
 - **To run it:** an admin reserves the pages (8 GiB; free them afterwards), then run `python scripts/mlc.py`.
 - Without root, MLC would also leave the prefetchers on (`-e`).
 
@@ -391,16 +392,16 @@ An earlier run (20261020-160206) had its two rounds on different nodes and days.
    - read bandwidth: 190 / 114 / 90 / 43.5 GB/s
    - one node of 31 cores reads DRAM at about 300 GB/s
 2. **Concurrency, not latency, sets bandwidth.**
-   - One core sustains about 19 demand misses in flight (E5 chains, E3 random reads, E6 gathers all agree through Little's Law).
+   - One core sustains about 19 demand misses in flight (intensity chains, pattern random reads, cachemiss gathers all agree through Little's Law).
    - Prefetching raises that to about 86 lines for sequential reads.
    - The socket saturates at about 303 GB/s with 12 cores. The knee sits at about 240 GB/s / 167 ns (reads); past it, extra concurrency only adds queueing latency, and oversubscribing even loses bandwidth.
-3. **AMAT works for dependent accesses** (E2, within 3%). **For independent ones, divide by MLP** (E6).
-4. **TLB.** 4 KiB pages cost 7 cycles per L1-DTLB miss and 9–34 ns per page walk. Huge pages fix that, but can hurt power-of-two strides (E7c).
+3. **AMAT works for dependent accesses** (workingset, within 3%). **For independent ones, divide by MLP** (cachemiss).
+4. **TLB.** 4 KiB pages cost 7 cycles per L1-DTLB miss and 9–34 ns per page walk. Huge pages fix that, but can hurt power-of-two strides (tlb, part c).
 5. **Writes cost about 2× in DRAM traffic** because of read-for-ownership. NT stores remove that but cap at about 229 GB/s.
 
 ## Open items
 - The 1:1 NT-store/load mix on one core (14 GB/s) is unexplained. Next steps: PMU write-combining events and a sweep of the interleave granularity.
-- E3: why strided independent loads (256 B, 1 KiB) don't get prefetched while the strided chase does. Test with non-unrolled loads and per-instruction strides.
-- E7c: confirm the 2 MiB-page 4 KiB-stride conflict hypothesis by adding a page-offset skew to the stride and measuring cache-set / DRAM-bank distribution.
+- pattern: why strided independent loads (256 B, 1 KiB) don't get prefetched while the strided chase does. Test with non-unrolled loads and per-instruction strides.
+- tlb (c): confirm the 2 MiB-page 4 KiB-stride conflict hypothesis by adding a page-offset skew to the stride and measuring cache-set / DRAM-bank distribution.
 - Uncore DRAM counters (`amd_umc`, `amd_df`) would measure the true DRAM traffic, but need `perf_event_paranoid ≤ 0`.
 - The MLC cross-check needs root to reserve hugetlbfs pages.

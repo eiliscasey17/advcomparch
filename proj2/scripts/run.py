@@ -2,9 +2,9 @@
 """Run an experiment: build, choose idle cores / an idle NUMA node, execute
 membench jobs in shuffled order over several rounds, write raw CSV + metadata.
 
-  python scripts/run.py E1            # full
-  python scripts/run.py E1 --quick    # smoke test (fewer points, 1 round)
-  python scripts/run.py E5 --resume 20261020-160206   # finish an interrupted run
+  python scripts/run.py latency            # full (old IDs like E1 also work)
+  python scripts/run.py latency --quick    # smoke test (fewer points, 1 round)
+  python scripts/run.py intensity --resume 20261020-160206   # finish an interrupted run
   python scripts/run.py --list
 
 Output: results/raw/<EXP>/<run_id>__r<round>.csv and <run_id>.meta.json
@@ -14,7 +14,7 @@ Placement (membench pins its own threads):
   core      one thread on an idle core of the quietest CCD (single-thread probes)
   node      n threads on the quieter NUMA node, round-robin over its CCDs
             (bandwidth / loaded latency); element 0 = latency core
-  unpinned  no pinning at all, full-machine affinity (the E8 pitfall)
+  unpinned  no pinning at all, full-machine affinity (the pitfall experiment)
 Interference gate (shared machine): before each job the watched cpus (the
 CCD of `core` jobs, the whole node for `node` jobs) must be quiet, and every
 row records `others_util` = cores' worth of OTHER users' activity on the
@@ -81,12 +81,12 @@ def sweep(lo, hi, per_octave, quick, align=C.LINE):
 
 
 # ---------------------------------------------------------------- experiments
-def e0(q):
+def jobs_calib(q):
     """Calibration: clock (L1 chase cycles/ns) and a DRAM latency anchor."""
     return [chase(16 * K, "clock", counters="clock"), chase(1 * G, "dram", counters="fills")]
 
 
-def e1(q):
+def jobs_latency(q):
     """Zero-queue latency per level (random 64 B chase), 2 MiB vs 4 KiB pages, local vs remote DRAM."""
     jobs = []
     for pages in ("2m", "4k"):
@@ -98,7 +98,7 @@ def e1(q):
     return jobs
 
 
-def e2(q):
+def jobs_workingset(q):
     """Working-set sweep: random-chase latency and read bandwidth (1 core, whole node)."""
     jobs = [chase(s, "lat") for s in sweep(4 * K, 2 * G, 4, q)]
     jobs += [bw(1, s, "bw1", ms=50, rw="1:0") for s in sweep(8 * K, 2 * G, 2, q)]
@@ -108,7 +108,7 @@ def e2(q):
     return jobs
 
 
-def e3(q):
+def jobs_pattern(q):
     """Access pattern and granularity: dependent latency and independent bandwidth."""
     jobs = []
     for size in (16 * M, 1 * G):
@@ -134,7 +134,7 @@ MIXES = [("1:0", False), ("0:1", False), ("0:1", True), ("7:3", False), ("7:3", 
          ("1:1", False), ("1:1", True)]
 
 
-def e4(q):
+def jobs_rwmix(q):
     """Read/write mix: bandwidth (1 core, whole node) and loaded latency at full load."""
     jobs = []
     for rw, nt in MIXES:
@@ -147,7 +147,7 @@ def e4(q):
     return jobs
 
 
-def e5(q):
+def jobs_intensity(q):
     """Intensity: loaded-latency sweeps (generators x injection delay) and 1-core MLP sweep."""
     jobs = []
     gens = [0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 30] if not q else [0, 4, 30]
@@ -165,7 +165,7 @@ def e5(q):
     return jobs
 
 
-def e6(q):
+def jobs_cachemiss(q):
     """Cache-miss impact: mul/axpy x contig/stride-8/gather over footprints, 3 counter sets."""
     jobs = []
     for fp in sweep(16 * K, 1 * G, 2, q):
@@ -177,7 +177,7 @@ def e6(q):
     return jobs
 
 
-def e7(q):
+def jobs_tlb(q):
     """TLB-miss impact: 4 KiB vs 2 MiB pages (page-stride chase, random chase, kernels)."""
     jobs = []
     for pages in ("4k", "2m"):
@@ -194,7 +194,7 @@ def e7(q):
     return jobs
 
 
-def e8(q):
+def jobs_pitfall(q):
     """Pitfalls: cache reuse posing as DRAM, unpinned/remote placement, prefetchable 'random'."""
     jobs = []
     for s in (4 * M, 8 * M, 16 * M, 32 * M, 64 * M, 128 * M, 1 * G):
@@ -214,12 +214,13 @@ def e8(q):
     return jobs
 
 
-EXPERIMENTS = {"E0": e0, "E1": e1, "E2": e2, "E3": e3, "E4": e4, "E5": e5, "E6": e6, "E7": e7,
-               "E8": e8}
+EXPERIMENTS = {"calib": jobs_calib, "latency": jobs_latency, "workingset": jobs_workingset,
+               "pattern": jobs_pattern, "rwmix": jobs_rwmix, "intensity": jobs_intensity,
+               "cachemiss": jobs_cachemiss, "tlb": jobs_tlb, "pitfall": jobs_pitfall}
 DEFAULTS = {  # rounds, samples, min_ms (chase/kern), ms (bw/loadlat window)
-    "E0": (3, 11, 20, 200), "E1": (3, 11, 20, 200), "E2": (2, 7, 20, 50),
-    "E3": (3, 7, 20, 200), "E4": (3, 7, 20, 200), "E5": (2, 5, 20, 200),
-    "E6": (2, 7, 20, 200), "E7": (2, 7, 20, 200), "E8": (1, 7, 20, 200),
+    "calib": (3, 11, 20, 200), "latency": (3, 11, 20, 200), "workingset": (2, 7, 20, 50),
+    "pattern": (3, 7, 20, 200), "rwmix": (3, 7, 20, 200), "intensity": (2, 5, 20, 200),
+    "cachemiss": (2, 7, 20, 200), "tlb": (2, 7, 20, 200), "pitfall": (1, 7, 20, 200),
 }
 
 
@@ -350,7 +351,7 @@ def main():
         for k, f in EXPERIMENTS.items():
             print(f"{k}: {len(f(False)):4d} jobs  {(f.__doc__ or '').strip().splitlines()[0]}")
         return
-    exp = a.exp.upper()
+    exp = C.exp_id(a.exp)
     rounds, samples, min_ms, ms = DEFAULTS[exp]
     if a.quick:
         rounds, samples, min_ms, ms = 1, 3, 5, 50

@@ -218,3 +218,40 @@ def test_invalid_args_rejected(args):
                        [str(C.MEMBENCH), *args, "--ms", "5", "--samples", "1"],
                        capture_output=True, text=True, timeout=60)
     assert p.returncode != 0
+
+
+# ------------------------------------------------ committed raw data --
+def test_committed_raw_reproduces_summaries(tmp_path, monkeypatch):
+    """A fresh clone has only results/raw_runs/ (gzipped pinned runs). Every
+    pinned run must load from there alone, and re-summarizing must give back
+    the committed summary exactly."""
+    import json
+    import summarize as S
+    monkeypatch.setattr(C, "RAW", tmp_path)  # hide the local (gitignored) raw tree
+    pins = json.loads((C.RESULTS / "runs.json").read_text())
+    for exp, run in pins.items():
+        if exp.startswith("_"):
+            continue
+        df, got = C.load_raw(exp)
+        assert got == run and len(df) > 0 and (df.exp == exp).all()
+    for exp in ("latency", "rwmix", "pitfall"):  # small ones; same code path as the rest
+        raw, run = C.load_raw(exp)
+        new = S.summarize(raw).assign(run=run)
+        old = pd.read_csv(C.SUMMARY / f"{exp}.csv")
+        new = pd.read_csv(io.StringIO(new.to_csv(index=False)))  # same float round-trip
+        pd.testing.assert_frame_equal(new, old)
+
+
+def test_legacy_experiment_ids():
+    assert [C.exp_id(f"E{i}") for i in range(9)] == C.EXPERIMENT_IDS
+    assert C.exp_id("tlb") == "tlb" and C.exp_id("e7") == "tlb"
+    assert set(R.EXPERIMENTS) | {"calib"} >= set(C.EXPERIMENT_IDS) - {"calib"}
+    with pytest.raises(ValueError):
+        C.exp_id("E9")
+
+
+def test_little_in_flight_per_sample():
+    df = pd.DataFrame([dict(mode="loadlat", gens=1, gen_accesses=1000, gran=64, stride=64, rw_r=1,
+                            rw_w=0, nt=0, ns=1000.0, lat_steps=10, lat_cycles=4000, cycles=4000.0)])
+    m = C.add_metrics(df).iloc[0]
+    assert m.lines_in_flight == pytest.approx(C.little_outstanding(m.gbs_total, m.lat_ns))

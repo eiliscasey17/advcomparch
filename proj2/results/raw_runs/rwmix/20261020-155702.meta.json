@@ -1,0 +1,315 @@
+{
+ "exp": "E4",
+ "run_id": "20261020-155702",
+ "quick": false,
+ "rounds": 3,
+ "samples": 7,
+ "min_ms": 20,
+ "ms": 200,
+ "core": 49,
+ "ccd": [
+  48,
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55
+ ],
+ "node": 1,
+ "node_cpus": [
+  33,
+  40,
+  48,
+  56,
+  34,
+  41,
+  49,
+  57,
+  35,
+  42,
+  50,
+  58,
+  36,
+  43,
+  51,
+  59,
+  37,
+  44,
+  52,
+  60,
+  38,
+  45,
+  53,
+  61,
+  39,
+  46,
+  54,
+  62,
+  47,
+  55,
+  63
+ ],
+ "remote_cpu": 31,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "79b55a5",
+ "started": "2026-10-20T15:57:02.419955",
+ "n_jobs": 22,
+ "jobs": [
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:1:0",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:1:0",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:1:0",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:0"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:0:1",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "0:1"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:0:1",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "0:1"
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:0:1",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "0:1"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:0:1:nt",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "0:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:0:1:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "0:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:0:1:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "0:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:7:3",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "7:3"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:7:3",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "7:3"
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:7:3",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "7:3"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:7:3:nt",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "7:3",
+    "nt": true
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:7:3:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "7:3",
+    "nt": true
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:7:3:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "7:3",
+    "nt": true
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:1:1",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "1:1"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:1:1",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:1"
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:1:1",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:1"
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "core",
+   "n": 1,
+   "tag": "core:1:1:nt",
+   "args": {
+    "size": 1073741824,
+    "counters": "mem",
+    "rw": "1:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "bw",
+   "place": "node",
+   "n": 31,
+   "tag": "node:1:1:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 31,
+   "tag": "loaded:1:1:nt",
+   "args": {
+    "size": 67108864,
+    "counters": "clock",
+    "rw": "1:1",
+    "nt": true
+   }
+  },
+  {
+   "mode": "loadlat",
+   "place": "node",
+   "n": 1,
+   "tag": "idle",
+   "args": {
+    "size": 67108864,
+    "counters": "clock"
+   }
+  }
+ ],
+ "finished": "2026-10-20T16:02:04.094381",
+ "elapsed_s": 301.7,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 0
+}
