@@ -163,3 +163,32 @@ def test_bench_offsets_are_applied():
 def test_bench_rejects_invalid(args):
     p = bench(*args, "--n", "64", check=False)
     assert p.returncode != 0
+
+
+# ------------------------------------------------ committed raw data --
+def test_committed_raw_reproduces_summaries(tmp_path, monkeypatch):
+    """A fresh clone has only results/raw_runs/ (gzipped pinned runs). Every
+    pinned run must load from there alone, and re-summarizing must give back
+    the committed summary exactly."""
+    import json
+    import summarize as S
+    monkeypatch.setattr(C, "RAW", tmp_path)  # hide the local (gitignored) raw tree
+    pins = json.loads((C.RESULTS / "runs.json").read_text())
+    for exp, run in pins.items():
+        if exp.startswith("_"):
+            continue
+        df, got = C.load_raw(exp)
+        assert got == run and len(df) > 0 and (df.exp == exp).all()
+    for exp in ("negative", "multiacc"):  # small ones; same code path as the rest
+        raw, run = C.load_raw(exp)
+        new = S.summarize(raw).assign(run=run)
+        old = pd.read_csv(C.SUMMARY / f"{exp}.csv")
+        new = pd.read_csv(io.StringIO(new.to_csv(index=False)))  # same float round-trip
+        pd.testing.assert_frame_equal(new, old)
+
+
+def test_legacy_experiment_ids():
+    assert [C.exp_id(f"E{i}") for i in range(10)] == C.EXPERIMENT_IDS
+    assert C.exp_id("stride") == "stride" and C.exp_id("e4") == "stride"
+    with pytest.raises(ValueError):
+        C.exp_id("E10")

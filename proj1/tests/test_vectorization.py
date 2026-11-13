@@ -85,7 +85,7 @@ def test_unit_stride_kernels_use_full_width(build, dtype):
         assert i["status"] == "vectorized" and i["loop"].width == want, (k, i["loop"].width)
 
 
-# ------------------------------------------------ negative example (E8a) --
+# ---------------------------------------- negative example (negative) --
 @pytest.mark.parametrize("build", [b for b in BUILDS if cc(b) == "gcc" and cfg(b) in
                                    ("default", "native256", "native512")])
 @pytest.mark.parametrize("dtype", ["f32", "f64"])
@@ -126,7 +126,7 @@ def test_fast_math_fixes_dot_plain(build, dtype):
     assert any(re.match(r"^v(addp[sd]|fmadd\d+p[sd])$", m) for m in lp.mnems)
 
 
-# --------------------------------------------------- reductions / E9 --
+# --------------------------------------------- reductions (multiacc) --
 def accumulators(lp_body):
     """Distinct destination registers of packed add/FMA in the main loop."""
     regs = set()
@@ -172,7 +172,7 @@ def test_sse2_has_no_gather(build):
         assert info(build, d, "mul_gather")["status"] != "vectorized"
 
 
-# ------------------------------------------------------- tails (E3) --
+# ---------------------------------------------------- tails (align) --
 @pytest.mark.parametrize("build", [b for b in BUILDS if cc(b) == "clang" and cfg(b) in
                                    ("native256", "native512")])
 def test_clang_mul_pred_folds_tail_with_masks(build):

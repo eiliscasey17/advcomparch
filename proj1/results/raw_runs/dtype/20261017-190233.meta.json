@@ -1,0 +1,1380 @@
+{
+ "exp": "E5",
+ "run_id": "20261017-190233",
+ "quick": false,
+ "rounds": 3,
+ "samples": 11,
+ "min_ms": 2.0,
+ "core": 17,
+ "ccd": [
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23
+ ],
+ "ccd_util_at_start": 0.0,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "64cf0a1",
+ "started": "2026-10-17T19:02:33.864902",
+ "n_jobs": 135,
+ "jobs": [
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    640
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    640
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    640
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    640
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    640
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    1344
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    1024
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    2048
+   ],
+   "counters": "core",
+   "tag": "L1"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    10880
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    10880
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    10880
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    10880
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    10880
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    21824
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    16384
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    32768
+   ],
+   "counters": "core",
+   "tag": "L2"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    22369600
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    22369600
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    22369600
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    22369600
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "f64",
+   "ns": [
+    22369600
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "mul",
+   "dtype": "i32",
+   "ns": [
+    44739200
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "f64",
+   "ns": [
+    33554432
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "stencil",
+   "dtype": "i32",
+   "ns": [
+    67108864
+   ],
+   "counters": "core",
+   "tag": "DRAM"
+  }
+ ],
+ "finished": "2026-10-17T19:03:54.285178",
+ "elapsed_s": 80.4,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 0
+}

@@ -1,6 +1,6 @@
 # EXPERIMENTS: central registry (methods, status, results)
 
-This is the single place to find what was run, how, and what it showed. The figures live in `results/plots/` (one graph per JPG). The numbers behind every figure are in `results/summary/*.csv`. Raw samples are in `results/raw/` (gitignored) and can be regenerated with the commands below.
+This is the single place to find what was run, how, and what it showed. The figures live in `results/plots/` (one graph per JPG). The numbers behind every figure are in `results/summary/*.csv`. Raw samples behind every figure are committed, gzipped, in `results/raw_runs/<experiment>/`. The full local `results/raw/` tree, including quick and interrupted runs, is gitignored. Experiment IDs were renamed from `E0`–`E9` to descriptive names; the old IDs still work as aliases.
 
 **Machine:**
 - AMD EPYC 9334 (Zen 4)
@@ -16,7 +16,7 @@ This is the single place to find what was run, how, and what it showed. The figu
 - 19 + 1 PMU validations
 - 757 pytest assertions
 
-**Reproducibility:** E1 was run twice. The first run had 23 jobs disturbed by another user's job on the shared CCD. The per-configuration medians of the two runs agree within ±1% (5th–95th percentile) in every cache regime.
+**Reproducibility:** simd was run twice. The first run had 23 jobs disturbed by another user's job on the shared CCD. The per-configuration medians of the two runs agree within ±1% (5th–95th percentile) in every cache regime.
 
 ## Common method
 - **Pinning:** one thread, pinned with `taskset` to an idle core on the quietest CCD of NUMA node 0 (`scripts/pick_core.py`). The driver keeps itself off that CCD.
@@ -33,15 +33,15 @@ This is the single place to find what was run, how, and what it showed. The figu
 
 | ID | run_id | core | rounds × samples | jobs | wall time | jobs re-measured |
 |---|---|---|---|---|---|---|
-| E0 | 20261017-190935 | 1 | 3 × 11 | 6 | 97 s | 0 |
-| E1 | 20261017-184309 | 9 | 3 × 11 | 24 | 591 s | 1 |
-| E2 | 20261017-185301 | 17 | 2 × 7 | 4 | 98 s | 1 |
-| E3 | 20261017-185441 | 19 | 3 × 11 | 212 | 251 s | 5 |
-| E4 | 20261017-185853 | 1 | 3 × 11 | 144 | 219 s | 1 |
-| E5 | 20261017-190233 | 17 | 3 × 11 | 135 | 80 s | 0 |
-| E6 | 20261017-190355 | 1 | 1 × 5 | 200 | 3 s | 0 |
-| E8 | 20261017-190359 | 1 | 2 × 9 | 12 | 141 s | 0 |
-| E9 | 20261017-190621 | 25 | 3 × 11 | 56 | 16 s | 0 |
+| calib | 20261017-190935 | 1 | 3 × 11 | 6 | 97 s | 0 |
+| simd | 20261017-184309 | 9 | 3 × 11 | 24 | 591 s | 1 |
+| locality | 20261017-185301 | 17 | 2 × 7 | 4 | 98 s | 1 |
+| align | 20261017-185441 | 19 | 3 × 11 | 212 | 251 s | 5 |
+| stride | 20261017-185853 | 1 | 3 × 11 | 144 | 219 s | 1 |
+| dtype | 20261017-190233 | 17 | 3 × 11 | 135 | 80 s | 0 |
+| verify | 20261017-190355 | 1 | 1 × 5 | 200 | 3 s | 0 |
+| negative | 20261017-190359 | 1 | 2 × 9 | 12 | 141 s | 0 |
+| multiacc | 20261017-190621 | 25 | 3 × 11 | 56 | 16 s | 0 |
 
 The run IDs in the table are pinned in `results/runs.json`. `scripts/common.py:load_raw` uses them, so later or interrupted re-runs never silently replace the committed figures, and regenerating from these runs reproduces every summary and figure byte for byte. Only completed runs (those with a `.meta.json`) are ever loaded.
 
@@ -54,7 +54,7 @@ The commands for every experiment are:
 
 ---
 
-## E0: Calibration (peak FLOP rate, bandwidth per level, unaligned-access cost)
+## calib: Calibration (peak FLOP rate, bandwidth per level, unaligned-access cost)
 **Question:** what are this core's real ceilings?
 
 **Method:**
@@ -105,9 +105,9 @@ The commands for every experiment are:
   - A 512-bit access executes as two 256-bit halves, so it only pays when a half straddles a line (loads) or a 32 B boundary (stores).
   - **Counter caveat:** the MA64 event counts every aligned zmm load once, and misaligned ones twice.
 
-**Figures:** `e0_peak_flops.jpg`, `e0_bandwidth_by_level.jpg`, `e0_unaligned_access_cost.jpg`. Data: `E0_peak.csv`, `E0_roofs.csv`, `E0_align.csv`, `E0_bw.csv`.
+**Figures:** `calib_peak_flops.jpg`, `calib_bandwidth_by_level.jpg`, `calib_unaligned_access_cost.jpg`. Data: `calib_peak.csv`, `calib_roofs.csv`, `calib_align.csv`, `calib_bw.csv`.
 
-## E1: Scalar vs. auto-vectorized across working-set sizes (required plot 1)
+## simd: Scalar vs. auto-vectorized across working-set sizes (required plot 1)
 **Question:** how much does SIMD buy for each kernel, and where?
 
 **Method:**
@@ -136,17 +136,17 @@ The commands for every experiment are:
 **Interpretation:**
 - **Scalar dot is latency-bound.** It runs one dependent add per element (3 cycles, 0.33 elem/cycle), so it never touches the memory limit. That is why its SIMD speedup stays above 4.6× even in DRAM.
 - **Clang scalar dot is slower than GCC's** (2.0 vs. 2.6 GFLOP/s). It contracts the multiply-add into an FMA, whose latency is 4 cycles.
-- **Clang's 27× in L1** comes from interleaving the vector loop ×4 (4 accumulators). GCC keeps 1 accumulator, so it is bound by add latency at 16 lanes / 3 cycles. See E9.
+- **Clang's 27× in L1** comes from interleaving the vector loop ×4 (4 accumulators). GCC keeps 1 accumulator, so it is bound by add latency at 16 lanes / 3 cycles. See multiacc.
 - **mul is the opposite case:** its scalar version already moves 42 GiB/s, so SIMD only helps where bandwidth exceeds that.
 - **The stencil is compute-bound when scalar** (5 FLOP/elem, flat 12.9 GFLOP/s), so it gains about 5× wherever the data is cached.
 
-**Figures:** `e1_{dot_simd,mul,stencil}_{throughput,speedup}.jpg` (6). Data: `E1.csv`.
+**Figures:** `simd_{throughput,speedup}_{dot,mul,stencil}.jpg` (6). Data: `simd.csv`.
 
-## E2: Locality sweep, dot product (required plot 2)
+## locality: Locality sweep, dot product (required plot 2)
 **Question:** where do SIMD gains compress as the working set leaves each cache level?
 
 **Method:**
-- The E1 dot sweep, plus E2's memory-counter run (`mem` set) for dot and mul, gcc scalar vs. native512.
+- The simd dot sweep, plus locality's memory-counter run (`mem` set) for dot and mul, gcc scalar vs. native512.
 - The DRAM-read estimate is (L2-prefetch misses to DRAM + demand DRAM fills) × 64 B. It was validated at 1.06 lines per line in `test_perfctr`.
 
 **Results:**
@@ -166,9 +166,9 @@ The commands for every experiment are:
   - dot reads **8.0 B/elem**, exactly compulsory.
   - mul reads **12.0 B/elem**: 8 B of x and y plus 4 B of read-for-ownership on z. That is direct counter evidence of write-allocate.
 
-**Figures:** `e2_dot_bandwidth.jpg`, `e2_dot_speedup_compression.jpg`, `e2_dot_cycles_per_elem.jpg`, `e2_dram_traffic.jpg`. Data: `E1.csv`, `E2.csv`.
+**Figures:** `locality_dot_bandwidth.jpg`, `locality_dot_speedup_compression.jpg`, `locality_dot_cycles_per_elem.jpg`, `locality_dram_traffic.jpg`. Data: `simd.csv`, `locality.csv`.
 
-## E3: Alignment and tail handling (required plot 3)
+## align: Alignment and tail handling (required plot 3)
 **Question:** what do unaligned starts, remainders and masking cost?
 
 **Method:**
@@ -178,7 +178,7 @@ The commands for every experiment are:
 **Results:**
 - **mul, L1, 512-bit:**
   - +60% cycles/elem at offsets 4–16, +41% at 48/60, +43% for the mixed case.
-  - **±0% at +32 B**, matching the E0 microbenchmark: the store is 32 B-aligned and the load halves stay inside their lines.
+  - **±0% at +32 B**, matching the calib microbenchmark: the store is 32 B-aligned and the load halves stay inside their lines.
 - **mul, L1, 256-bit and scalar:** no measurable penalty.
 - **dot (load-only) at 512-bit:** GCC +19% and Clang +53%. Clang's 4-accumulator loop is load-bound, so it feels every split load.
 - **stencil:** at most +20%.
@@ -192,9 +192,9 @@ The commands for every experiment are:
   - In the SSE2 build, which has no mask registers, tail folding costs 12.8 instructions per element.
 - **Small n:** the vector code beats scalar from n ≈ 8 (3.1 vs. 4.1 ns). Below that, setup dominates.
 
-**Figures:** `e3_alignment_{mul,stencil,dot}_l1.jpg`, `e3_alignment_mul_l2.jpg`, `e3_misaligned_loads.jpg`, `e3_tail_sawtooth.jpg`, `e3_tail_cost_by_remainder.jpg`, `e3_small_n_overhead.jpg`. Data: `E3.csv`, `E3_tail_cost.csv`.
+**Figures:** `align_{mul,stencil,dot}_l1.jpg`, `align_mul_l2.jpg`, `align_line_crossing_loads.jpg`, `tail_sawtooth.jpg`, `tail_cost_by_remainder.jpg`, `tail_small_n_overhead.jpg`. Data: `align.csv`, `align_tail_cost.csv`.
 
-## E4: Stride and gather (required plot 4)
+## stride: Stride and gather (required plot 4)
 **Question:** how do non-unit strides and indexed loads reduce effective bandwidth and SIMD efficiency?
 
 **Method:**
@@ -217,9 +217,9 @@ The commands for every experiment are:
 - **In DRAM, stride ≥ 4 and strided gathers are no faster or slower than scalar** (0.84–1.03×). Every element costs a full line, whatever the instruction mix.
 - **mul in L2:** stride 4/8 gives exactly scalar speed (1.0×). The store stream plus the 4–8 lines per vector dominate.
 
-**Figures:** `e4_{mul,dot}_stride_bw_{l2,dram}.jpg` (4), `e4_stride_simd_speedup.jpg`. Data: `E4.csv`.
+**Figures:** `stride_{mul,dot}_bandwidth_{l2,dram}.jpg` (4), `stride_simd_speedup.jpg`. Data: `stride.csv`.
 
-## E5: Data type: f32 vs. f64 vs. i32 (required plot 5)
+## dtype: Data type: f32 vs. f64 vs. i32 (required plot 5)
 **Question:** how do lane count, arithmetic intensity and operation cost change the results?
 
 **Method:** `dot_simd`/`mul`/`stencil` × {f32, f64, i32} × {gcc scalar, gcc native256, gcc native512, clang scalar, clang native512}, at 16 KiB, 256 KiB and 512 MiB.
@@ -238,9 +238,9 @@ The commands for every experiment are:
 - **The i32 stencil uses `vpmulld`**, which is 3-cycle latency and half throughput, with no integer FMA. Scalar i32 stencil is 2× slower than scalar f32 (0.33 vs. 0.66 elem/cycle), which is why the i32 stencil SIMD speedup is the largest (10× in L1).
 - **SIMD speedup for f64 is half that of f32 in cache** (dot 9.0× vs. 16.4×). In DRAM it falls to 1.1–2.3×.
 
-**Figures:** `e5_dtype_l1_elem_per_cycle.jpg`, `e5_dtype_dram_gibs.jpg`, `e5_dtype_simd_speedup.jpg`. Data: `E5.csv`.
+**Figures:** `dtype_l1_elem_per_cycle.jpg`, `dtype_dram_bandwidth.jpg`, `dtype_simd_speedup.jpg`. Data: `dtype.csv`.
 
-## E6: Vectorization verification (required plot 6)
+## verify: Vectorization verification (required plot 6)
 **Question:** does the emitted code actually do what the compiler claims?
 
 **Method:**
@@ -254,19 +254,19 @@ The commands for every experiment are:
 - **Gathers:** 0.55–0.63 per element.
 - **Clang tail folding in SSE2:** 12.8 per element.
 
-**Caveat:** PMCx008 by-width counts are **not** a clean lane metric on Zen 4. Loads and stores are classified by register width too (a scalar `vmovss` load counts as a 128-bit op), so they're kept in `E6_vec_summary.csv` but not plotted.
+**Caveat:** PMCx008 by-width counts are **not** a clean lane metric on Zen 4. Loads and stores are classified by register width too (a scalar `vmovss` load counts as a 128-bit op), so they're kept in `verify_vec_summary.csv` but not plotted.
 
 **Evidence:**
 - [`results/vec_evidence/evidence.md`](results/vec_evidence/evidence.md): 15 concise cases, each with a one-line verdict plus ≤15 asm lines.
 - `results/vec_evidence/status_matrix.csv`: all 630 instances.
 
-**Figure:** `e6_vectorization_matrix.jpg`. Data: `E6.csv`, `E6_vec_summary.csv`.
+**Figure:** `verify_counter_matrix.jpg`. Data: `verify.csv`, `verify_vec_summary.csv`.
 
-## E7: Roofline, f32 (required plot 7)
+## roofline: Roofline, f32 (required plot 7)
 **Method:**
-- Memory roofs: the best measured single-core bandwidth per level from E0 (L1 315, L2 124, DRAM 49 GB/s).
+- Memory roofs: the best measured single-core bandwidth per level from calib (L1 315, L2 124, DRAM 49 GB/s).
 - Compute ceilings: measured FMA peaks (scalar 16, SSE 62, AVX2/AVX-512 125 GFLOP/s).
-- Kernel points come from E1 at L1- and DRAM-resident sizes. AI uses compulsory bytes: dot 0.25, mul 0.083, stencil 0.625 FLOP/B.
+- Kernel points come from simd at L1- and DRAM-resident sizes. AI uses compulsory bytes: dot 0.25, mul 0.083, stencil 0.625 FLOP/B.
 
 **Interpretation:**
 - **Every kernel is far left of the ridge point** (125 / 49 ≈ 2.5 FLOP/B for DRAM). All three are memory-bound once vectorized.
@@ -277,9 +277,9 @@ The commands for every experiment are:
   
   These ceilings are drawn on the plot. The roofline alone would wrongly call scalar dot memory-bound.
 
-**Figure:** `e7_roofline_f32.jpg`. Data: `E0_roofs.csv`, `E0_peak.csv`, `E1.csv`.
+**Figure:** `roofline_f32.jpg`. Data: `calib_roofs.csv`, `calib_peak.csv`, `simd.csv`.
 
-## E8: Negative examples (required plot 8)
+## negative: Negative examples (required plot 8)
 **(a) Looks vectorized, isn't (`dot_plain`, no pragma, IEEE FP):**
 - **GCC's claim:** it reports `loop vectorized using 64 byte vectors`.
 - **What it emits:** an in-order (fold-left) reduction, i.e. one `vmulps` and then **16 serial `vaddss`** into one register (see evidence.md).
@@ -289,13 +289,13 @@ The commands for every experiment are:
 - **i32 needs no fix:** integer addition is associative, and the tests assert it vectorizes.
 
 **(b) Vectorized, little speedup (`mul` in DRAM):**
-- Fully zmm (E6), yet only **1.29×** (GCC) / 1.34× (Clang) over scalar.
+- Fully zmm (verify), yet only **1.29×** (GCC) / 1.34× (Clang) over scalar.
 - The scalar loop already streams 32 GiB/s against a 42 GiB/s achievable roof. The PMU shows 12 B/elem of DRAM reads, including write-allocate.
 - dot is shown for contrast. Its scalar version is latency-bound, so the vector version still wins 4.7× in DRAM.
 
-**Figures:** `e8_neg_dot_inorder_reduction.jpg`, `e8_neg_mul_membound.jpg`. Data: `E8.csv`, `E1.csv`.
+**Figures:** `negative_dot_not_really_vectorized.jpg`, `negative_mul_memory_bound.jpg`. Data: `negative.csv`, `simd.csv`.
 
-## E9: Multi-accumulator dot (extra)
+## multiacc: Multi-accumulator dot (extra)
 **Question:** is the L1 dot limited by vector width or by add latency?
 
 **Method:**
@@ -320,7 +320,7 @@ The commands for every experiment are:
 - **The "SIMD speedup" depends on the baseline:** 16× against single-chain scalar, but only 7.5× against the best scalar code (K=4).
 - **Methodology note:** without `lfence`, back-to-back calls overlap in the out-of-order window, and short reductions then measure up to 10% *better* than their latency bound.
 
-**Figure:** `e9_multiacc_dot.jpg`. Data: `E9.csv`, `E9_fit.csv`.
+**Figure:** `multiacc_dot.jpg`. Data: `multiacc.csv`, `multiacc_fit.csv`.
 
 ---
 

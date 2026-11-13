@@ -1,0 +1,786 @@
+{
+ "exp": "E9",
+ "run_id": "20261017-190621",
+ "quick": false,
+ "rounds": 3,
+ "samples": 11,
+ "min_ms": 2.0,
+ "core": 25,
+ "ccd": [
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31
+ ],
+ "ccd_util_at_start": 0.0,
+ "host": "epic2.ecse.rpi.edu",
+ "git": "64cf0a1",
+ "started": "2026-10-17T19:06:21.859441",
+ "n_jobs": 56,
+ "jobs": [
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-scalar",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-default",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native256",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "gcc-native512",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-scalar",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native256",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_simd",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc2",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc4",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    512,
+    1024,
+    1536,
+    2048,
+    2560,
+    3072,
+    3584
+   ],
+   "counters": "core",
+   "serialize": true,
+   "tag": "serial"
+  },
+  {
+   "build": "clang-native512",
+   "kernel": "dot_acc8",
+   "dtype": "f32",
+   "ns": [
+    3072
+   ],
+   "counters": "core",
+   "tag": "b2b"
+  }
+ ],
+ "finished": "2026-10-17T19:06:37.389726",
+ "elapsed_s": 15.5,
+ "jobs_with_busy_neighbors": 0,
+ "jobs_retried": 0
+}

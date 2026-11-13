@@ -2,8 +2,8 @@
 """Run an experiment: build, pin to an idle core, execute jobs in randomized
 order over several rounds, write raw CSV + metadata.
 
-  python scripts/run.py E1            # full
-  python scripts/run.py E1 --quick    # smoke test (few sizes, 1 round)
+  python scripts/run.py simd            # full (old IDs like E1 also work)
+  python scripts/run.py simd --quick    # smoke test (few sizes, 1 round)
   python scripts/run.py --list
 
 Output: results/raw/<EXP>/<run_id>__r<round>.csv and <run_id>.meta.json.
@@ -44,26 +44,26 @@ def sweep_ns(kernel, dtype, quick, per_octave=4, lo=8 * C.KiB, hi=1 * C.GiB, **k
 
 
 # ---------------------------------------------------------------- experiments
-def e0(q):
+def jobs_calib(q):
     jobs = [dict(tool="calib_peak"), dict(tool="calib_align")]
     for k in ("bw_read", "bw_write", "bw_scale", "bw_triad"):
         jobs.append(J("gcc-native512", k, sweep_ns(k, "f32", q), counters="core"))
     return jobs
 
 
-def e1(q):
+def jobs_simd(q):
     return [J(b, k, sweep_ns(k, "f32", q), counters="core")
             for b in GCC4 + CLANG4 for k in ("dot_simd", "mul", "stencil")]
 
 
-def e2(q):
-    """Locality: E1 provides the dot sweep; here add memory-traffic counters
+def jobs_locality(q):
+    """Locality: the simd experiment provides the dot sweep; here add memory-traffic counters
     (estimated DRAM read lines) for dot and mul, scalar vs widest."""
     return [J(b, k, sweep_ns(k, "f32", q, per_octave=2), counters="mem")
             for b in ("gcc-scalar", "gcc-native512") for k in ("dot_simd", "mul")]
 
 
-def e3(q):
+def jobs_align(q):
     jobs = []
     offs = [0, 4, 8, 16, 32, 48, 60] if not q else [0, 4, 32]
     builds = ["gcc-scalar", "gcc-native256", "gcc-native512", "clang-native512"]
@@ -95,7 +95,7 @@ STRIDE_PATTERNS = [  # (label, kernel-suffix or gather pattern, gstride)
 ]
 
 
-def e4(q):
+def jobs_stride(q):
     jobs = []
     builds = ["gcc-scalar", "gcc-native256", "gcc-native512", "clang-native512"]
     for regime, fp in (("L2", 512 * C.KiB), ("DRAM", 512 * C.MiB)):
@@ -114,7 +114,7 @@ def e4(q):
     return jobs
 
 
-def e5(q):
+def jobs_dtype(q):
     jobs = []
     builds = ["gcc-scalar", "gcc-native256", "gcc-native512", "clang-scalar", "clang-native512"]
     for regime, fp in (("L1", 16 * C.KiB), ("L2", 256 * C.KiB), ("DRAM", 512 * C.MiB)):
@@ -126,15 +126,15 @@ def e5(q):
     return jobs
 
 
-E6_KERNELS = ["dot_simd", "dot_plain", "dot_acc4", "mul", "mul_pred", "stencil", "dot_s4",
+VERIFY_KERNELS = ["dot_simd", "dot_plain", "dot_acc4", "mul", "mul_pred", "stencil", "dot_s4",
               "mul_s8", "dot_gather", "mul_gather"]
 
 
-def e6(q):
+def jobs_verify(q):
     """PMU width mix at an L1-resident size, every build."""
     jobs = []
     for b in ALL10:
-        for k in E6_KERNELS:
+        for k in VERIFY_KERNELS:
             extra = dict(pattern="random") if "gather" in k else {}
             n = C.n_for_footprint(k, "f32", 16 * C.KiB, **extra)
             jobs.append(J(b, k, [n], counters="width", **extra))
@@ -142,14 +142,14 @@ def e6(q):
     return jobs
 
 
-def e8(q):
+def jobs_negative(q):
     builds = ["gcc-scalar", "gcc-native512", "gcc-native512fm", "clang-scalar",
               "clang-native512", "clang-native512fm"]
     return [J(b, k, sweep_ns(k, "f32", q, per_octave=2), counters="core")
             for b in builds for k in ("dot_plain", "dot_simd")]
 
 
-def e9(q):
+def jobs_multiacc(q):
     jobs = []
     builds = ["gcc-scalar", "gcc-default", "gcc-native256", "gcc-native512", "clang-scalar",
               "clang-native256", "clang-native512"]
@@ -161,12 +161,14 @@ def e9(q):
     return jobs
 
 
-EXPERIMENTS = {"E0": e0, "E1": e1, "E2": e2, "E3": e3, "E4": e4, "E5": e5, "E6": e6,
-               "E8": e8, "E9": e9}
+# roofline has no run of its own: it is derived from calib + simd.
+EXPERIMENTS = {"calib": jobs_calib, "simd": jobs_simd, "locality": jobs_locality,
+               "align": jobs_align, "stride": jobs_stride, "dtype": jobs_dtype,
+               "verify": jobs_verify, "negative": jobs_negative, "multiacc": jobs_multiacc}
 DEFAULTS = {  # rounds, samples, min_ms
-    "E0": (3, 11, 2.0), "E1": (3, 11, 2.0), "E2": (2, 7, 2.0), "E3": (3, 11, 2.0),
-    "E4": (3, 11, 2.0), "E5": (3, 11, 2.0), "E6": (1, 5, 2.0), "E8": (2, 9, 2.0),
-    "E9": (3, 11, 2.0),
+    "calib": (3, 11, 2.0), "simd": (3, 11, 2.0), "locality": (2, 7, 2.0), "align": (3, 11, 2.0),
+    "stride": (3, 11, 2.0), "dtype": (3, 11, 2.0), "verify": (1, 5, 2.0), "negative": (2, 9, 2.0),
+    "multiacc": (3, 11, 2.0),
 }
 
 
@@ -243,7 +245,7 @@ def main():
         for k, f in EXPERIMENTS.items():
             print(f"{k}: {len(f(False))} jobs  {(f.__doc__ or '').strip().splitlines()[0] if f.__doc__ else ''}")
         return
-    exp = a.exp.upper()
+    exp = C.exp_id(a.exp)
     rounds, samples, min_ms = DEFAULTS[exp]
     if a.quick:
         rounds, samples, min_ms = 1, 3, 1.0

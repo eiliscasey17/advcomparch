@@ -1,12 +1,12 @@
 {
   "_comment": "Run IDs behind the committed summaries/figures (see EXPERIMENTS.md). load_raw() uses these unless a run is passed explicitly; delete an entry to fall back to the latest completed run.",
-  "E0": "20261017-190935",
-  "E1": "20261017-184309",
-  "E2": "20261017-185301",
-  "E3": "20261017-185441",
-  "E4": "20261017-185853",
-  "E5": "20261017-190233",
-  "E6": "20261017-190355",
-  "E8": "20261017-190359",
-  "E9": "20261017-190621"
+  "calib": "20261017-190935",
+  "simd": "20261017-184309",
+  "locality": "20261017-185301",
+  "align": "20261017-185441",
+  "stride": "20261017-185853",
+  "dtype": "20261017-190233",
+  "verify": "20261017-190355",
+  "negative": "20261017-190359",
+  "multiacc": "20261017-190621"
 }
