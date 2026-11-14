@@ -2,6 +2,8 @@
 
 > **AI disclosure:** I used an AI assistant (Claude) to help write the code (benchmarks, run scripts, analysis and tests) and to make the plots. The writing (the report and its analysis and conclusions) is my own.
 
+**Report:** [report.pdf](report.pdf)
+
 Single-threaded study of compiler auto-vectorization on an **AMD EPYC 9334 (Zen 4)**,
 comparing **GCC 11.5** and **Clang 20.1.8**. The study covers:
 - scalar vs. SSE vs. AVX2-width vs. AVX-512
