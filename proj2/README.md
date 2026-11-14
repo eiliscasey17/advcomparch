@@ -1,5 +1,7 @@
 # proj2: memory-hierarchy characterization on AMD Zen 4
 
+> **AI disclosure:** I used an AI assistant (Claude) to help write the code (benchmarks, run scripts, analysis and tests) and to make the plots. The writing (the report and its analysis and conclusions) is my own.
+
 This project measures the L1 / L2 / L3 / DRAM hierarchy of a 2-socket AMD EPYC 9334 (Zen 4, "Genoa"). It then explains kernel performance through locality, concurrency (Little's Law), AMAT, and cache and TLB misses.
 
 What it covers:
