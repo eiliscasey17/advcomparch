@@ -2,6 +2,8 @@
 
 > **AI disclosure:** I used an AI assistant (Claude) to help write the code, such as benchmarks, run scripts and tests, and to make the plots. The writing, analysis and conclusions are my own.
 
+**Report:** [report.pdf](report.pdf)
+
 This project measures how NVMe storage trades latency for throughput as concurrency grows, using fio. It covers:
 - QD=1 latency for 4 KiB random and 128 KiB sequential reads and writes
 - peak IOPS and bandwidth
