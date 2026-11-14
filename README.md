@@ -1,6 +1,6 @@
 # Advanced Computer Architecture — projects
 
-> **AI disclosure:** I used an AI assistant (Claude) to help write the code (benchmarks, run scripts, analysis and tests) and to make the plots. The writing (the report and its analysis and conclusions) is my own.
+> **AI disclosure:** I used an AI assistant (Claude) to help write the code, such as benchmarks, run scripts and tests, and to make the plots. The writing, analysis and conclusions are my own.
 
 | Project | Topic | Report |
 |---|---|---|

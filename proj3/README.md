@@ -1,6 +1,6 @@
 # proj3: NVMe storage, throughput–latency and queueing (fio)
 
-> **AI disclosure:** I used an AI assistant (Claude) to help write the code (benchmarks, run scripts, analysis and tests) and to make the plots. The writing (the report and its analysis and conclusions) is my own.
+> **AI disclosure:** I used an AI assistant (Claude) to help write the code, such as benchmarks, run scripts and tests, and to make the plots. The writing, analysis and conclusions are my own.
 
 This project measures how NVMe storage trades latency for throughput as concurrency grows, using fio. It covers:
 - QD=1 latency for 4 KiB random and 128 KiB sequential reads and writes
